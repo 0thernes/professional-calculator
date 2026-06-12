@@ -46,6 +46,12 @@ describe('Engine — compute', () => {
         expect(compute('1e308', '1e308', '*')).toMatchObject({ ok: false, type: 'computation' });
     });
 
+    test('unknown operator returns validation error', () => {
+        expect(compute('1', '2', /** @type {any} */ ('%'))).toMatchObject({
+            ok: false, type: 'validation',
+        });
+    });
+
     test('0.1 + 0.2 normalizes to 0.3 (no float noise)', () => {
         expect(compute('0.1', '0.2', '+')).toEqual({ ok: true, value: '0.3' });
     });
@@ -139,6 +145,9 @@ describe('Engine — percent', () => {
     });
     test('100 → 1', () => {
         expect(percent('100')).toBe('1');
+    });
+    test('throws on invalid input', () => {
+        expect(() => percent('abc')).toThrow(RangeError);
     });
 });
 

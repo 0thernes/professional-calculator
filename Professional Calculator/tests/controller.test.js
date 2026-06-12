@@ -1,6 +1,7 @@
 /**
  * @jest-environment jsdom
  */
+import { jest } from '@jest/globals';
 import { CalculatorView } from '../view.js';
 import { CalculatorController } from '../controller.js';
 import { STATE } from '../state.js';
@@ -14,8 +15,9 @@ const $btn = (sel) => /** @type {HTMLButtonElement} */ (document.querySelector(s
 /**
  * Build a fresh DOM and controller for each test. Mirrors the
  * production HTML closely enough that the controller can wire up.
+ * @param {{ debug?: boolean }} [opts]
  */
-function setup() {
+function setup(opts = {}) {
     document.body.innerHTML = `
         <div id="sr-announcer" aria-live="polite" aria-atomic="true"></div>
         <output class="display-main">0</output>
@@ -54,6 +56,7 @@ function setup() {
         view,
         keypad:  $('#calculator-keypad'),
         sidebar: document.getElementById('history-list'),
+        debug:   opts.debug,
     });
     return { controller, view };
 }
@@ -283,5 +286,135 @@ describe('Controller — destroy', () => {
         const before = controller.currentValue;
         $('[data-number="5"]').click();
         expect(controller.currentValue).toBe(before);
+    });
+});
+
+describe('Controller — keyboard (extended)', () => {
+    test("'*' key sets multiply", async () => {
+        const { controller } = setup();
+        controller.appendNumber('5'); await wait();
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: '*' }));
+        expect(controller.operator).toBe('*');
+    });
+
+    test("'/' key sets divide", async () => {
+        const { controller } = setup();
+        controller.appendNumber('5'); await wait();
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: '/' }));
+        expect(controller.operator).toBe('/');
+    });
+
+    test("'=' key calculates", async () => {
+        const { controller } = setup();
+        controller.appendNumber('5'); await wait();
+        controller.setOperator('+');  await wait();
+        controller.appendNumber('3'); await wait();
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: '=' }));
+        expect(controller.currentValue).toBe('8');
+    });
+
+    test("'%' key applies percent", async () => {
+        const { controller } = setup();
+        controller.appendNumber('5'); await wait();
+        controller.appendNumber('0'); await wait();
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: '%' }));
+        expect(controller.currentValue).toBe('0.5');
+    });
+
+    test('Ctrl+N toggles sign', async () => {
+        const { controller } = setup();
+        controller.appendNumber('5'); await wait();
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'n', ctrlKey: true }));
+        expect(controller.currentValue).toBe('-5');
+    });
+
+    test('Ctrl+Shift+Z redoes', async () => {
+        const { controller } = setup();
+        controller.appendNumber('5'); await wait();
+        controller.appendNumber('3'); await wait();
+        controller.undo();            await wait();
+        document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Z', ctrlKey: true, shiftKey: true }));
+        expect(controller.currentValue).toBe('53');
+    });
+
+    test('Shift+? opens help without throwing when dialog absent', () => {
+        setup();
+        expect(() =>
+            document.dispatchEvent(new KeyboardEvent('keydown', { key: '?', shiftKey: true }))
+        ).not.toThrow();
+    });
+});
+
+describe('Controller — sidebar restore', () => {
+    /** @param {ReturnType<typeof setup>['controller']} controller */
+    const completeFivePlusThree = async (controller) => {
+        controller.appendNumber('5'); await wait();
+        controller.setOperator('+');  await wait();
+        controller.appendNumber('3'); await wait();
+        controller.calculate();       await wait();
+        controller.clear();           await wait();
+    };
+
+    test('clicking a history item restores its value', async () => {
+        const { controller } = setup();
+        await completeFivePlusThree(controller);
+        expect(controller.currentValue).toBe('0');
+        const item = $('#history-list .history-item');
+        item.click();
+        expect(controller.currentValue).toBe('8');
+    });
+
+    test('Enter on a history item restores its value', async () => {
+        const { controller } = setup();
+        await completeFivePlusThree(controller);
+        const item = $('#history-list .history-item');
+        item.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }));
+        expect(controller.currentValue).toBe('8');
+    });
+
+    test('restoreValue ignores non-numeric input', () => {
+        const { controller } = setup();
+        controller.appendNumber('5');
+        controller.restoreValue('not-a-number');
+        expect(controller.currentValue).toBe('5');
+    });
+});
+
+describe('Controller — error paths', () => {
+    test('toggleNegative on a corrupted value shows a validation error', () => {
+        const { controller } = setup();
+        controller.currentValue = 'abc';
+        controller.toggleNegative();
+        expect(controller.isInErrorState).toBe(true);
+    });
+
+    test('percent on a corrupted value shows a validation error', () => {
+        const { controller } = setup();
+        controller.currentValue = 'abc';
+        controller.percent();
+        expect(controller.isInErrorState).toBe(true);
+    });
+
+    test('invalid digit is caught by the error boundary', () => {
+        const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+        const { controller } = setup({ debug: true });
+        controller.appendNumber('x'); // not [0-9.] → Engine throws → boundary
+        expect(controller.isInErrorState).toBe(true);
+        spy.mockRestore();
+    });
+
+    test('error state auto-clears after the timeout', () => {
+        jest.useFakeTimers();
+        try {
+            const { controller } = setup();
+            controller.currentValue = 'abc';
+            controller.percent();
+            expect(controller.isInErrorState).toBe(true);
+            jest.advanceTimersByTime(2600);
+            expect(controller.isInErrorState).toBe(false);
+            expect(controller.currentValue).toBe('0');
+        } finally {
+            jest.useRealTimers();
+        }
     });
 });
