@@ -21,14 +21,15 @@
   "jest": {
     "testEnvironment": "jsdom",
     "transform": {},
+    "coverageProvider": "v8",
     "moduleFileExtensions": ["js", "mjs"],
-    "testMatch": ["<rootDir>/tests/**/*.test.js"],
+    "testMatch": ["**/tests/**/*.test.js"],
     "collectCoverageFrom": [
-      "engine.js",
-      "history.js",
-      "state.js",
-      "view.js",
-      "controller.js"
+      "**/engine.js",
+      "**/history.js",
+      "**/state.js",
+      "**/view.js",
+      "**/controller.js"
     ],
     "coverageThreshold": {
       "global": {
