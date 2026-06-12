@@ -1,6 +1,7 @@
 /**
  * @jest-environment node
  */
+import { jest } from '@jest/globals';
 import { STATE, TRANSITIONS, canTransition, StateMachine } from '../state.js';
 
 describe('canTransition', () => {
@@ -44,7 +45,7 @@ describe('StateMachine', () => {
         m.addEventListener('change', spy);
         m.transition(STATE.ENTERING);
         expect(spy).toHaveBeenCalledTimes(1);
-        const evt = spy.mock.calls[0][0];
+        const evt = /** @type {CustomEvent} */ (spy.mock.calls[0][0]);
         expect(evt.detail).toEqual({ from: STATE.IDLE, to: STATE.ENTERING });
     });
 

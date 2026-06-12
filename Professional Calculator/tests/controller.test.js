@@ -5,6 +5,12 @@ import { CalculatorView } from '../view.js';
 import { CalculatorController } from '../controller.js';
 import { STATE } from '../state.js';
 
+/** Typed query helpers — elements always exist in the test fixture.
+ * @param {string} sel @returns {HTMLElement} */
+const $ = (sel) => /** @type {HTMLElement} */ (document.querySelector(sel));
+/** @param {string} sel @returns {HTMLButtonElement} */
+const $btn = (sel) => /** @type {HTMLButtonElement} */ (document.querySelector(sel));
+
 /**
  * Build a fresh DOM and controller for each test. Mirrors the
  * production HTML closely enough that the controller can wire up.
@@ -36,17 +42,17 @@ function setup() {
         <ul id="history-list"></ul>
     `;
     const view = new CalculatorView({
-        displayMain:      document.querySelector('.display-main'),
-        displaySecondary: document.querySelector('.display-secondary'),
-        announcer:        document.getElementById('sr-announcer'),
+        displayMain:      $('.display-main'),
+        displaySecondary: $('.display-secondary'),
+        announcer:        $('#sr-announcer'),
         historyList:      document.getElementById('history-list'),
-        undoButton:       document.querySelector('[data-action="undo"]'),
-        redoButton:       document.querySelector('[data-action="redo"]'),
+        undoButton:       $btn('[data-action="undo"]'),
+        redoButton:       $btn('[data-action="redo"]'),
         helpDialog:       null,
     });
     const controller = new CalculatorController({
         view,
-        keypad:  document.getElementById('calculator-keypad'),
+        keypad:  $('#calculator-keypad'),
         sidebar: document.getElementById('history-list'),
     });
     return { controller, view };
@@ -191,17 +197,17 @@ describe('Controller — input rules', () => {
 describe('Controller — click dispatch', () => {
     test('clicking a number button updates value', () => {
         const { controller } = setup();
-        const btn = document.querySelector('[data-number="5"]');
+        const btn = $('[data-number="5"]');
         btn.click();
         expect(controller.currentValue).toBe('5');
     });
 
     test('clicking the equals button calculates', async () => {
         const { controller } = setup();
-        document.querySelector('[data-number="5"]').click();   await wait();
-        document.querySelector('[data-operator="+"]').click();  await wait();
-        document.querySelector('[data-number="3"]').click();    await wait();
-        document.querySelector('[data-action="equals"]').click();
+        $('[data-number="5"]').click();   await wait();
+        $('[data-operator="+"]').click();  await wait();
+        $('[data-number="3"]').click();    await wait();
+        $('[data-action="equals"]').click();
         expect(controller.currentValue).toBe('8');
     });
 });
@@ -272,9 +278,10 @@ describe('Controller — destroy', () => {
     test('destroy removes listeners', () => {
         const { controller } = setup();
         controller.destroy();
-        // After destroy, clicks should not change state
+        // After destroy, clicking a real button must not change state
+        // (proves the delegated listener was actually removed).
         const before = controller.currentValue;
-        document.querySelector('[data-number="9"]')?.click();
+        $('[data-number="5"]').click();
         expect(controller.currentValue).toBe(before);
     });
 });
