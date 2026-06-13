@@ -65,6 +65,26 @@ describe('REPL — variables & ans', () => {
     });
 });
 
+describe('REPL — symbolic differentiation', () => {
+    test('diff(x^2, x) → 2 · x', () => {
+        expect(setup().submit('diff(x^2, x)').output).toBe('2 · x');
+    });
+    test('diff(sin(x), x) → cos(x)', () => {
+        expect(setup().submit('diff(sin(x), x)').output).toBe('cos(x)');
+    });
+    test('diff handles inner commas: diff(log(x,2), x)', () => {
+        const r = setup().submit('diff(log(x, 2), x)');
+        expect(r.ok).toBe(true);
+    });
+    test('derivative output is re-evaluable', () => {
+        const repl = setup();
+        const d = repl.submit('diff(x^3, x)'); // 3 · x ^ 2
+        const v = repl.submit('x = 2'); // set x
+        void v;
+        expect(repl.submit(d.output).output).toBe('12');
+    });
+});
+
 describe('REPL — errors', () => {
     test('syntax error is reported, not thrown', () => {
         const r = setup().submit('2 *');
