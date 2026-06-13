@@ -60,6 +60,10 @@ describe('grammar — linear-algebra functions', () => {
         near(ev[0][0] + ev[1][0], 7);
     });
     test('det of non-square throws', () => expect(() => evalV('det([[1,2,3],[4,5,6]])')).toThrow(RangeError));
+    test('factor(360) → column of prime factors', () =>
+        nearMat(evalV('factor(360)'), [[2], [2], [2], [3], [3], [5]]));
+    test('divisors(28) → column', () =>
+        nearMat(evalV('divisors(28)'), [[1], [2], [4], [7], [14], [28]]));
 });
 
 describe('grammar — variables & quadratic-style use', () => {

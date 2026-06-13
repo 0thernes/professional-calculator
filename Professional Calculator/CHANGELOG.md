@@ -6,6 +6,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.5.0] — Number theory
+
+### Added
+- **`math/numtheory.js`** — primality & modular arithmetic: deterministic
+  Miller–Rabin `isPrime` (exact for all safe integers; BigInt `isPrimeBig`),
+  `primeFactors`/`factorization`/`divisors`, `modPow`/`modInverse` (extended
+  Euclid), `eulerTotient`, `fibonacci` (fast doubling, exact `fibonacciBig`),
+  `nextPrime`, `gcd`/`lcm`, `isPerfectSquare`. BigInt internally for exactness.
+- REPL functions: scalar `isprime/nextprime/modpow/modinv/totient/fib/lcm`;
+  `factor(n)` and `divisors(n)` return column vectors.
+- Facade exports `NumberTheory`; version → 3.5.0.
+- 47 new tests (727 total / 22 suites): Mersenne prime 2³¹−1, Carmichael 561
+  composite, RSA-style modular inverse, 360 = 2³·3²·5, perfect numbers
+  (divisor sums), φ products, Fibonacci recurrence + `F(100)` exact.
+
 ## [3.4.0] — Quantum circuit builder
 
 ### Added
