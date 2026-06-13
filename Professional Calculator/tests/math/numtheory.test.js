@@ -2,7 +2,7 @@
  * @jest-environment node
  */
 import {
-    gcd, lcm, extendedGcd, modPow, modPowBig, modInverse, modInverseBig,
+    gcd, lcm, extendedGcd, modPow, modPowBig, modInverse,
     isPrime, isPrimeBig, primeFactors, factorization, divisors, nextPrime,
     eulerTotient, fibonacci, fibonacciBig, isPerfectSquare,
 } from '../../math/numtheory.js';
