@@ -23,14 +23,16 @@ import * as Plot from './plot.js';
 import * as Symbolic from './symbolic.js';
 import * as Circuit from './circuit.js';
 import * as NumberTheory from './numtheory.js';
+import * as Signal from './signal.js';
 
 export {
     Complex, Rational, Special, Constants, Parser, Matrix, Calculus, Stats,
     Units, Finance, Quantum, Physics, Plot, Symbolic, Circuit, NumberTheory,
+    Signal,
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.6.0';
+export const VERSION = '3.7.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine
@@ -52,6 +54,7 @@ export const CAPABILITIES = Object.freeze([
     { domain: 'Visualization', functions: ['2D/parametric plots', '3D surfaces', '4D tesseract', 'Bloch sphere', 'spectra'] },
     { domain: 'Symbolic (CAS)', functions: ['diff(expr, x)', 'integrate(expr, x)', 'product/quotient/chain rules', 'simplify', 're-parseable output'] },
     { domain: 'Number theory', functions: ['isprime', 'factor', 'divisors', 'modpow', 'modinv', 'totient', 'fib', 'gcd/lcm'] },
+    { domain: 'Signal processing', functions: ['DFT/IDFT', 'FFT/IFFT (radix-2 + Bluestein)', 'magnitude/phase', 'convolution', 'cross-correlation', 'Hann/Hamming/Blackman', 'fftfreq'] },
 ]);
 
 /**
