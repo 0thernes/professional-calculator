@@ -80,6 +80,8 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ✅ **FFT spectrum STEM page** (S) — surfaces `signal.js` visually
 - ✅ **Property-based invariant tests** (M) — seeded randomized cross-module invariants
 - ✅ **Graph algorithms** (M) — BFS/DFS, Dijkstra + shortest path, components, topo sort, MST
+- ✅ **MST graph STEM page** (S) — surfaces `graph.js` visually (Kruskal spanning tree)
+- ✅ **Set & relation utilities** (S) — union/intersection/difference, subset/Jaccard, power set, product
 
 ---
 
@@ -109,7 +111,7 @@ In Progress → Review → Done**. Items are sized S / M / L.
 | Metric | Value |
 |---|---|
 | Epics delivered | 7 (core, applied, product, quality, STEM suite, CAS & grammar, numerical-library expansion) |
-| Modules shipped | 26 math + 6 app + 8 docs |
-| Tests | 990 across 33 suites (100% pass) |
-| Releases | v1.0 → v3.17.0, merged via PRs #1–#27 |
+| Modules shipped | 27 math + 6 app + 8 docs |
+| Tests | 1013 across 34 suites (100% pass) |
+| Releases | v1.0 → v3.19.0, merged via PRs #1–#29 |
 | Cycle: idea → tested module | continuous (test-anchored each step) |
