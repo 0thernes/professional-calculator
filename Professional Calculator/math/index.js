@@ -34,16 +34,17 @@ import * as Random from './random.js';
 import * as Graph from './graph.js';
 import * as Sets from './sets.js';
 import * as Bits from './bits.js';
+import * as UnitExpr from './unitexpr.js';
 
 export {
     Complex, Rational, Special, Constants, Parser, Matrix, Calculus, Stats,
     Units, Finance, Quantum, Physics, Plot, Symbolic, Circuit, NumberTheory,
     Signal, Interpolate, Optimize, Geometry, Combinatorics, Decomposition,
-    Coordinates, Random, Graph, Sets, Bits,
+    Coordinates, Random, Graph, Sets, Bits, UnitExpr,
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.20.0';
+export const VERSION = '3.21.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine
@@ -57,7 +58,7 @@ export const CAPABILITIES = Object.freeze([
     { domain: 'Linear algebra', functions: ['[[..]] literals in REPL', 'det', 'inv', 'solve', 'rank', 'LU', 'QR', 'eigenvalues', 'eigenvectors'] },
     { domain: 'Calculus', functions: ["d/dx", '∫ (adaptive)', 'roots (Brent)', 'ODE (RK4/RKF45)', 'gradient'] },
     { domain: 'Statistics', functions: ['mean/median/std', 'regression', 'normal/t/χ²/F/binomial/Poisson', 't-test', 'z-test', 'χ² GoF', 'ANOVA', 'CI'] },
-    { domain: 'Units', functions: ['SI dimensional analysis', 'conversion', 'temperature scales'] },
+    { domain: 'Units', functions: ['SI dimensional analysis', 'conversion', 'temperature scales', 'unit-aware expressions (3 kg·9.8 m/s²)'] },
     { domain: 'Finance', functions: ['NPV', 'IRR', 'PV/FV', 'annuities', 'Black–Scholes', 'Greeks', 'binomial', 'Monte Carlo'] },
     { domain: 'Special fns', functions: ['Γ', 'lnΓ', 'erf', 'erfc', 'β', 'incomplete γ/β'] },
     { domain: 'Quantum computing', functions: ['qubits', 'X/Y/Z/H/S/T', 'CNOT/CZ/SWAP/Toffoli', 'Bell/GHZ', 'measurement', 'Bloch sphere', 'fluent circuit builder'] },

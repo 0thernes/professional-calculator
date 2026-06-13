@@ -83,12 +83,12 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ✅ **MST graph STEM page** (S) — surfaces `graph.js` visually (Kruskal spanning tree)
 - ✅ **Set & relation utilities** (S) — union/intersection/difference, subset/Jaccard, power set, product
 - ✅ **Base conversion & bit manipulation** (S) — base 2–36, bin/oct/hex, popcount, Hamming, Gray code
+- ✅ **Unit-aware expressions** (M) — `3 kg · 9.8 m/s²` evaluated with dimensional analysis (`unitexpr.js`)
 
 ---
 
 ## 📋 Ready (next up)
 
-- ⬜ **Unit-aware expressions** (M) — `3 kg * 9.8 m/s^2` in the REPL grammar
 - ⬜ **Interactive circuit UI** (M) — drag/place gates onto the QuantumCircuit model
 - ⬜ **Symbolic simplification++** (M) — collect like terms, trig identities
 
@@ -112,7 +112,7 @@ In Progress → Review → Done**. Items are sized S / M / L.
 | Metric | Value |
 |---|---|
 | Epics delivered | 7 (core, applied, product, quality, STEM suite, CAS & grammar, numerical-library expansion) |
-| Modules shipped | 28 math + 6 app + 8 docs |
-| Tests | 1034 across 35 suites (100% pass) |
-| Releases | v1.0 → v3.20.0, merged via PRs #1–#30 |
+| Modules shipped | 29 math + 6 app + 8 docs |
+| Tests | 1056 across 36 suites (100% pass) |
+| Releases | v1.0 → v3.21.0, merged via PRs #1–#31 |
 | Cycle: idea → tested module | continuous (test-anchored each step) |

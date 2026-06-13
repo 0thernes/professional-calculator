@@ -6,6 +6,27 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.21.0] — Unit-aware expressions
+
+### Added
+- **`math/unitexpr.js`** — a unit-aware expression evaluator with full
+  dimensional analysis. `evaluate("3 kg * 9.8 m / s^2")` → a `Quantity`
+  (29.4 kg·m/s²): `+`/`−` require matching dimensions, while `*`, `/`, implicit
+  multiplication, parentheses, unary minus, and integer powers combine them.
+  A small self-contained recursive-descent parser over the `units.js` Quantity
+  model. `format(q)` renders `"<value> <unit>"`.
+  - Affine temperature units (`degC`/`degF`) are rejected here — they don't
+    compose multiplicatively; use `Units.convert` for those.
+  - Exposed on the facade as `UnitExpr`. (Like `signal.js`, it is a separate
+    evaluator and is **not** wired into the `Complex | Matrix` scientific REPL.)
+- Version → 3.21.0.
+- 22 new tests (1056 total / 36 suites), closed-form anchored: `3 kg·9.8 m/s² =
+  29.4 N` (dim [1,1,−2]); implicit-× `kg m / s²` = newton; `2 m + 3 m = 5 m`;
+  `2 m + 3 s` throws; `1 km = 1000 m`; `60 km/hr ≈ 16.667 m/s`; `(2+3) m`;
+  powers bind tighter than implicit-× (`2 m^3 = 2 m³`); negative exponents;
+  scientific notation; energy dimension; and the unknown-unit / affine /
+  empty / trailing-token / illegal-char / missing-exponent guards.
+
 ## [3.20.0] — Base conversion & bit manipulation
 
 ### Added
