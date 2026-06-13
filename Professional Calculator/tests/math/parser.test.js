@@ -55,6 +55,14 @@ describe('parser — functions & constants', () => {
     test('nCr(10,3) = 120', () => near(R('nCr(10,3)'), 120));
     test('atan2(1,1) = π/4', () => near(R('atan2(1,1)'), Math.PI / 4));
     test('gcd(48,18) = 6', () => near(R('gcd(48,18)'), 6));
+    test('lcm(4,6) = 12', () => near(R('lcm(4,6)'), 12));
+    test('isprime(97) = 1', () => near(R('isprime(97)'), 1));
+    test('isprime(91) = 0', () => near(R('isprime(91)'), 0));
+    test('nextprime(100) = 101', () => near(R('nextprime(100)'), 101));
+    test('modpow(2,10,1000) = 24', () => near(R('modpow(2,10,1000)'), 24));
+    test('modinv(3,11) = 4', () => near(R('modinv(3,11)'), 4));
+    test('totient(36) = 12', () => near(R('totient(36)'), 12));
+    test('fib(10) = 55', () => near(R('fib(10)'), 55));
 });
 
 describe('parser — factorial', () => {

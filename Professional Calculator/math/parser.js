@@ -31,6 +31,7 @@
 
 import * as C from './complex.js';
 import * as M from './matrix.js';
+import * as NT from './numtheory.js';
 import { constantValue } from './constants.js';
 import { gamma, erf, erfc, factorial as realFactorial, combinations, permutations, lgamma } from './special.js';
 
@@ -510,6 +511,26 @@ function evaluateCall(node, scope) {
             return { re: ((argv[0].re % argv[1].re) + argv[1].re) % argv[1].re, im: 0 };
         case 'gcd':
             return { re: argv.map((z) => z.re).reduce((g, x) => intGcd(g, x)), im: 0 };
+        case 'lcm':
+            return { re: argv.map((z) => z.re).reduce((l, x) => NT.lcm(l, x)), im: 0 };
+        case 'isprime':
+            requireArgs(name, argv, 1);
+            return { re: NT.isPrime(argv[0].re) ? 1 : 0, im: 0 };
+        case 'nextprime':
+            requireArgs(name, argv, 1);
+            return { re: NT.nextPrime(argv[0].re), im: 0 };
+        case 'modpow':
+            requireArgs(name, argv, 3);
+            return { re: NT.modPow(argv[0].re, argv[1].re, argv[2].re), im: 0 };
+        case 'modinv':
+            requireArgs(name, argv, 2);
+            return { re: NT.modInverse(argv[0].re, argv[1].re), im: 0 };
+        case 'totient':
+            requireArgs(name, argv, 1);
+            return { re: NT.eulerTotient(argv[0].re), im: 0 };
+        case 'fib':
+            requireArgs(name, argv, 1);
+            return { re: NT.fibonacci(argv[0].re), im: 0 };
         case 'nCr':
             requireArgs(name, argv, 2);
             return { re: combinations(argv[0].re, argv[1].re), im: 0 };
@@ -715,6 +736,14 @@ function evaluateValueCall(node, scope) {
     }
     if (name === 'eigvals') {
         return M.eigenvalues(matArg(node.args[0])).map((z) => [z.re]); // column of real parts
+    }
+    // Number-theory functions returning a list → column vector.
+    if (name === 'factor') {
+        const f = NT.primeFactors(scalarRe(node.args[0], scope));
+        return f.length ? f.map((p) => [p]) : [[1]];
+    }
+    if (name === 'divisors') {
+        return NT.divisors(scalarRe(node.args[0], scope)).map((d) => [d]);
     }
     // Not a matrix function → scalar call.
     return evaluate(node, /** @type {any} */ (scope));
