@@ -6,6 +6,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.14.0] — Coordinate systems
+
+### Added
+- **`math/coordinates.js`** — conversions between Cartesian and the common
+  curvilinear systems (physics/ISO convention; angles in radians):
+  - `polarToCartesian` / `cartesianToPolar`
+  - `sphericalToCartesian` / `cartesianToSpherical` (polar angle θ from +z,
+    azimuth φ)
+  - `cylindricalToCartesian` / `cartesianToCylindrical`
+  - `degToRad` / `radToDeg`
+  - Cartesian results are `number[]` (composing with `geometry.js`);
+    curvilinear results are named objects. Exposed on the facade as
+    `Coordinates`; capability manifest row added.
+- Version → 3.14.0.
+- 16 new tests (925 total / 30 suites), closed-form anchored: `polar(√2,π/4) =
+  [1,1]`; spherical equator/azimuth cases (`(1,π/2,0)=[1,0,0]`,
+  `(1,π/2,π/2)=[0,1,0]`), north pole `(·,0,·)=[0,0,z]`, and
+  `[1,1,√2] → (r=2, θ=π/4, φ=π/4)`; `cylindrical(1,π/2,5)=[0,1,5]`; full
+  Cartesian→curvilinear→Cartesian round-trips and deg/rad checks.
+
 ## [3.13.0] — Combinatorics in the REPL
 
 ### Added
