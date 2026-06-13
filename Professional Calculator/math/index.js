@@ -28,15 +28,16 @@ import * as Interpolate from './interpolate.js';
 import * as Optimize from './optimize.js';
 import * as Geometry from './geometry.js';
 import * as Combinatorics from './combinatorics.js';
+import * as Decomposition from './decomposition.js';
 
 export {
     Complex, Rational, Special, Constants, Parser, Matrix, Calculus, Stats,
     Units, Finance, Quantum, Physics, Plot, Symbolic, Circuit, NumberTheory,
-    Signal, Interpolate, Optimize, Geometry, Combinatorics,
+    Signal, Interpolate, Optimize, Geometry, Combinatorics, Decomposition,
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.11.0';
+export const VERSION = '3.12.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine
@@ -63,6 +64,7 @@ export const CAPABILITIES = Object.freeze([
     { domain: 'Optimization', functions: ['golden-section (1D)', 'Nelder–Mead simplex', 'gradient descent (Armijo)'] },
     { domain: 'Vector geometry', functions: ['dot', 'cross', 'norm', 'normalize', 'distance', 'angle', 'projection', 'reflection', 'triple product', '2D/3D rotation'] },
     { domain: 'Combinatorics', functions: ['Catalan', 'Bell', 'Stirling 1st/2nd', 'partitions', 'derangements', 'multinomial', 'multichoose'] },
+    { domain: 'Decompositions', functions: ['Cholesky', 'SVD (Jacobi)', 'singular values', 'pseudoinverse', 'least squares', 'condition number'] },
 ]);
 
 /**
