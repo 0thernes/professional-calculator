@@ -32,6 +32,7 @@
 import * as C from './complex.js';
 import * as M from './matrix.js';
 import * as NT from './numtheory.js';
+import * as CB from './combinatorics.js';
 import { constantValue } from './constants.js';
 import { gamma, erf, erfc, factorial as realFactorial, combinations, permutations, lgamma } from './special.js';
 
@@ -537,6 +538,27 @@ function evaluateCall(node, scope) {
         case 'nPr':
             requireArgs(name, argv, 2);
             return { re: permutations(argv[0].re, argv[1].re), im: 0 };
+        case 'catalan':
+            requireArgs(name, argv, 1);
+            return { re: CB.catalan(argv[0].re), im: 0 };
+        case 'bell':
+            requireArgs(name, argv, 1);
+            return { re: CB.bell(argv[0].re), im: 0 };
+        case 'partitions':
+            requireArgs(name, argv, 1);
+            return { re: CB.partitions(argv[0].re), im: 0 };
+        case 'derangements':
+            requireArgs(name, argv, 1);
+            return { re: CB.derangements(argv[0].re), im: 0 };
+        case 'stirling2':
+            requireArgs(name, argv, 2);
+            return { re: CB.stirlingSecond(argv[0].re, argv[1].re), im: 0 };
+        case 'stirling1':
+            requireArgs(name, argv, 2);
+            return { re: CB.stirlingFirst(argv[0].re, argv[1].re), im: 0 };
+        case 'multichoose':
+            requireArgs(name, argv, 2);
+            return { re: CB.combinationsWithRepetition(argv[0].re, argv[1].re), im: 0 };
         case 're':
             requireArgs(name, argv, 1);
             return { re: argv[0].re, im: 0 };

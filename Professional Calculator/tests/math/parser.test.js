@@ -65,6 +65,22 @@ describe('parser — functions & constants', () => {
     test('fib(10) = 55', () => near(R('fib(10)'), 55));
 });
 
+describe('parser — combinatorics functions', () => {
+    test('catalan(5) = 42', () => near(R('catalan(5)'), 42));
+    test('bell(5) = 52', () => near(R('bell(5)'), 52));
+    test('partitions(10) = 42', () => near(R('partitions(10)'), 42));
+    test('derangements(4) = 9', () => near(R('derangements(4)'), 9));
+    test('stirling2(4,2) = 7', () => near(R('stirling2(4,2)'), 7));
+    test('stirling1(4,2) = 11', () => near(R('stirling1(4,2)'), 11));
+    test('multichoose(5,3) = 35', () => near(R('multichoose(5,3)'), 35));
+    test('composes with arithmetic: catalan(4) + bell(3) = 19', () =>
+        near(R('catalan(4) + bell(3)'), 19));
+    test('wrong arg count throws', () => {
+        expect(() => R('catalan(1,2)')).toThrow();
+        expect(() => R('stirling2(4)')).toThrow();
+    });
+});
+
 describe('parser — factorial', () => {
     test('5! = 120', () => near(R('5!'), 120));
     test('0! = 1', () => near(R('0!'), 1));

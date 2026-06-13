@@ -6,6 +6,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.13.0] — Combinatorics in the REPL
+
+### Added
+- **REPL grammar**: the combinatorial sequences are now callable directly from
+  the expression engine / calculator UI — `catalan(n)`, `bell(n)`,
+  `partitions(n)`, `derangements(n)`, `stirling1(n,k)`, `stirling2(n,k)`, and
+  `multichoose(n,k)` — dispatched through `parser.js` to `combinatorics.js`
+  (the existing `nCr`/`nPr` and `isprime`/`totient`/`fib` style). They compose
+  with arithmetic, e.g. `catalan(4) + bell(3) = 19`.
+- Version → 3.13.0.
+- 9 new parser tests (909 total / 29 suites): `catalan(5)=42`, `bell(5)=52`,
+  `partitions(10)=42`, `derangements(4)=9`, `stirling2(4,2)=7`,
+  `stirling1(4,2)=11`, `multichoose(5,3)=35`, an arithmetic-composition case,
+  and arg-count guards. README quick-start updated.
+
 ## [3.12.0] — Matrix decompositions (SVD, Cholesky, pseudoinverse)
 
 ### Added
