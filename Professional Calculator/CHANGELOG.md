@@ -6,8 +6,23 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.2.0] — Matrix/vector literals in the expression grammar
+
 ### Added
-- First-class matrix/vector literals in the expression grammar *(planned, Phase 2)*
+- **Matrix & vector literals** in the parser: `[[1,2],[3,4]]` (matrix),
+  `[1,2,3]` (column vector); entries may be any scalar expression.
+- **Matrix-aware evaluator** (`evaluateValue`): a `Complex | Matrix` value
+  model that delegates pure-scalar subtrees to the proven scalar `evaluate`,
+  so existing behaviour is untouched. Operators: matrix `+ - *`, scalar·matrix,
+  matrix/scalar, integer matrix powers (incl. `^-1` = inverse), `|M|` = Frobenius
+  norm. Functions: `det`, `inv`, `transpose`, `trace`, `rank`, `norm`,
+  `identity`/`eye`, `zeros`, `solve(A,b)`, `eigvals(A)`.
+- REPL now evaluates matrices (assign `A = [[..]]`, then `det(A)`, `A*inv(A)`,
+  `solve(A,b)`, …) and pretty-prints them.
+- 34 new tests (636 total) anchored on known results: `det([[1,2],[3,4]])=-2`,
+  `[[1,2],[3,4]]·[[5,6],[7,8]]=[[19,22],[43,50]]`, `A·inv(A)=I`, solve a 2×2
+  system, eigenvalues of a diagonal matrix; scalar back-compat verified.
+  Engine version → 3.2.0.
 
 ## [3.1.0] — Symbolic differentiation (CAS-lite)
 

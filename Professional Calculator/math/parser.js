@@ -30,6 +30,7 @@
  */
 
 import * as C from './complex.js';
+import * as M from './matrix.js';
 import { constantValue } from './constants.js';
 import { gamma, erf, erfc, factorial as realFactorial, combinations, permutations, lgamma } from './special.js';
 
@@ -41,7 +42,7 @@ import { gamma, erf, erfc, factorial as realFactorial, combinations, permutation
  *  Tokenizer
  * ============================================================= */
 
-/** @typedef {'num'|'name'|'op'|'lparen'|'rparen'|'comma'|'bar'|'bang'} TokKind */
+/** @typedef {'num'|'name'|'op'|'lparen'|'rparen'|'lbrack'|'rbrack'|'comma'|'bar'|'bang'} TokKind */
 /** @typedef {{ kind: TokKind, value: string, pos: number }} Token */
 
 const OP_CHARS = new Set(['+', '-', '*', '/', '^', '%']);
@@ -103,6 +104,8 @@ export function tokenize(src) {
         if (ch === '−') { tokens.push({ kind: 'op', value: '-', pos: i }); i++; continue; }
         if (ch === '(') { tokens.push({ kind: 'lparen', value: ch, pos: i }); i++; continue; }
         if (ch === ')') { tokens.push({ kind: 'rparen', value: ch, pos: i }); i++; continue; }
+        if (ch === '[') { tokens.push({ kind: 'lbrack', value: ch, pos: i }); i++; continue; }
+        if (ch === ']') { tokens.push({ kind: 'rbrack', value: ch, pos: i }); i++; continue; }
         if (ch === ',') { tokens.push({ kind: 'comma', value: ch, pos: i }); i++; continue; }
         if (ch === '|') { tokens.push({ kind: 'bar', value: ch, pos: i }); i++; continue; }
         if (ch === '!') { tokens.push({ kind: 'bang', value: ch, pos: i }); i++; continue; }
@@ -129,6 +132,8 @@ function isAlpha(ch) {
  *   | { type: 'postfix', op: string, operand: Node }
  *   | { type: 'call', name: string, args: Node[] }
  *   | { type: 'abs', operand: Node }
+ *   | { type: 'matrix', rows: Node[][] }
+ *   | { type: 'vector', elements: Node[] }
  * )} Node
  */
 
@@ -280,6 +285,9 @@ class Parser {
             this.barDepth--;
             return { type: 'abs', operand: inner };
         }
+        if (t.kind === 'lbrack') {
+            return this.parseBracketLiteral();
+        }
         if (t.kind === 'name') {
             const nt = this.peek();
             if (nt && nt.kind === 'lparen') {
@@ -299,6 +307,54 @@ class Parser {
             return { type: 'var', name: t.value };
         }
         throw new SyntaxError(`Unexpected token '${t.value}' at position ${t.pos}`);
+    }
+
+    /**
+     * Parse a bracket literal after the opening '[' has been consumed.
+     * `[[..],[..]]` → matrix (rows are themselves bracketed), `[a,b,c]` →
+     * vector (flat list of scalars).
+     * @returns {Node}
+     */
+    parseBracketLiteral() {
+        const first = this.peek();
+        if (first && first.kind === 'rbrack') {
+            throw new SyntaxError('empty matrix/vector literal');
+        }
+        if (first && first.kind === 'lbrack') {
+            /** @type {Node[][]} */
+            const rows = [this.parseBracketRow()];
+            while (this.peek() && /** @type {Token} */ (this.peek()).kind === 'comma') {
+                this.next();
+                rows.push(this.parseBracketRow());
+            }
+            this.expect('rbrack');
+            const cols = rows[0].length;
+            if (!rows.every((r) => r.length === cols)) {
+                throw new SyntaxError('matrix rows must have equal length');
+            }
+            return { type: 'matrix', rows };
+        }
+        /** @type {Node[]} */
+        const elements = [this.parseAddSub()];
+        while (this.peek() && /** @type {Token} */ (this.peek()).kind === 'comma') {
+            this.next();
+            elements.push(this.parseAddSub());
+        }
+        this.expect('rbrack');
+        return { type: 'vector', elements };
+    }
+
+    /** Parse one `[ expr, expr, … ]` row. @returns {Node[]} */
+    parseBracketRow() {
+        this.expect('lbrack');
+        /** @type {Node[]} */
+        const row = [this.parseAddSub()];
+        while (this.peek() && /** @type {Token} */ (this.peek()).kind === 'comma') {
+            this.next();
+            row.push(this.parseAddSub());
+        }
+        this.expect('rbrack');
+        return row;
     }
 }
 
@@ -495,6 +551,196 @@ function intGcd(a, b) {
     return a;
 }
 
+/* ============================================================= *
+ *  Matrix-aware evaluation (value = Complex scalar OR real Matrix)
+ *
+ *  Pure-scalar subtrees delegate to the proven scalar evaluate(), so the
+ *  existing scalar behaviour is untouched; matrix handling is purely additive.
+ * ============================================================= */
+
+/** @typedef {number[][]} Matrix */
+/** @typedef {Complex | Matrix} Value */
+/** @typedef {Record<string, number | Complex | Matrix>} ValueScope */
+
+/** @param {Value} v @returns {v is Matrix} */
+function isMatrix(v) {
+    return Array.isArray(v);
+}
+
+/**
+ * Evaluate a scalar sub-node to a real number (matrix entries must be real).
+ * @param {Node} node
+ * @param {ValueScope} scope
+ * @returns {number}
+ */
+function scalarRe(node, scope) {
+    const z = evaluate(node, /** @type {any} */ (scope));
+    if (Math.abs(z.im) > 1e-12) throw new RangeError('matrix/vector entries must be real');
+    return z.re;
+}
+
+/**
+ * Evaluate an AST to a scalar (Complex) or a real matrix (number[][]).
+ * @param {Node} node
+ * @param {ValueScope} [scope]
+ * @returns {Value}
+ */
+export function evaluateValue(node, scope = {}) {
+    switch (node.type) {
+        case 'matrix':
+            return node.rows.map((r) => r.map((e) => scalarRe(e, scope)));
+        case 'vector':
+            return node.elements.map((e) => [scalarRe(e, scope)]); // n×1 column
+        case 'var': {
+            const s = scope[node.name];
+            if (Array.isArray(s)) return s;
+            return evaluate(node, /** @type {any} */ (scope));
+        }
+        case 'unary': {
+            const v = evaluateValue(node.operand, scope);
+            if (isMatrix(v)) return node.op === '-' ? M.scale(v, -1) : v;
+            return evaluate(node, /** @type {any} */ (scope));
+        }
+        case 'binary': {
+            const a = evaluateValue(node.left, scope);
+            const b = evaluateValue(node.right, scope);
+            if (!isMatrix(a) && !isMatrix(b)) return evaluate(node, /** @type {any} */ (scope));
+            return matrixBinary(node.op, a, b);
+        }
+        case 'abs': {
+            const v = evaluateValue(node.operand, scope);
+            if (isMatrix(v)) return { re: M.normFro(v), im: 0 }; // ‖·‖_F for matrices
+            return evaluate(node, /** @type {any} */ (scope));
+        }
+        case 'call':
+            return evaluateValueCall(node, scope);
+        default:
+            return evaluate(node, /** @type {any} */ (scope)); // num, postfix
+    }
+}
+
+/**
+ * Binary operators where at least one operand is a matrix.
+ * @param {string} op
+ * @param {Value} a
+ * @param {Value} b
+ * @returns {Value}
+ */
+function matrixBinary(op, a, b) {
+    /** @param {Value} v @returns {number} */
+    const reOf = (v) => {
+        const z = /** @type {Complex} */ (v);
+        if (Math.abs(z.im) > 1e-12) throw new RangeError('a matrix scalar must be real');
+        return z.re;
+    };
+    switch (op) {
+        case '+':
+            if (isMatrix(a) && isMatrix(b)) return M.add(a, b);
+            throw new RangeError('cannot add a scalar and a matrix');
+        case '-':
+            if (isMatrix(a) && isMatrix(b)) return M.sub(a, b);
+            throw new RangeError('cannot subtract a scalar and a matrix');
+        case '*':
+            if (isMatrix(a) && isMatrix(b)) return M.mul(a, b);
+            if (isMatrix(a)) return M.scale(a, reOf(b));
+            if (isMatrix(b)) return M.scale(b, reOf(a));
+            throw new RangeError('matrix multiply error');
+        case '/':
+            if (isMatrix(a) && !isMatrix(b)) return M.scale(a, 1 / reOf(b));
+            throw new RangeError('matrix division is undefined (use inv())');
+        case '^':
+            if (isMatrix(a) && !isMatrix(b)) {
+                const n = reOf(b);
+                if (!Number.isInteger(n)) throw new RangeError('matrix exponent must be an integer');
+                if (n < 0) return M.inv(matIntPow(a, -n));
+                return matIntPow(a, n);
+            }
+            throw new RangeError('unsupported matrix power');
+        default:
+            throw new SyntaxError(`operator '${op}' is not defined for matrices`);
+    }
+}
+
+/** Integer matrix power via repeated multiply (n ≥ 0). @param {Matrix} a @param {number} n @returns {Matrix} */
+function matIntPow(a, n) {
+    let result = M.identity(M.rows(a));
+    for (let i = 0; i < n; i++) result = M.mul(result, a);
+    return result;
+}
+
+/** Single-matrix-argument functions. */
+const MAT_UNARY = new Set(['det', 'trace', 'tr', 'rank', 'norm', 'transpose', 'inv']);
+
+/**
+ * Dispatch a call that may involve matrices; scalar calls fall through to the
+ * scalar {@link evaluateCall} via {@link evaluate}.
+ * @param {Extract<Node, {type:'call'}>} node
+ * @param {ValueScope} scope
+ * @returns {Value}
+ */
+function evaluateValueCall(node, scope) {
+    const name = node.name;
+    /** @param {Node} n @returns {Matrix} */
+    const matArg = (n) => {
+        const v = evaluateValue(n, scope);
+        if (!isMatrix(v)) throw new RangeError(`${name} expects a matrix argument`);
+        return v;
+    };
+    /** @param {number} re @returns {Complex} */
+    const sc = (re) => ({ re, im: 0 });
+
+    if (name === 'identity' || name === 'eye') {
+        return M.identity(scalarRe(node.args[0], scope));
+    }
+    if (name === 'zeros') {
+        const r = scalarRe(node.args[0], scope);
+        return M.zeros(r, node.args[1] ? scalarRe(node.args[1], scope) : r);
+    }
+    if (MAT_UNARY.has(name)) {
+        const m = matArg(node.args[0]);
+        switch (name) {
+            case 'det': return sc(M.det(m));
+            case 'trace': case 'tr': return sc(M.trace(m));
+            case 'rank': return sc(M.rank(m));
+            case 'norm': return sc(M.normFro(m));
+            case 'transpose': return M.transpose(m);
+            case 'inv': return M.inv(m);
+            default: break;
+        }
+    }
+    if (name === 'solve') {
+        const A = matArg(node.args[0]);
+        const b = matArg(node.args[1]).map((row) => row[0]); // column → vector
+        return M.solve(A, b).map((x) => [x]); // back to a column matrix
+    }
+    if (name === 'eigvals') {
+        return M.eigenvalues(matArg(node.args[0])).map((z) => [z.re]); // column of real parts
+    }
+    // Not a matrix function → scalar call.
+    return evaluate(node, /** @type {any} */ (scope));
+}
+
+/**
+ * Render a Value (scalar or matrix) for display.
+ * @param {Value} v
+ * @returns {string}
+ */
+export function formatValue(v) {
+    if (isMatrix(v)) return matrixToString(v);
+    const z = /** @type {Complex} */ (v);
+    const real = Math.abs(z.im) <= 1e-12 * Math.max(1, Math.abs(z.re));
+    return real ? C.toString({ re: z.re, im: 0 }) : C.toString(z);
+}
+
+/** @param {Matrix} m @returns {string} */
+function matrixToString(m) {
+    const fmt = (/** @type {number} */ x) => {
+        const r = Math.abs(x) < 1e-12 ? 0 : x;
+        return Number.isInteger(r) ? String(r) : parseFloat(r.toPrecision(6)).toString();
+    };
+    return `[${m.map((row) => `[${row.map(fmt).join(', ')}]`).join(', ')}]`;
+}
+
 /**
  * Convenience: parse + evaluate a string in one call. Returns a Complex.
  * @param {string} src
@@ -506,15 +752,18 @@ export function evalExpr(src, scope = {}) {
 }
 
 /**
- * Evaluate to a plain number when the result is (numerically) real,
- * otherwise return the formatted complex string. Designed for the UI/REPL.
+ * Evaluate a string and return a display-ready result. Supports scalars
+ * (Complex) and matrices/vectors. Designed for the UI/REPL.
  * @param {string} src
- * @param {Record<string, number | Complex>} [scope]
- * @returns {{ value: Complex, display: string, isReal: boolean }}
+ * @param {ValueScope} [scope]
+ * @returns {{ value: Value, display: string, isReal: boolean, isMatrix: boolean }}
  */
 export function compute(src, scope = {}) {
-    const value = evalExpr(src, scope);
-    const isReal = Math.abs(value.im) <= 1e-12 * Math.max(1, Math.abs(value.re));
-    const display = isReal ? C.toString({ re: value.re, im: 0 }) : C.toString(value);
-    return { value, display, isReal };
+    const value = evaluateValue(parse(src), scope);
+    if (isMatrix(value)) {
+        return { value, display: formatValue(value), isReal: false, isMatrix: true };
+    }
+    const z = /** @type {Complex} */ (value);
+    const isReal = Math.abs(z.im) <= 1e-12 * Math.max(1, Math.abs(z.re));
+    return { value, display: formatValue(value), isReal, isMatrix: false };
 }

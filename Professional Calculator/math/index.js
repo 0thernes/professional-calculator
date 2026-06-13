@@ -28,7 +28,7 @@ export {
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.1.0';
+export const VERSION = '3.2.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine
@@ -39,7 +39,7 @@ export const CAPABILITIES = Object.freeze([
     { domain: 'Arithmetic', functions: ['+', '−', '×', '÷', '^', 'mod', '!', '|x|'] },
     { domain: 'Complex', functions: ['i/j unit', 'exp', 'log', 'sqrt', 'pow', 'trig', 'hyperbolic', 'conj', 'arg'] },
     { domain: 'Algebra', functions: ['exact rationals', 'gcd', 'lcm', 'nCr', 'nPr'] },
-    { domain: 'Linear algebra', functions: ['det', 'inv', 'solve', 'rank', 'LU', 'QR', 'eigenvalues', 'eigenvectors'] },
+    { domain: 'Linear algebra', functions: ['[[..]] literals in REPL', 'det', 'inv', 'solve', 'rank', 'LU', 'QR', 'eigenvalues', 'eigenvectors'] },
     { domain: 'Calculus', functions: ["d/dx", '∫ (adaptive)', 'roots (Brent)', 'ODE (RK4/RKF45)', 'gradient'] },
     { domain: 'Statistics', functions: ['mean/median/std', 'regression', 'normal', 't', 'χ²', 'F', 'binomial', 'Poisson'] },
     { domain: 'Units', functions: ['SI dimensional analysis', 'conversion', 'temperature scales'] },
@@ -54,9 +54,10 @@ export const CAPABILITIES = Object.freeze([
 /**
  * Evaluate a scientific expression string and return a display-ready result.
  * Thin re-export of {@link module:math/parser.compute} for convenience.
+ * Supports scalars (Complex) and matrices/vectors.
  * @param {string} expression
- * @param {Record<string, number | import('./complex.js').Complex>} [scope]
- * @returns {{ value: import('./complex.js').Complex, display: string, isReal: boolean }}
+ * @param {Record<string, number | import('./complex.js').Complex | number[][]>} [scope]
+ * @returns {{ value: import('./complex.js').Complex | number[][], display: string, isReal: boolean, isMatrix: boolean }}
  */
 export function compute(expression, scope = {}) {
     return Parser.compute(expression, scope);
