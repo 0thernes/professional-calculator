@@ -81,6 +81,20 @@ describe('parser — combinatorics functions', () => {
     });
 });
 
+describe('parser — bit-manipulation functions', () => {
+    test('popcount(255) = 8', () => near(R('popcount(255)'), 8));
+    test('bitlength(256) = 9', () => near(R('bitlength(256)'), 9));
+    test('gray(4) = 6', () => near(R('gray(4)'), 6));
+    test('igray(6) = 4 (inverts gray)', () => near(R('igray(6)'), 4));
+    test('hamming(10, 6) = 2', () => near(R('hamming(10,6)'), 2));
+    test('composes with arithmetic: popcount(7) + bitlength(8) = 7', () =>
+        near(R('popcount(7) + bitlength(8)'), 7));
+    test('wrong arg count throws', () => {
+        expect(() => R('popcount(1,2)')).toThrow();
+        expect(() => R('hamming(5)')).toThrow();
+    });
+});
+
 describe('parser — factorial', () => {
     test('5! = 120', () => near(R('5!'), 120));
     test('0! = 1', () => near(R('0!'), 1));

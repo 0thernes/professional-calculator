@@ -6,6 +6,19 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.23.0] — Bit functions in the REPL
+
+### Added
+- **REPL grammar**: the `bits.js` scalar helpers are now callable from the
+  expression engine — `popcount(n)`, `bitlength(n)`, `gray(n)` (Gray encode),
+  `igray(n)` (Gray decode), `hamming(a, b)` — dispatched through `parser.js`
+  (same path as the combinatorics functions). They compose with arithmetic,
+  e.g. `popcount(7) + bitlength(8) = 7`.
+- Version → 3.23.0.
+- 7 new parser tests (1073 total / 36 suites): `popcount(255)=8`,
+  `bitlength(256)=9`, `gray(4)=6`, `igray(6)=4`, `hamming(10,6)=2`, an
+  arithmetic-composition case, and arg-count guards. README quick-start updated.
+
 ## [3.22.0] — Expanded unit catalogue
 
 ### Added
