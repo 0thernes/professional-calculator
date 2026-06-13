@@ -149,6 +149,49 @@ All operations are O(1) — the dimension vector is fixed length 7.
 | `irr` | O(n · k) | Newton (k iters), each NPV is O(n); bisection fallback O(n · log(1/ε)) |
 | `amortization` | O(n) | builds the n-row schedule |
 | `blackScholes` | O(1) | closed form |
+| `greeks` | O(1) | closed form |
+| `binomialOption` (steps `s`) | O(s²) | CRR tree; O(s) space (single rolling layer) |
+| `monteCarloOption` (paths `m`) | O(m) | one GBM draw per path |
+
+---
+
+## Quantum computing (`quantum.js`)
+
+`n` = qubit count; state vectors have length 2ⁿ (exact dense simulation).
+
+| Operation | Time | Notes |
+|---|---|---|
+| `basisState` / `probabilities` | O(2ⁿ) | allocate / scan the state vector |
+| `applyGate` (1-qubit) | O(2ⁿ) | touches each amplitude once |
+| `applyControlled` / `cnot` / `cz` | O(2ⁿ) | conditional subspace update |
+| `toffoli` | O(2ⁿ) | |
+| `tensor(a, b)` | O(\|a\|·\|b\|) | Kronecker product |
+| `measureQubit` | O(2ⁿ) | marginal + collapse + renormalize |
+| `blochVector` | O(1) | single-qubit only |
+
+State-vector simulation is inherently O(2ⁿ) in memory and per-gate time —
+the expected exponential cost; practical to ~12–16 qubits in a browser tab.
+
+## Physics (`physics.js`)
+
+Every relation is a closed-form scalar formula → **O(1)**.
+
+## Visualization (`plot.js`)
+
+| Operation | Time | Notes |
+|---|---|---|
+| `linspace` / `sampleFunction` / `sampleParametric` | O(n) | n samples |
+| `rotate3D` / `project3Dto2D` / `rotate4D` / `project4Dto3D` | O(1) | per point |
+| `surfaceGrid` | O(nx·ny) | mesh evaluation |
+| `tesseractVertices` / `tesseractEdges` / `renderTesseract` | O(1) | fixed 16 vertices / 32 edges |
+
+## STEM Lab (`stem.js`)
+
+| Operation | Time | Notes |
+|---|---|---|
+| `mapToViewport` / `polyline` | O(n) | n points |
+| page `render(t)` | O(n) | n = samples/vertices for that page |
+| `next` / `prev` / `goto` | O(1) + one render | wrap-around via modulo |
 
 ---
 

@@ -50,6 +50,14 @@ In Progress → Review → Done**. Items are sized S / M / L.
 
 - _(none — engine milestone complete)_
 
+### Epic: STEM suite (v3.0.0)
+- ✅ **Quantum computing simulator** (L) — state vectors, gates, circuits, measurement, Bloch
+- ✅ **Physics & cosmology engine** (M) — quantum/atomic, relativity, cosmology
+- ✅ **Quant finance extensions** (M) — Greeks, CRR binomial tree, seeded Monte Carlo
+- ✅ **Visualization layer** (M) — 2D/3D/parametric/surface + 4D tesseract generators
+- ✅ **STEM Lab paged UI** (M) — 8 cyclable live-SVG visualizations
+- ✅ **ESLint config** (S) — flat config wired into CI
+
 ---
 
 ## 📋 Ready (next up)
@@ -57,7 +65,7 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ⬜ **Matrix expressions in the REPL** (M) — parse `[[1,2],[3,4]]` literals and
   expose `det`, `inv`, `eig` as first-class functions in the parser
 - ⬜ **Unit-aware expressions** (M) — `3 kg * 9.8 m/s^2` in the REPL grammar
-- ⬜ **Plotting panel** (L) — function/​data plots on a canvas
+- ⬜ **Quantum circuit builder** (M) — interactive gate-placement UI feeding `runCircuit`
 
 ---
 
@@ -67,18 +75,19 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ⬜ Symbolic differentiation (CAS-lite) (L)
 - ⬜ Francis double-shift QR for adversarial non-normal eigenproblems (M)
 - ⬜ Sparse matrix storage + iterative solvers (CG, GMRES) (L)
-- ⬜ Web Worker offload for large matrices (M)
+- ⬜ Web Worker offload for large matrices / many-qubit sims (M)
 - ⬜ Session persistence (localStorage) for REPL history (S)
-- ⬜ Export REPL transcript to Markdown/LaTeX (S)
-- ⬜ ESLint + Prettier config (S)
+- ⬜ Export REPL transcript / plots to Markdown/LaTeX/SVG (S)
+- ⬜ Prettier autoformatting (S)
+- ⬜ Playwright e2e + axe-core accessibility tests (M)
 
 ---
 
-## Flow metrics (this delivery)
+## Flow metrics (cumulative)
 
 | Metric | Value |
 |---|---|
-| Epics delivered | 4 (core, applied, product, quality) |
-| Modules shipped | 11 source + 6 docs |
-| Tests | 403 (100% pass) |
+| Epics delivered | 5 (core, applied, product, quality, STEM suite) |
+| Modules shipped | 16 source + 6 docs |
+| Tests | 543 (100% pass) |
 | Cycle: idea → tested module | continuous (test-anchored each step) |
