@@ -6,6 +6,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.24.0] — Cubic-spline visualization in the STEM Lab
+
+### Added
+- **STEM Lab**: a new **Cubic Spline** page (`stem.js`) surfacing
+  `interpolate.js` — a natural cubic spline drawn smoothly through a fixed set
+  of scattered data points (shown as dots). The STEM Lab now cycles through
+  **11** pages.
+- Version → 3.24.0.
+- 2 new tests (1075 total / 36 suites): the page renders a static SVG with a
+  `<polyline>` curve and `<circle>` data points, plus a functional anchor that
+  the spline passes through its data nodes. README/AUDIT/KANBAN page counts 10→11.
+
 ## [3.23.0] — Bit functions in the REPL
 
 ### Added

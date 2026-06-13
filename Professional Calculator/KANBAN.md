@@ -55,7 +55,7 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ✅ **Physics & cosmology engine** (M) — quantum/atomic, relativity, cosmology
 - ✅ **Quant finance extensions** (M) — Greeks, CRR binomial tree, seeded Monte Carlo
 - ✅ **Visualization layer** (M) — 2D/3D/parametric/surface + 4D tesseract generators
-- ✅ **STEM Lab paged UI** (M) — 10 cyclable live-SVG visualizations
+- ✅ **STEM Lab paged UI** (M) — 11 cyclable live-SVG visualizations
 - ✅ **ESLint config** (S) — flat config wired into CI
 
 ### Epic: CAS & advanced grammar (v3.1–3.4)
@@ -113,6 +113,6 @@ In Progress → Review → Done**. Items are sized S / M / L.
 |---|---|
 | Epics delivered | 7 (core, applied, product, quality, STEM suite, CAS & grammar, numerical-library expansion) |
 | Modules shipped | 29 math + 6 app + 8 docs |
-| Tests | 1073 across 36 suites (100% pass) |
-| Releases | v1.0 → v3.23.0, merged via PRs #1–#33 |
+| Tests | 1075 across 36 suites (100% pass) |
+| Releases | v1.0 → v3.24.0, merged via PRs #1–#34 |
 | Cycle: idea → tested module | continuous (test-anchored each step) |

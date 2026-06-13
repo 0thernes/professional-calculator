@@ -20,7 +20,12 @@ import * as Q from './math/quantum.js';
 import * as Phys from './math/physics.js';
 import * as Sig from './math/signal.js';
 import * as Graph from './math/graph.js';
+import * as Interp from './math/interpolate.js';
 import { blackScholes } from './math/finance.js';
+
+/** Fixed scattered data for the spline demo (x strictly increasing). */
+const SPLINE_XS = [0, 1, 2, 3, 4, 5];
+const SPLINE_YS = [0, 2, 1, 3, 1, 4];
 
 /**
  * Fixed weighted graph for the MST demo (the classic Prim/Kruskal example):
@@ -306,6 +311,24 @@ function drawGraphMST() {
     return svg(`${label}${edgeSvg}${nodeSvg}`);
 }
 
+/** @returns {string} */
+function drawSpline() {
+    // Natural cubic spline through fixed scattered points.
+    const s = Interp.cubicSpline(SPLINE_XS, SPLINE_YS);
+    const xs = Plot.linspace(SPLINE_XS[0], SPLINE_XS[SPLINE_XS.length - 1], 160);
+    const curveRaw = xs.map((x) => ({ x, y: s(x) }));
+    const ptsRaw = SPLINE_XS.map((x, i) => ({ x, y: SPLINE_YS[i] }));
+    const bnd = { minX: 0, maxX: 5, minY: -0.5, maxY: 4.5 };
+    const curve = mapToViewport(curveRaw, { bounds: bnd });
+    const pts = mapToViewport(ptsRaw, { bounds: bnd });
+    const dots = pts.map((p) =>
+        `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="4" fill="${ACCENT}"/>`).join('');
+    return svg(`
+        <polyline points="${polyline(curve)}" fill="none" stroke="${ACCENT2}" stroke-width="2"/>
+        ${dots}
+        <text x="${PAD}" y="${PAD}" fill="${ACCENT2}" font-size="11">Natural cubic spline through ${SPLINE_XS.length} points</text>`);
+}
+
 /* ------------------------------------------------------------------ *
  *  Page registry
  * ------------------------------------------------------------------ */
@@ -330,6 +353,7 @@ export const PAGES = [
     { id: 'spectrum',  title: 'Hydrogen Spectrum',  caption: 'Balmer series (n→2)',            animated: false, render: drawSpectrum },
     { id: 'fft',       title: 'FFT Spectrum',       caption: '|FFT| of sin(3)+½·sin(7)',       animated: false, render: drawFFT },
     { id: 'graph',     title: 'Spanning Tree',      caption: 'Kruskal MST of a weighted graph', animated: false, render: drawGraphMST },
+    { id: 'spline',    title: 'Cubic Spline',       caption: 'natural spline through points',   animated: false, render: drawSpline },
     { id: 'payoff',    title: 'Option Pricing',     caption: 'Black–Scholes call vs payoff',   animated: false, render: drawPayoff },
 ];
 
