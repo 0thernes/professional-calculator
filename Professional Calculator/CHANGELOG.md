@@ -6,6 +6,24 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.11.0] — Combinatorics
+
+### Added
+- **`math/combinatorics.js`** — the classic counting sequences, computed with
+  **BigInt** internally for exactness (Number wrapper + exact `…Big` variant,
+  matching `numtheory.js`):
+  - `catalan`, `bell`, `stirlingSecond`, `stirlingFirst` (unsigned),
+    `partitions` (integer partition function), `derangements`, `multinomial`,
+    `combinationsWithRepetition` (multichoose), and `factorialBig`.
+  - Exposed on the facade as `Combinatorics`; capability manifest row added.
+- Version → 3.11.0.
+- 32 new tests (877 total / 28 suites), closed-form anchored: Catalan
+  1,1,2,5,14,42,132; Bell 1,1,2,5,15,52,203; `S(4,2)=7`, `S(5,3)=25`;
+  `c(4,2)=11` with Σₖ c(n,k)=n!; partitions 1,1,2,3,5,7,11 and `p(10)=42`;
+  derangements 1,0,1,2,9,44,265; `multinomial([2,2,2])=90`;
+  `multichoose(5,3)=35`; plus BigInt-exact spot checks (`25!`, `C(20)`,
+  `B(15)`, `p(100)=190569292`, `D(20)`) and the Σₖ S(n,k)=Bell(n) identity.
+
 ## [3.10.0] — Vector geometry
 
 ### Added
