@@ -6,6 +6,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.17.0] — Graph algorithms
+
+### Added
+- **`math/graph.js`** — classic graph algorithms on vertices `0…n−1`:
+  - `bfs` / `dfs` (adjacency list → order, distances, parent tree)
+  - `dijkstra` (non-negative weights, O(V²)) + `shortestPath` reconstruction
+  - `connectedComponents` and `mst` (Kruskal) via union–find
+  - `topologicalSort` (Kahn; throws on a cycle)
+  - Exposed on the facade as `Graph`; capability manifest row added.
+- Version → 3.17.0.
+- 19 new tests (990 total / 33 suites), closed-form anchored: BFS distances
+  `[0,1,1,2]` on a square + Infinity for unreachable; Dijkstra distances
+  `[0,3,1,4]` and `shortestPath 0→3 = [0,2,1,3]` (dist 4); negative-weight guard;
+  component partition `[[0,1,2],[3,4]]`; topological order respecting all edges
+  with a cycle throwing; Kruskal MST weight = 6 on a known graph (n−1 edges).
+
 ### Changed
 - **Docs accuracy sweep**: synced `docs/ARCHITECTURE.md` (both Mermaid graphs +
   the dependency prose now include numtheory/signal/interpolate/optimize/
