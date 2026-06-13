@@ -6,7 +6,7 @@
 
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
-[![tests](https://img.shields.io/badge/tests-1013%20passing-brightgreen)](#testing)
+[![tests](https://img.shields.io/badge/tests-1034%20passing-brightgreen)](#testing)
 [![coverage](https://img.shields.io/badge/coverage-96%25%20stmts%20%2F%2083%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
@@ -43,7 +43,7 @@ Most "calculator" projects stop at four functions and a grid of buttons. This on
 
 Two things make it trustworthy rather than merely impressive:
 
-- **Every algorithm is anchored to a closed-form check in the test suite.** Not "looks plausible" — `det(AB) = det(A)·det(B)`, eigenvalues of a rotation matrix come back `±i`, `∫₀^π sin x dx = 2`, `Φ(1.96) = 0.975`, Black–Scholes obeys put–call parity. 1013 tests, all green.
+- **Every algorithm is anchored to a closed-form check in the test suite.** Not "looks plausible" — `det(AB) = det(A)·det(B)`, eigenvalues of a rotation matrix come back `±i`, `∫₀^π sin x dx = 2`, `Φ(1.96) = 0.975`, Black–Scholes obeys put–call parity. 1034 tests, all green.
 - **It is honest about what it is.** It is a single-thread, double-precision, dense-matrix engine in JavaScript. It does not replace LAPACK/BLAS or MATLAB for large-scale or distributed work — see [Scope & limitations](#scope-honesty--limitations). Within its envelope (interactive, up to a few hundred dimensions) it is fast, correct, and dependency-free.
 
 ## Feature matrix
@@ -76,6 +76,7 @@ Two things make it trustworthy rather than merely impressive:
 | **Random & sampling** | seeded RNG (mulberry32), uniform/int, normal, exponential, Poisson, Bernoulli, choice/shuffle/sample | [`random.js`](math/random.js) |
 | **Graphs** | BFS, DFS, Dijkstra + shortest path, connected components, topological sort, MST (Kruskal) | [`graph.js`](math/graph.js) |
 | **Sets** | union, intersection, difference, subset/superset/disjoint, set equality, Jaccard, power set, Cartesian product | [`sets.js`](math/sets.js) |
+| **Bits & bases** | base 2–36 conversion, bin/oct/hex, popcount, Hamming distance, power-of-two, bit length, Gray code | [`bits.js`](math/bits.js) |
 | **Symbolic (CAS)** | `diff(expr, x)` + `integrate(expr, x)` — chain/power rules, antiderivatives, simplify, re-parseable | [`symbolic.js`](math/symbolic.js) |
 
 ## Quick start
@@ -85,7 +86,7 @@ ES modules require HTTP (not `file://`):
 ```bash
 npm install         # dev deps only (jest, typescript) — zero runtime deps
 npm run serve       # static server → open the printed URL
-npm test            # 1013 tests
+npm test            # 1034 tests
 npm run typecheck   # tsc --noEmit (strict)
 npm run bench       # throughput + empirical O(n³) scaling
 ```
@@ -202,7 +203,7 @@ The O(n³) kernels (mul, det, eig) scale as documented — ~8× latency per dime
 ## Testing
 
 ```
-34 test suites · 1013 tests · 100% pass
+35 test suites · 1034 tests · 100% pass
 coverage (full engine — math + controllers + REPL):
   95.96% statements · 95.96% lines · 93.48% functions · 83.15% branches
   gates: 90% lines/stmts · 85% functions · 80% branches

@@ -33,16 +33,17 @@ import * as Coordinates from './coordinates.js';
 import * as Random from './random.js';
 import * as Graph from './graph.js';
 import * as Sets from './sets.js';
+import * as Bits from './bits.js';
 
 export {
     Complex, Rational, Special, Constants, Parser, Matrix, Calculus, Stats,
     Units, Finance, Quantum, Physics, Plot, Symbolic, Circuit, NumberTheory,
     Signal, Interpolate, Optimize, Geometry, Combinatorics, Decomposition,
-    Coordinates, Random, Graph, Sets,
+    Coordinates, Random, Graph, Sets, Bits,
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.19.0';
+export const VERSION = '3.20.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine
@@ -74,6 +75,7 @@ export const CAPABILITIES = Object.freeze([
     { domain: 'Random/sampling', functions: ['seeded RNG', 'uniform/int', 'normal', 'exponential', 'Poisson', 'Bernoulli', 'choice/shuffle/sample'] },
     { domain: 'Graphs', functions: ['BFS', 'DFS', 'Dijkstra', 'shortest path', 'connected components', 'topological sort', 'MST (Kruskal)'] },
     { domain: 'Sets', functions: ['union', 'intersection', 'difference', 'subset/superset', 'Jaccard', 'power set', 'Cartesian product'] },
+    { domain: 'Bits & bases', functions: ['base 2–36 convert', 'bin/oct/hex', 'popcount', 'Hamming distance', 'power-of-two', 'bit length', 'Gray code'] },
 ]);
 
 /**

@@ -6,6 +6,23 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.20.0] — Base conversion & bit manipulation
+
+### Added
+- **`math/bits.js`** — radix conversion and bit-twiddling on non-negative
+  integers (BigInt-exact internally):
+  - `toBase`/`fromBase`/`fromBaseBig` (any base 2–36) + `toBinary`/`toOctal`/`toHex`
+  - `popcount`, `hammingDistance`, `isPowerOfTwo`, `bitLength`
+  - `grayEncode`/`grayDecode` (reflected Gray code)
+  - Exposed on the facade as `Bits`; capability manifest row added.
+- Version → 3.20.0.
+- 21 new tests (1034 total / 35 suites), closed-form anchored: `toBase(255,16)='ff'`,
+  `toBase(10,2)='1010'`; round-trips across many values/bases (incl. a BigInt
+  value beyond 2⁵³); `popcount(255)=8`; `hammingDistance(10,6)=2`;
+  power-of-two and `bitLength` checks; `grayEncode(0..7)=[0,1,3,2,6,7,5,4]`,
+  decode∘encode = identity, and consecutive Gray codes differing by one bit;
+  base-range / invalid-digit / negative-input guards.
+
 ## [3.19.0] — Set & relation utilities
 
 ### Added
