@@ -6,6 +6,17 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- **Property-based tests** (`tests/math/properties.test.js`): a seeded-`Rng`
+  suite that draws many random inputs per test and asserts mathematical
+  invariants across modules — triangle inequality, Cauchy–Schwarz, cross-product
+  orthogonality, rotation length-preservation, `ifft(fft(x)) ≈ x` (radix-2 &
+  Bluestein), Parseval, `polyfit` round-trip, `det(AB) = det(A)·det(B)`,
+  `A·solve(A,b) = b`, SVD reconstruction, the Moore–Penrose identity, Cholesky
+  of `MMᵀ+nI`, `Σ Stirling2 = Bell`, `Σ Stirling1 = n!`, `Σ C(n,k) = 2ⁿ`,
+  `a·a⁻¹ ≡ 1 (mod p)`, and coordinate round-trips. Fully reproducible (fixed
+  seeds). 971 tests / 32 suites. Test-only — no library change.
+
 ## [3.16.0] — Seeded random & sampling
 
 ### Added
