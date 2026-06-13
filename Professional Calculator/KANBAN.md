@@ -58,21 +58,26 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ✅ **STEM Lab paged UI** (M) — 8 cyclable live-SVG visualizations
 - ✅ **ESLint config** (S) — flat config wired into CI
 
+### Epic: CAS & advanced grammar (v3.1–3.4)
+- ✅ **Symbolic differentiation** (L) — full rules + derivative table, re-parseable
+- ✅ **Round-trippable Unicode operators** (S) — `× · ÷ −` accepted as input
+- ✅ **Matrix/vector literals in the grammar** (L) — `[[..]]`, det/inv/solve/eig in the REPL
+- ✅ **Symbolic integration** (L) — power rule, antiderivative table, linear substitution
+- ✅ **Quantum circuit builder** (M) — fluent `QuantumCircuit` over the simulator
+
 ---
 
 ## 📋 Ready (next up)
 
-- ⬜ **Matrix expressions in the REPL** (M) — parse `[[1,2],[3,4]]` literals and
-  expose `det`, `inv`, `eig` as first-class functions in the parser
 - ⬜ **Unit-aware expressions** (M) — `3 kg * 9.8 m/s^2` in the REPL grammar
-- ⬜ **Quantum circuit builder** (M) — interactive gate-placement UI feeding `runCircuit`
+- ⬜ **Interactive circuit UI** (M) — drag/place gates onto the QuantumCircuit model
+- ⬜ **Symbolic simplification++** (M) — collect like terms, trig identities
 
 ---
 
 ## 🧊 Backlog
 
 - ⬜ Arbitrary-precision floats (decimal.js-style) behind a flag (L)
-- ⬜ Symbolic differentiation (CAS-lite) (L)
 - ⬜ Francis double-shift QR for adversarial non-normal eigenproblems (M)
 - ⬜ Sparse matrix storage + iterative solvers (CG, GMRES) (L)
 - ⬜ Web Worker offload for large matrices / many-qubit sims (M)
@@ -87,7 +92,8 @@ In Progress → Review → Done**. Items are sized S / M / L.
 
 | Metric | Value |
 |---|---|
-| Epics delivered | 5 (core, applied, product, quality, STEM suite) |
-| Modules shipped | 16 source + 6 docs |
-| Tests | 543 (100% pass) |
+| Epics delivered | 6 (core, applied, product, quality, STEM suite, CAS & grammar) |
+| Modules shipped | 16 math + 6 app + 8 docs |
+| Tests | 680 across 21 suites (100% pass) |
+| Releases | v1.0 → v3.4.0, merged via PRs #1–#9 |
 | Cycle: idea → tested module | continuous (test-anchored each step) |

@@ -36,6 +36,7 @@ flowchart TB
         VIEW["view.js"]
         STATE["state.js"]
         HISTORY["history.js"]
+        STEM["stem.js (STEM Lab)"]
     end
     subgraph FACADE["Engine facade"]
         INDEX["math/index.js"]
@@ -46,6 +47,11 @@ flowchart TB
         STATS["stats.js"]
         UNITS["units.js"]
         FIN["finance.js"]
+        QUANTUM["quantum.js"]
+        CIRCUIT["circuit.js"]
+        PHYSICS["physics.js"]
+        PLOT["plot.js"]
+        SYMBOLIC["symbolic.js"]
     end
     subgraph CORE["Core math"]
         COMPLEX["complex.js"]
@@ -59,10 +65,12 @@ flowchart TB
     CSS -.-> HTML
     MAIN --> CONTROLLER
     MAIN --> REPL
+    MAIN --> STEM
     CONTROLLER --> VIEW
     CONTROLLER --> STATE
     CONTROLLER --> HISTORY
     REPL --> PARSER
+    REPL --> SYMBOLIC
     MAIN --> INDEX
     INDEX --> APPLIED
     INDEX --> CORE
@@ -70,9 +78,16 @@ flowchart TB
     PARSER --> COMPLEX
     PARSER --> SPECIAL
     PARSER --> CONST
+    PARSER --> MATRIX
     STATS --> SPECIAL
     FIN --> STATS
     MATRIX --> COMPLEX
+    QUANTUM --> COMPLEX
+    CIRCUIT --> QUANTUM
+    PHYSICS --> CONST
+    SYMBOLIC --> PARSER
+    STEM --> PLOT
+    STEM --> QUANTUM
 ```
 
 **Dependency rule:** edges only point downward. Core math depends on nothing in
@@ -89,9 +104,14 @@ flowchart LR
     parser --> complex
     parser --> special
     parser --> constants
+    parser --> matrix
     matrix --> complex
     stats --> special
     finance --> stats
+    quantum --> complex
+    circuit --> quantum
+    physics --> constants
+    symbolic --> parser
     calculus -.-> |callbacks only| none[" "]
     rational --> none2[" "]
     style none fill:transparent,stroke:transparent
@@ -99,6 +119,10 @@ flowchart LR
 ```
 
 - `complex`, `rational`, `constants` are **leaves** (no internal deps).
+- `quantum` builds on `complex`; `circuit` is a fluent builder over `quantum`.
+- `physics` reads `constants`; `symbolic` walks the `parser` AST; `plot` is
+  dependency-free pure geometry.
+- `parser` now also depends on `matrix` for the matrix/vector literal grammar.
 - `special` is a leaf used by `stats`, `finance`, and `parser`.
 - `calculus` takes plain `(x:number)=>number` callbacks, so it is decoupled from
   every other module — anything that produces a function can drive it.
