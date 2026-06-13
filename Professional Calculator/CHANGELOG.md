@@ -6,6 +6,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.18.0] — MST visualization in the STEM Lab
+
+### Added
+- **STEM Lab**: a new **Spanning Tree** page (`stem.js`) surfacing `graph.js` —
+  a fixed 6-vertex / 9-edge weighted graph laid out on a hexagon, with its
+  Kruskal minimum spanning tree (weight 33) highlighted. The STEM Lab now
+  cycles through **10** pages.
+- Version → 3.18.0.
+- 2 new tests (992 total / 33 suites): the page renders a static SVG with nodes
+  (`<circle>`) and edges (`<line>`), and a functional anchor that the demo
+  graph's MST has weight 33 over 5 edges. README/AUDIT/KANBAN page counts 9→10.
+
 ## [3.17.0] — Graph algorithms
 
 ### Added

@@ -19,7 +19,20 @@ import * as Plot from './math/plot.js';
 import * as Q from './math/quantum.js';
 import * as Phys from './math/physics.js';
 import * as Sig from './math/signal.js';
+import * as Graph from './math/graph.js';
 import { blackScholes } from './math/finance.js';
+
+/**
+ * Fixed weighted graph for the MST demo (the classic Prim/Kruskal example):
+ * 6 vertices, 9 edges; its minimum spanning tree has total weight 33.
+ * @type {Array<{ u: number, v: number, w: number }>}
+ */
+const GRAPH_EDGES = [
+    { u: 0, v: 1, w: 7 }, { u: 0, v: 2, w: 9 }, { u: 0, v: 5, w: 14 },
+    { u: 1, v: 2, w: 10 }, { u: 1, v: 3, w: 15 }, { u: 2, v: 3, w: 11 },
+    { u: 2, v: 5, w: 2 }, { u: 3, v: 4, w: 6 }, { u: 4, v: 5, w: 9 },
+];
+const GRAPH_N = 6;
 
 /** Sample count for the FFT demo signal — a power of two for the radix-2 path. */
 const FFT_N = 64;
@@ -265,6 +278,34 @@ function drawFFT() {
     return svg(`<rect x="${PAD}" y="${PAD}" width="${innerW}" height="${maxH}" fill="rgba(0,0,0,0.3)"/>${bars}${axis}`);
 }
 
+/** @returns {string} */
+function drawGraphMST() {
+    // Lay the 6 vertices out on a hexagon and highlight the Kruskal MST.
+    const cx = VIEW / 2;
+    const cy = VIEW / 2;
+    const R = (VIEW - 2 * PAD) / 2 - 10;
+    const pos = Array.from({ length: GRAPH_N }, (_, i) => {
+        const a = (2 * Math.PI * i) / GRAPH_N - Math.PI / 2;
+        return { x: cx + R * Math.cos(a), y: cy + R * Math.sin(a) };
+    });
+    const tree = Graph.mst(GRAPH_N, GRAPH_EDGES);
+    const inMST = new Set(tree.edges.map((e) => `${e.u}-${e.v}`));
+    const edgeSvg = GRAPH_EDGES.map((e) => {
+        const a = pos[e.u];
+        const b = pos[e.v];
+        const hot = inMST.has(`${e.u}-${e.v}`);
+        const mx = (a.x + b.x) / 2;
+        const my = (a.y + b.y) / 2;
+        return `<line x1="${a.x.toFixed(1)}" y1="${a.y.toFixed(1)}" x2="${b.x.toFixed(1)}" y2="${b.y.toFixed(1)}" stroke="${hot ? ACCENT2 : GRID}" stroke-width="${hot ? 3 : 1.5}"/>
+                <text x="${mx.toFixed(1)}" y="${my.toFixed(1)}" fill="${hot ? ACCENT2 : FG}" font-size="9" opacity="${hot ? 1 : 0.5}" text-anchor="middle">${e.w}</text>`;
+    }).join('');
+    const nodeSvg = pos.map((p, i) =>
+        `<circle cx="${p.x.toFixed(1)}" cy="${p.y.toFixed(1)}" r="12" fill="#1a2230" stroke="${ACCENT}" stroke-width="2"/>
+         <text x="${p.x.toFixed(1)}" y="${(p.y + 4).toFixed(1)}" fill="${FG}" font-size="11" text-anchor="middle">${i}</text>`).join('');
+    const label = `<text x="${PAD}" y="${PAD}" fill="${ACCENT2}" font-size="11">Minimum spanning tree — weight ${tree.weight} (Kruskal)</text>`;
+    return svg(`${label}${edgeSvg}${nodeSvg}`);
+}
+
 /* ------------------------------------------------------------------ *
  *  Page registry
  * ------------------------------------------------------------------ */
@@ -288,6 +329,7 @@ export const PAGES = [
     { id: 'circuit',   title: 'Quantum Circuit',    caption: 'Bell state |Φ+⟩ probabilities',  animated: false, render: drawCircuit },
     { id: 'spectrum',  title: 'Hydrogen Spectrum',  caption: 'Balmer series (n→2)',            animated: false, render: drawSpectrum },
     { id: 'fft',       title: 'FFT Spectrum',       caption: '|FFT| of sin(3)+½·sin(7)',       animated: false, render: drawFFT },
+    { id: 'graph',     title: 'Spanning Tree',      caption: 'Kruskal MST of a weighted graph', animated: false, render: drawGraphMST },
     { id: 'payoff',    title: 'Option Pricing',     caption: 'Black–Scholes call vs payoff',   animated: false, render: drawPayoff },
 ];
 

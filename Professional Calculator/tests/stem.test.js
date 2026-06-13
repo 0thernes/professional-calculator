@@ -67,6 +67,29 @@ describe('stem — page registry', () => {
     });
 });
 
+describe('stem — MST graph page', () => {
+    test('graph page exists and renders an SVG with nodes & edges', () => {
+        const g = /** @type {(typeof PAGES)[number]} */ (PAGES.find((p) => p.id === 'graph'));
+        expect(g).toBeTruthy();
+        const out = g.render(0);
+        expect(out.startsWith('<svg')).toBe(true);
+        expect(out).toContain('<circle');
+        expect(out).toContain('<line');
+        expect(g.render(0)).toBe(g.render(5)); // static
+    });
+    test('the demo graph MST has weight 33 over 5 edges', async () => {
+        const Graph = await import('../math/graph.js');
+        const edges = [
+            { u: 0, v: 1, w: 7 }, { u: 0, v: 2, w: 9 }, { u: 0, v: 5, w: 14 },
+            { u: 1, v: 2, w: 10 }, { u: 1, v: 3, w: 15 }, { u: 2, v: 3, w: 11 },
+            { u: 2, v: 5, w: 2 }, { u: 3, v: 4, w: 6 }, { u: 4, v: 5, w: 9 },
+        ];
+        const tree = Graph.mst(6, edges);
+        expect(tree.weight).toBe(33);
+        expect(tree.edges.length).toBe(5);
+    });
+});
+
 describe('stem — FFT page is functionally correct', () => {
     test('magnitude spectrum of sin(3)+½sin(7) peaks at bins 3 and 7', async () => {
         const Sig = await import('../math/signal.js');

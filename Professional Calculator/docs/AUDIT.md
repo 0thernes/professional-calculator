@@ -870,7 +870,7 @@ the coverage gate (90% stmts/lines, 85% funcs, 80% branches):
 | Physics / relativity / cosmology | `physics.js` | −13.6 eV, γ(0.8c)=5/3, Schwarzschild |
 | Option Greeks, binomial tree, Monte Carlo | `finance.js` | Greeks↔finite-diff, binomial↔BS |
 | Visualization generators (2D/3D/4D) | `plot.js` | rotation norm-preserving, 16v/32e tesseract |
-| STEM Lab paged visualizer | `stem.js` | 9 pages, wrap-around nav (incl. FFT spectrum) |
+| STEM Lab paged visualizer | `stem.js` | 10 pages, wrap-around nav (incl. FFT spectrum, MST) |
 | Symbolic differentiation **and integration** | `symbolic.js` | numeric cross-check vs finite-difference; fundamental theorem |
 | Matrix/vector literals + scalar fns in the grammar | `parser.js` | det/inv/solve/eig + catalan/isprime through the REPL |
 | Number theory (Miller–Rabin, modular) | `numtheory.js` | Mersenne prime, RSA modular inverse, factorization |
