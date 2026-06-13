@@ -6,6 +6,27 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.7.0] — Signal processing (DFT/FFT)
+
+### Added
+- **`math/signal.js`** — a new zero-dependency signal-processing module:
+  - Forward/inverse DFT (`dft`/`idft`, exact O(N²) reference).
+  - Fast `fft`/`ifft` for **any length**: iterative radix-2 Cooley–Tukey for
+    power-of-two inputs, Bluestein chirp-z fallback otherwise (both O(N log N)).
+  - `rfft` (real-input half-spectrum), `magnitude`, `phase`, `powerSpectrum`.
+  - `convolve` and `crossCorrelate`/`autocorrelate` via the convolution theorem.
+  - Analysis windows `hann`/`hamming`/`blackman` + `applyWindow`.
+  - `frequencies` (NumPy-`fftfreq`-style bin → frequency mapping) and `nextPow2`.
+  - Exposed on the facade as `Signal`; capability manifest row added.
+- Version → 3.7.0.
+- 30 new tests (777 total / 24 suites), anchored on closed-form transform pairs:
+  impulse → flat spectrum, constant → single DC bin (= N), the 4-point DFT of
+  [1,2,3,4] = [10, −2+2i, −2, −2−2i], `ifft(fft(x)) == x` (power-of-two and
+  prime lengths), FFT == naive DFT for radix-2/Bluestein, linearity, Parseval's
+  energy theorem, convolution `[1,2,3]∗[0,1,½] = [0,1,2.5,4,1.5]`, autocorrelation
+  peak = signal energy, window endpoints/symmetry, and `fftfreq(8)`/`fftfreq(5)`
+  layouts. (Also refreshed two stale "661 tests" mentions in the README prose.)
+
 ## [3.6.0] — Inferential statistics (hypothesis tests)
 
 ### Added
