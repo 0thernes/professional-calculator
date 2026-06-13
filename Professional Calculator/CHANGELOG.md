@@ -6,6 +6,29 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.12.0] — Matrix decompositions (SVD, Cholesky, pseudoinverse)
+
+### Added
+- **`math/decomposition.js`** — the factorizations that underpin least-squares,
+  PCA, and low-rank work (complementing the LU/QR/eigen already in `matrix.js`):
+  - `cholesky` — `A = L·Lᵀ` for symmetric positive-definite `A` (throws if not
+    square / symmetric / positive-definite).
+  - `svd` — the singular value decomposition `A = U·diag(S)·Vᵀ` by the
+    one-sided (Hestenes) Jacobi method, for any shape (m<n handled by
+    transposing); `S` descending, `U`/`V` with orthonormal columns.
+  - `singularValues`, `conditionNumber` (σ_max/σ_min, ∞ when singular).
+  - `pseudoInverse` — Moore–Penrose `A⁺` via the SVD (tolerance on σ).
+  - `lstsq` — minimum-norm least-squares solution `x = A⁺·b`.
+  - Exposed on the facade as `Decomposition`; capability manifest row added.
+- Version → 3.12.0.
+- 23 new tests (900 total / 29 suites), closed-form anchored: Cholesky of
+  `[[4,2],[2,3]] = [[2,0],[1,√2]]` with `L·Lᵀ` reconstruction; SVD singular
+  values of a diagonal = |diag| sorted descending; `U·Σ·Vᵀ` reconstruction for
+  square/tall/wide matrices; orthonormal `U`/`V` columns; `cond(I)=1`,
+  `cond(diag(1,100))=100`, singular → ∞; pseudoinverse = true inverse when
+  invertible and the Moore–Penrose identity `A·A⁺·A = A`; least-squares exact
+  fit of collinear points → intercept 0, slope 1.
+
 ## [3.11.0] — Combinatorics
 
 ### Added
