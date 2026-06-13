@@ -6,6 +6,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.22.0] — Expanded unit catalogue
+
+### Added
+- **`math/units.js`**: ~30 more units, making `convert` and the new
+  `unitexpr` evaluator far more useful —
+  - length `um`, `nm`, `yd`; mass `mg`, `oz`, `tonne`; time `ms`, `us`, `ns`,
+    `week`, `yr` (Julian, 365.25 d); volume `L`, `mL`;
+  - speed `mph`, `knot`; force `kN`; energy `kJ`, `eV`, `cal`, `kcal`, `kWh`;
+    power `kW`, `MW`; pressure `kPa`, `bar`, `atm`; frequency `kHz`, `MHz`, `GHz`.
+- Version → 3.22.0.
+- 10 new tests (1066 total / 36 suites), closed-form anchored: `1 yd = 36 in`,
+  `16 oz = 1 lb`, `1 yr = 365.25 day`, `1 L = 1000 mL`, `1 eV = 1.602176634e−19 J`,
+  `1 cal = 4.184 J`, `1 kWh = 3.6e6 J`, `1 atm = 101325 Pa`, `1 GHz = 1e9 Hz`,
+  with the new energy units sharing the joule dimension and cross-dimension
+  conversions still throwing.
+
 ## [3.21.0] — Unit-aware expressions
 
 ### Added
