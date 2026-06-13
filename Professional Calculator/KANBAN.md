@@ -79,6 +79,7 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ✅ **Combinatorics in the REPL** (S) — `catalan`/`bell`/`partitions`/… scalar functions
 - ✅ **FFT spectrum STEM page** (S) — surfaces `signal.js` visually
 - ✅ **Property-based invariant tests** (M) — seeded randomized cross-module invariants
+- ✅ **Graph algorithms** (M) — BFS/DFS, Dijkstra + shortest path, components, topo sort, MST
 
 ---
 
@@ -100,7 +101,6 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ⬜ Export REPL transcript / plots to Markdown/LaTeX/SVG (S)
 - ⬜ Prettier autoformatting (S)
 - ⬜ Playwright e2e + axe-core accessibility tests (M)
-- ⬜ Graph algorithms (BFS/DFS/Dijkstra/MST) (M)
 
 ---
 
@@ -109,7 +109,7 @@ In Progress → Review → Done**. Items are sized S / M / L.
 | Metric | Value |
 |---|---|
 | Epics delivered | 7 (core, applied, product, quality, STEM suite, CAS & grammar, numerical-library expansion) |
-| Modules shipped | 25 math + 6 app + 8 docs |
-| Tests | 971 across 32 suites (100% pass) |
-| Releases | v1.0 → v3.16.0, merged via PRs #1–#25 |
+| Modules shipped | 26 math + 6 app + 8 docs |
+| Tests | 990 across 33 suites (100% pass) |
+| Releases | v1.0 → v3.17.0, merged via PRs #1–#27 |
 | Cycle: idea → tested module | continuous (test-anchored each step) |

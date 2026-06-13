@@ -31,16 +31,17 @@ import * as Combinatorics from './combinatorics.js';
 import * as Decomposition from './decomposition.js';
 import * as Coordinates from './coordinates.js';
 import * as Random from './random.js';
+import * as Graph from './graph.js';
 
 export {
     Complex, Rational, Special, Constants, Parser, Matrix, Calculus, Stats,
     Units, Finance, Quantum, Physics, Plot, Symbolic, Circuit, NumberTheory,
     Signal, Interpolate, Optimize, Geometry, Combinatorics, Decomposition,
-    Coordinates, Random,
+    Coordinates, Random, Graph,
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.16.0';
+export const VERSION = '3.17.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine
@@ -70,6 +71,7 @@ export const CAPABILITIES = Object.freeze([
     { domain: 'Decompositions', functions: ['Cholesky', 'SVD (Jacobi)', 'singular values', 'pseudoinverse', 'least squares', 'condition number'] },
     { domain: 'Coordinates', functions: ['polar↔cartesian', 'spherical↔cartesian', 'cylindrical↔cartesian', 'deg/rad'] },
     { domain: 'Random/sampling', functions: ['seeded RNG', 'uniform/int', 'normal', 'exponential', 'Poisson', 'Bernoulli', 'choice/shuffle/sample'] },
+    { domain: 'Graphs', functions: ['BFS', 'DFS', 'Dijkstra', 'shortest path', 'connected components', 'topological sort', 'MST (Kruskal)'] },
 ]);
 
 /**
