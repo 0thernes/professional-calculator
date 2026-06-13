@@ -31,7 +31,7 @@ export class ScientificREPL {
         this.input = el.input;
         this.log = el.log;
         this.announcer = el.announcer ?? null;
-        /** User-assigned variables + implicit `ans`. @type {Record<string, number | import('./math/complex.js').Complex>} */
+        /** User-assigned variables + implicit `ans` (scalars or matrices). @type {Record<string, number | import('./math/complex.js').Complex | number[][]>} */
         this.scope = { ans: 0 };
         /** Command history for ↑/↓ recall. @type {string[]} */
         this.commandHistory = [];
