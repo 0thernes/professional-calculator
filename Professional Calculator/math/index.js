@@ -25,15 +25,16 @@ import * as Circuit from './circuit.js';
 import * as NumberTheory from './numtheory.js';
 import * as Signal from './signal.js';
 import * as Interpolate from './interpolate.js';
+import * as Optimize from './optimize.js';
 
 export {
     Complex, Rational, Special, Constants, Parser, Matrix, Calculus, Stats,
     Units, Finance, Quantum, Physics, Plot, Symbolic, Circuit, NumberTheory,
-    Signal, Interpolate,
+    Signal, Interpolate, Optimize,
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.8.0';
+export const VERSION = '3.9.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine
@@ -57,6 +58,7 @@ export const CAPABILITIES = Object.freeze([
     { domain: 'Number theory', functions: ['isprime', 'factor', 'divisors', 'modpow', 'modinv', 'totient', 'fib', 'gcd/lcm'] },
     { domain: 'Signal processing', functions: ['DFT/IDFT', 'FFT/IFFT (radix-2 + Bluestein)', 'magnitude/phase', 'convolution', 'cross-correlation', 'Hann/Hamming/Blackman', 'fftfreq'] },
     { domain: 'Interpolation', functions: ['piecewise-linear', 'Lagrange', 'Newton divided diff', 'natural cubic spline', 'polyfit (least squares)', 'polyval'] },
+    { domain: 'Optimization', functions: ['golden-section (1D)', 'Nelder–Mead simplex', 'gradient descent (Armijo)'] },
 ]);
 
 /**
