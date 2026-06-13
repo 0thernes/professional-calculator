@@ -15,6 +15,13 @@ describe('parser — tokenizer', () => {
     });
     test('scientific notation', () => near(R('1.5e3'), 1500));
     test('rejects illegal char', () => expect(() => tokenize('3 @ 4')).toThrow(SyntaxError));
+    test('accepts Unicode operators × · ÷ −', () => {
+        near(R('6 × 7'), 42);
+        near(R('6 · 7'), 42);
+        near(R('20 ÷ 4'), 5);
+        near(R('10 − 3'), 7);
+    });
+    test('Unicode output round-trips: 2 · (x + 1)', () => near(R('2 · (x + 1)', { x: 4 }), 10));
 });
 
 describe('parser — precedence & associativity', () => {

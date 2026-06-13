@@ -10,6 +10,7 @@
  */
 
 import { compute } from './math/parser.js';
+import { diff } from './math/symbolic.js';
 import * as C from './math/complex.js';
 
 /**
@@ -21,6 +22,8 @@ import * as C from './math/complex.js';
 
 /** Matches a bare assignment `name = expr` (name not followed by another '='). */
 const ASSIGN_RE = /^\s*([A-Za-z_]\w*)\s*=\s*(?!=)(.+)$/;
+/** Matches `diff(<expr>, <var>)` — greedy expr so the LAST comma splits off the var. */
+const DIFF_RE = /^\s*diff\(\s*(.+),\s*([A-Za-z_]\w*)\s*\)\s*$/;
 
 export class ScientificREPL {
     /** @param {ReplElements} el */
@@ -52,6 +55,13 @@ export class ScientificREPL {
         this.historyIndex = this.commandHistory.length;
 
         try {
+            // Symbolic differentiation: diff(expr, x) → derivative expression.
+            const dm = DIFF_RE.exec(text);
+            if (dm) {
+                const out = diff(dm[1], dm[2]).string;
+                this._render(text, out, false);
+                return { ok: true, input: text, output: out };
+            }
             const assign = ASSIGN_RE.exec(text);
             // Only treat as assignment when the LHS is a plain new variable
             // (not a reserved imaginary unit).

@@ -20,14 +20,15 @@ import * as Finance from './finance.js';
 import * as Quantum from './quantum.js';
 import * as Physics from './physics.js';
 import * as Plot from './plot.js';
+import * as Symbolic from './symbolic.js';
 
 export {
     Complex, Rational, Special, Constants, Parser, Matrix, Calculus, Stats,
-    Units, Finance, Quantum, Physics, Plot,
+    Units, Finance, Quantum, Physics, Plot, Symbolic,
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.0.0';
+export const VERSION = '3.1.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine
@@ -47,6 +48,7 @@ export const CAPABILITIES = Object.freeze([
     { domain: 'Quantum computing', functions: ['qubits', 'X/Y/Z/H/S/T', 'CNOT/CZ/SWAP/Toffoli', 'Bell/GHZ', 'measurement', 'Bloch sphere'] },
     { domain: 'Physics', functions: ['de Broglie', 'hydrogen levels', 'Lorentz γ', 'E=mc²', 'Schwarzschild', 'Planck/Wien'] },
     { domain: 'Visualization', functions: ['2D/parametric plots', '3D surfaces', '4D tesseract', 'Bloch sphere', 'spectra'] },
+    { domain: 'Symbolic (CAS)', functions: ['diff(expr, x)', 'product/quotient/chain rules', 'simplify', 're-parseable output'] },
 ]);
 
 /**

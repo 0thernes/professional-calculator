@@ -6,7 +6,7 @@
 
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
-[![tests](https://img.shields.io/badge/tests-543%20passing-brightgreen)](#testing)
+[![tests](https://img.shields.io/badge/tests-602%20passing-brightgreen)](#testing)
 [![coverage](https://img.shields.io/badge/coverage-96%25%20stmts%20%2F%2083%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
@@ -65,6 +65,7 @@ Two things make it trustworthy rather than merely impressive:
 | **Quant finance** | Greeks (Δ/Γ/vega/Θ/ρ), CRR binomial tree, seeded Monte Carlo | [`finance.js`](math/finance.js) |
 | **Visualization** | 2D/parametric plots, 3D surfaces, **4D tesseract**, Bloch sphere, spectra | [`plot.js`](math/plot.js) |
 | **STEM Lab** | paged live-SVG visual panel (8 cyclable scientific visualizations) | [`stem.js`](stem.js) |
+| **Symbolic (CAS)** | `diff(expr, x)` — product/quotient/chain rules, simplify, re-parseable output | [`symbolic.js`](math/symbolic.js) |
 
 ## Quick start
 
@@ -184,7 +185,7 @@ The O(n³) kernels (mul, det, eig) scale as documented — ~8× latency per dime
 ## Testing
 
 ```
-18 test suites · 543 tests · 100% pass
+19 test suites · 602 tests · 100% pass
 coverage (full engine — math + controllers + REPL):
   95.96% statements · 95.96% lines · 93.48% functions · 83.15% branches
   gates: 90% lines/stmts · 85% functions · 80% branches

@@ -9,6 +9,25 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - First-class matrix/vector literals in the expression grammar *(planned, Phase 2)*
 
+## [3.1.0] — Symbolic differentiation (CAS-lite)
+
+### Added
+- **math/symbolic.js** — AST-based symbolic differentiation: sum/difference,
+  product, quotient, power (constant exponent, constant base, and general f^g
+  via logarithmic differentiation) and chain rules, with a derivative table
+  for sin/cos/tan, exp/ln/log, sqrt, sinh/cosh/tanh, asin/acos/atan, log10/log2,
+  plus `log(u, b)` / `root(u, n)` / `pow(a, b)` forms. Includes a conservative
+  `simplify` (constant folding + identity removal incl. `x−x→0`, `x/x→1`,
+  double-negation) and a precedence-correct `astToString`. Output is
+  re-parseable, so derivatives compose (2nd, 3rd, … derivatives).
+- **REPL** `diff(expr, x)` command (handles inner commas like `diff(log(x,2), x)`).
+- **Parser** now accepts the Unicode math operators it pretty-prints and the
+  keypad shows — `×` `·` `⋅` → `*`, `÷` → `/`, `−` → `-` — making engine output
+  round-trippable as input.
+- 50+ new tests, incl. numeric cross-checks of every symbolic derivative
+  against a finite-difference derivative of the original (the full derivative
+  table is now verified correct). Engine version → 3.1.0.
+
 ## [3.0.0] — STEM suite: quantum, physics, visualization
 
 Adds whole new scientific domains and a live visual lab on top of the 2.0

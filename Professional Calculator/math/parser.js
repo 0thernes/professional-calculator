@@ -95,6 +95,12 @@ export function tokenize(src) {
             i++;
             continue;
         }
+        // Accept the Unicode math operators the engine pretty-prints (and the
+        // keypad shows), mapping them to their ASCII forms so output is
+        // round-trippable: ×/·/⋅ → *, ÷ → /, − (U+2212) → -.
+        if (ch === '×' || ch === '·' || ch === '⋅') { tokens.push({ kind: 'op', value: '*', pos: i }); i++; continue; }
+        if (ch === '÷') { tokens.push({ kind: 'op', value: '/', pos: i }); i++; continue; }
+        if (ch === '−') { tokens.push({ kind: 'op', value: '-', pos: i }); i++; continue; }
         if (ch === '(') { tokens.push({ kind: 'lparen', value: ch, pos: i }); i++; continue; }
         if (ch === ')') { tokens.push({ kind: 'rparen', value: ch, pos: i }); i++; continue; }
         if (ch === ',') { tokens.push({ kind: 'comma', value: ch, pos: i }); i++; continue; }
