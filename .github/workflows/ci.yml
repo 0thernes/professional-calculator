@@ -1,0 +1,59 @@
+name: Professional Calculator CI
+
+# Scoped to the calculator subproject so the rest of the monorepo is untouched.
+on:
+  push:
+    branches: [master, scientific-engine]
+    paths: ['Professional Calculator/**', '.github/workflows/ci.yml']
+  pull_request:
+    paths: ['Professional Calculator/**', '.github/workflows/ci.yml']
+  workflow_dispatch:
+
+defaults:
+  run:
+    working-directory: 'Professional Calculator'
+
+jobs:
+  test:
+    name: test (Node ${{ matrix.node }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: ['18', '20', '22']
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node ${{ matrix.node }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Install dev dependencies
+        run: npm install --no-audit --no-fund
+      - name: Type-check (tsc --noEmit, strict)
+        run: npm run typecheck
+      - name: Run test suite
+        run: npm test
+
+  coverage:
+    name: coverage gates
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-audit --no-fund
+      - name: Coverage (enforces 85% lines / 80% branches)
+        run: npm run test:coverage
+
+  benchmark:
+    name: benchmark smoke
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - run: npm install --no-audit --no-fund
+      - name: Run benchmarks (must not throw)
+        run: npm run bench
