@@ -859,8 +859,8 @@ These are tracked in [KANBAN.md](../KANBAN.md) and sequenced in
 ## Addendum — v3.x expansion (post-audit)
 
 The 500-point inspection above was performed at v2.0.0. The engine has since
-grown substantially (v2.0 → **v3.4.0**) while holding the **same quality bar**
-verified by CI on every PR — ESLint 0 errors, `tsc --noEmit` strict-clean, and
+grown substantially (v2.0 → **v3.16.0**) while holding the **same quality bar**
+verified by CI on every PR — ESLint 0 problems, `tsc --noEmit` strict-clean, and
 the coverage gate (90% stmts/lines, 85% funcs, 80% branches):
 
 | Added since the audit | Module | Anchor |
@@ -870,11 +870,22 @@ the coverage gate (90% stmts/lines, 85% funcs, 80% branches):
 | Physics / relativity / cosmology | `physics.js` | −13.6 eV, γ(0.8c)=5/3, Schwarzschild |
 | Option Greeks, binomial tree, Monte Carlo | `finance.js` | Greeks↔finite-diff, binomial↔BS |
 | Visualization generators (2D/3D/4D) | `plot.js` | rotation norm-preserving, 16v/32e tesseract |
-| STEM Lab paged visualizer | `stem.js` | 9 pages, wrap-around nav |
+| STEM Lab paged visualizer | `stem.js` | 9 pages, wrap-around nav (incl. FFT spectrum) |
 | Symbolic differentiation **and integration** | `symbolic.js` | numeric cross-check vs finite-difference; fundamental theorem |
-| Matrix/vector literals in the grammar | `parser.js` | det/inv/solve/eig through the REPL |
+| Matrix/vector literals + scalar fns in the grammar | `parser.js` | det/inv/solve/eig + catalan/isprime through the REPL |
+| Number theory (Miller–Rabin, modular) | `numtheory.js` | Mersenne prime, RSA modular inverse, factorization |
+| Inferential statistics (t/z/χ²/ANOVA/CI) | `stats.js` | one-sample t=4.2426, Welch df, fair-die χ² |
+| Signal processing (FFT radix-2 + Bluestein) | `signal.js` | impulse→flat, `ifft∘fft=id`, Parseval |
+| Interpolation & curve fitting | `interpolate.js` | spline/Lagrange exact at nodes, polyfit recovery |
+| Numerical optimization (minimization) | `optimize.js` | golden-section, Nelder–Mead Rosenbrock→(1,1) |
+| Vector geometry | `geometry.js` | `x̂×ŷ=ẑ`, Rodrigues rotation norm-preserving |
+| Combinatorics (exact BigInt sequences) | `combinatorics.js` | Catalan/Bell/Stirling, `Σ S2=Bell`, `Σ S1=n!` |
+| Matrix decompositions (SVD/Cholesky/pinv) | `decomposition.js` | `U·Σ·Vᵀ=A`, Moore–Penrose `A·A⁺·A=A` |
+| Coordinate systems | `coordinates.js` | polar/spherical/cylindrical round-trips |
+| Seeded RNG & sampling | `random.js` | reproducible streams, moment checks (μ, σ², λ) |
+| Property-based invariant tests | `properties.test.js` | seeded randomized cross-module invariants |
 
-**Tally:** 16 math + 6 app modules, **680 tests across 21 suites** (100% pass),
+**Tally:** 25 math + 6 app modules, **971 tests across 32 suites** (100% pass),
 all closed-form/invariant-anchored. The honest-scope framing (double-precision,
 dense, single-threaded, numeric+CAS-but-not-full-symbolic) is unchanged and
 documented in the README.

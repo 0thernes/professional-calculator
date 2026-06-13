@@ -52,6 +52,15 @@ flowchart TB
         PHYSICS["physics.js"]
         PLOT["plot.js"]
         SYMBOLIC["symbolic.js"]
+        NUMTHEORY["numtheory.js"]
+        SIGNAL["signal.js"]
+        INTERP["interpolate.js"]
+        OPT["optimize.js"]
+        GEOM["geometry.js"]
+        COMBO["combinatorics.js"]
+        DECOMP["decomposition.js"]
+        COORD["coordinates.js"]
+        RANDOM["random.js"]
     end
     subgraph CORE["Core math"]
         COMPLEX["complex.js"]
@@ -86,8 +95,14 @@ flowchart TB
     CIRCUIT --> QUANTUM
     PHYSICS --> CONST
     SYMBOLIC --> PARSER
+    INTERP --> MATRIX
+    DECOMP --> MATRIX
+    OPT --> CALC
+    PARSER --> NUMTHEORY
+    PARSER --> COMBO
     STEM --> PLOT
     STEM --> QUANTUM
+    STEM --> SIGNAL
 ```
 
 **Dependency rule:** edges only point downward. Core math depends on nothing in
@@ -112,6 +127,11 @@ flowchart LR
     circuit --> quantum
     physics --> constants
     symbolic --> parser
+    parser --> numtheory
+    parser --> combinatorics
+    interpolate --> matrix
+    decomposition --> matrix
+    optimize --> calculus
     calculus -.-> |callbacks only| none[" "]
     rational --> none2[" "]
     style none fill:transparent,stroke:transparent
@@ -122,10 +142,15 @@ flowchart LR
 - `quantum` builds on `complex`; `circuit` is a fluent builder over `quantum`.
 - `physics` reads `constants`; `symbolic` walks the `parser` AST; `plot` is
   dependency-free pure geometry.
-- `parser` now also depends on `matrix` for the matrix/vector literal grammar.
+- `parser` also depends on `matrix` (matrix/vector literal grammar) and on
+  `numtheory` + `combinatorics` (scalar REPL functions like `isprime`, `catalan`).
 - `special` is a leaf used by `stats`, `finance`, and `parser`.
 - `calculus` takes plain `(x:number)=>number` callbacks, so it is decoupled from
-  every other module — anything that produces a function can drive it.
+  every other module — anything that produces a function can drive it. `optimize`
+  reuses its numerical `gradient`.
+- `interpolate` and `decomposition` build on `matrix` (LU `solve`); `signal`,
+  `geometry`, `combinatorics`, `coordinates`, and `random` are dependency-free
+  leaves.
 - `index.js` re-exports all of the above behind namespaces.
 
 ---
