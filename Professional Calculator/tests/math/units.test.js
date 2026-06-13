@@ -20,6 +20,55 @@ describe('units — conversion', () => {
     test('unknown unit throws', () => expect(() => convert(1, 'xyz', 'm')).toThrow(RangeError));
 });
 
+describe('units — extended catalogue', () => {
+    test('length: μm, nm, yd', () => {
+        near(convert(1, 'um', 'm'), 1e-6);
+        near(convert(1, 'nm', 'm'), 1e-9);
+        near(convert(1, 'yd', 'inch'), 36, 1e-9);
+    });
+    test('mass: mg, oz, tonne', () => {
+        near(convert(1, 'mg', 'kg'), 1e-6);
+        near(convert(1, 'tonne', 'kg'), 1000);
+        near(convert(16, 'oz', 'lb'), 1, 1e-9);
+    });
+    test('time: ms/us/ns, week, year', () => {
+        near(convert(1, 'ms', 's'), 1e-3);
+        near(convert(1, 'ns', 's'), 1e-9);
+        near(convert(1, 'week', 'day'), 7);
+        near(convert(1, 'yr', 'day'), 365.25);
+    });
+    test('volume: 1 L = 1000 mL = 0.001 m³', () => {
+        near(convert(1, 'L', 'mL'), 1000);
+        near(quantity(1, 'L').value, 1e-3);
+    });
+    test('speed: mph and knot in SI', () => {
+        near(quantity(1, 'mph').value, 0.44704);
+        near(quantity(1, 'knot').value, 1852 / 3600);
+    });
+    test('energy: eV, cal, kcal, kWh in joules', () => {
+        near(quantity(1, 'eV').value, 1.602176634e-19, 1e-28);
+        near(convert(1, 'cal', 'J'), 4.184);
+        near(convert(1, 'kcal', 'cal'), 1000, 1e-6);
+        near(convert(1, 'kWh', 'J'), 3.6e6, 1e-3);
+    });
+    test('pressure: bar and atm', () => {
+        near(convert(1, 'bar', 'Pa'), 1e5);
+        near(convert(1, 'atm', 'Pa'), 101325);
+    });
+    test('frequency & power multiples', () => {
+        near(convert(1, 'GHz', 'Hz'), 1e9);
+        near(convert(1, 'MHz', 'kHz'), 1000);
+        near(convert(1, 'MW', 'kW'), 1000);
+        near(convert(1, 'kJ', 'J'), 1000);
+    });
+    test('new energy units share the joule dimension', () => {
+        expect(sameDim(UNITS.eV.dim, UNITS.J.dim)).toBe(true);
+        expect(sameDim(UNITS.kWh.dim, UNITS.J.dim)).toBe(true);
+    });
+    test('incompatible across new units throws', () =>
+        expect(() => convert(1, 'L', 'kg')).toThrow(RangeError));
+});
+
 describe('units — affine temperature scales', () => {
     test('0°C = 273.15 K', () => near(convert(0, 'degC', 'K'), 273.15));
     test('100°C = 373.15 K', () => near(convert(100, 'degC', 'K'), 373.15));
