@@ -6,6 +6,22 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.19.0] — Set & relation utilities
+
+### Added
+- **`math/sets.js`** — finite-set operations over plain arrays (Set/SameValueZero
+  membership, deduplicated results preserving first-appearance order):
+  `unique`, `union`, `intersection`, `difference`, `symmetricDifference`,
+  `isSubset`, `isSuperset`, `isDisjoint`, `setEquals`, `jaccard`, `powerSet`,
+  `cartesianProduct`. Exposed on the facade as `Sets`; capability manifest row
+  added.
+- Version → 3.19.0.
+- 21 new tests (1013 total / 34 suites), closed-form anchored: union/intersection/
+  difference/symmetric-difference of `[1,2,3]` & `[2,3,4]`; subset/superset/disjoint
+  predicates; `setEquals` ignoring order & duplicates; `jaccard = 0.5` (and 1 for
+  identical / two-empty, 0 for disjoint); `|powerSet| = 2ⁿ` with ∅ and full set;
+  `|A×B| = |A|·|B|`; non-mutation of inputs.
+
 ## [3.18.0] — MST visualization in the STEM Lab
 
 ### Added
