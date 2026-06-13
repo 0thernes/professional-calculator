@@ -319,3 +319,167 @@ export function poissonCdf(k, lambda) {
 export function zScore(x, mu, sigma) {
     return (x - mu) / sigma;
 }
+
+/* ------------------------------------------------------------------ *
+ *  Inferential statistics — hypothesis tests & confidence intervals
+ *
+ *  Each test returns the test statistic, degrees of freedom (where it
+ *  applies), and a p-value. p-values use the distribution CDFs above.
+ * ------------------------------------------------------------------ */
+
+/**
+ * Inverse Student-t CDF (quantile) by bisection — the t* critical value with
+ * P(T ≤ t*) = p for ν degrees of freedom.
+ * @param {number} p  in (0,1)
+ * @param {number} nu
+ * @returns {number}
+ */
+export function tQuantile(p, nu) {
+    if (p <= 0) return -Infinity;
+    if (p >= 1) return Infinity;
+    let lo = -1000;
+    let hi = 1000;
+    for (let i = 0; i < 200; i++) {
+        const mid = (lo + hi) / 2;
+        if (tCdf(mid, nu) < p) lo = mid;
+        else hi = mid;
+    }
+    return (lo + hi) / 2;
+}
+
+/** Two-tailed p-value from a t statistic. @param {number} t @param {number} nu @returns {number} */
+function tTwoTailed(t, nu) {
+    return 2 * (1 - tCdf(Math.abs(t), nu));
+}
+
+/**
+ * @typedef {object} TestResult
+ * @property {number} statistic
+ * @property {number} [df]
+ * @property {number} pValue
+ */
+
+/**
+ * One-sample t-test: is the sample mean different from `mu0`?
+ * @param {number[]} data
+ * @param {number} mu0
+ * @returns {TestResult}
+ */
+export function tTestOneSample(data, mu0) {
+    const n = data.length;
+    const m = mean(data);
+    const s = std(data, true);
+    const t = (m - mu0) / (s / Math.sqrt(n));
+    const df = n - 1;
+    return { statistic: t, df, pValue: tTwoTailed(t, df) };
+}
+
+/**
+ * Two-sample t-test. Welch's (unequal variances) by default; pooled when
+ * `pooled` is true.
+ * @param {number[]} a
+ * @param {number[]} b
+ * @param {boolean} [pooled]
+ * @returns {TestResult}
+ */
+export function tTestTwoSample(a, b, pooled = false) {
+    const na = a.length;
+    const nb = b.length;
+    const ma = mean(a);
+    const mb = mean(b);
+    const va = variance(a, true);
+    const vb = variance(b, true);
+    if (pooled) {
+        const dfp = na + nb - 2;
+        const sp2 = ((na - 1) * va + (nb - 1) * vb) / dfp;
+        const t = (ma - mb) / Math.sqrt(sp2 * (1 / na + 1 / nb));
+        return { statistic: t, df: dfp, pValue: tTwoTailed(t, dfp) };
+    }
+    // Welch
+    const se = Math.sqrt(va / na + vb / nb);
+    const t = (ma - mb) / se;
+    const df = Math.pow(va / na + vb / nb, 2) /
+        (Math.pow(va / na, 2) / (na - 1) + Math.pow(vb / nb, 2) / (nb - 1));
+    return { statistic: t, df, pValue: tTwoTailed(t, df) };
+}
+
+/**
+ * One-sample z-test (known population σ).
+ * @param {number} sampleMean
+ * @param {number} mu0
+ * @param {number} sigma
+ * @param {number} n
+ * @returns {TestResult}
+ */
+export function zTest(sampleMean, mu0, sigma, n) {
+    const z = (sampleMean - mu0) / (sigma / Math.sqrt(n));
+    return { statistic: z, pValue: 2 * (1 - normalCdf(Math.abs(z))) };
+}
+
+/**
+ * Chi-square goodness-of-fit test.
+ * @param {number[]} observed
+ * @param {number[]} expected
+ * @returns {TestResult}
+ */
+export function chiSquareGoF(observed, expected) {
+    if (observed.length !== expected.length) throw new RangeError('observed/expected length mismatch');
+    let chi2 = 0;
+    for (let i = 0; i < observed.length; i++) {
+        const d = observed[i] - expected[i];
+        chi2 += (d * d) / expected[i];
+    }
+    const df = observed.length - 1;
+    return { statistic: chi2, df, pValue: 1 - chiSquareCdf(chi2, df) };
+}
+
+/**
+ * One-way ANOVA across ≥2 groups (equal-variance F-test).
+ * @param {number[][]} groups
+ * @returns {{ statistic: number, dfBetween: number, dfWithin: number, pValue: number }}
+ */
+export function anovaOneWay(groups) {
+    const k = groups.length;
+    const all = groups.flat();
+    const grandMean = mean(all);
+    let ssBetween = 0;
+    let ssWithin = 0;
+    for (const g of groups) {
+        const gm = mean(g);
+        ssBetween += g.length * (gm - grandMean) ** 2;
+        for (const x of g) ssWithin += (x - gm) ** 2;
+    }
+    const dfBetween = k - 1;
+    const dfWithin = all.length - k;
+    const F = (ssBetween / dfBetween) / (ssWithin / dfWithin);
+    return { statistic: F, dfBetween, dfWithin, pValue: 1 - fCdf(F, dfBetween, dfWithin) };
+}
+
+/**
+ * Significance test for the Pearson correlation coefficient (H₀: ρ = 0).
+ * @param {number[]} xs
+ * @param {number[]} ys
+ * @returns {{ r: number, statistic: number, df: number, pValue: number }}
+ */
+export function pearsonTest(xs, ys) {
+    const r = correlation(xs, ys);
+    const n = xs.length;
+    const df = n - 2;
+    const t = r * Math.sqrt(df / (1 - r * r));
+    return { r, statistic: t, df, pValue: tTwoTailed(t, df) };
+}
+
+/**
+ * Confidence interval for the population mean (t-based).
+ * @param {number[]} data
+ * @param {number} [level]  e.g. 0.95
+ * @returns {{ mean: number, lower: number, upper: number, margin: number }}
+ */
+export function confidenceIntervalMean(data, level = 0.95) {
+    const n = data.length;
+    const m = mean(data);
+    const se = std(data, true) / Math.sqrt(n);
+    const tStar = tQuantile(1 - (1 - level) / 2, n - 1);
+    const margin = tStar * se;
+    return { mean: m, lower: m - margin, upper: m + margin, margin };
+}
