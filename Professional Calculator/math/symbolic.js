@@ -15,7 +15,7 @@
  * @module math/symbolic
  */
 
-import { parse, evaluate } from './parser.js';
+import { parse } from './parser.js';
 
 /** @typedef {import('./parser.js').Node} Node */
 
@@ -385,12 +385,6 @@ function linearSlope(node, x) {
     const d = simplify(differentiate(node, x));
     if (d.type === 'num') return d.value;
     return null;
-}
-
-/** Evaluate a constant node to a real number. @param {Node} node @returns {number} */
-function constValue(node) {
-    const z = evaluate(node, {});
-    return z.re;
 }
 
 /**

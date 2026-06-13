@@ -6,6 +6,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- Lint hygiene: removed dead code so `eslint .` reports **zero** problems
+  (previously 2 warnings) — dropped the unused `constValue` helper and its now
+  orphaned `evaluate` import from `symbolic.js`, and the unused `modInverseBig`
+  import from `numtheory.test.js`. No behavioural change; 811 tests still green.
+
 ## [3.9.0] — Numerical optimization (minimization)
 
 ### Added
