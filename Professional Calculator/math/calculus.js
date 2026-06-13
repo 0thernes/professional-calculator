@@ -368,6 +368,7 @@ export function rkf45(f, t0, t1, y0, opts = {}) {
     let count = 0;
     while (t < t1 - 1e-15 && count++ < maxSteps) {
         if (t + h > t1) h = t1 - t;
+        /** @type {number[][]} */
         const k = [];
         for (let i = 0; i < 6; i++) {
             let yi = y.slice();

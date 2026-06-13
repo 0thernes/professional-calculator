@@ -6,8 +6,8 @@
     <meta name="color-scheme" content="light dark">
     <meta name="description" content="Professional calculator with full keyboard support, history, and accessibility">
     <meta name="theme-color" content="#2c3e50">
-    <title>Professional Calculator</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Professional Calculator — Scientific Engine</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Single shared live region (P3) -->
@@ -121,6 +121,26 @@
             <ul id="history-list" class="history-list" role="list" tabindex="0" aria-label="Previous calculations, click to restore"></ul>
             <p class="history-empty" aria-hidden="true">No calculations yet</p>
         </aside>
+
+        <!-- Scientific REPL: full expression engine -->
+        <section class="repl-panel" aria-label="Scientific expression engine">
+            <header class="repl-header">
+                <h2>Scientific Engine</h2>
+                <span class="repl-badge" id="repl-version">v2.0</span>
+            </header>
+            <ul id="repl-log" class="repl-log" aria-live="off"></ul>
+            <div class="repl-input-row">
+                <span class="repl-prompt" aria-hidden="true">›</span>
+                <input id="repl-input" class="repl-input" type="text" spellcheck="false"
+                       autocomplete="off" autocapitalize="off"
+                       placeholder="e.g.  sin(pi/2),  3+4i,  5!,  log(8,2),  x=7"
+                       aria-label="Scientific expression input" />
+            </div>
+            <details class="repl-cheatsheet">
+                <summary>What can it do?</summary>
+                <ul id="repl-capabilities"></ul>
+            </details>
+        </section>
     </div>
 
     <!-- Help modal -->
