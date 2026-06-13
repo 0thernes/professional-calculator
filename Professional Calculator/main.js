@@ -6,6 +6,7 @@
  * @module main
  */
 
+import { CEvent } from './events.js';
 import { CalculatorView } from './view.js';
 import { CalculatorController } from './controller.js';
 
@@ -77,8 +78,54 @@ function bootstrap() {
     if (clearHistBtn) {
         clearHistBtn.addEventListener('click', () => {
             controller.history.completed = [];
-            controller.history.dispatchEvent(new CustomEvent('completedChange'));
+            controller.history.dispatchEvent(new CEvent('completedChange'));
         });
+    }
+
+    bootstrapScientificEngine();
+}
+
+/**
+ * Wire up the scientific REPL panel and populate the capability cheatsheet.
+ * Loaded lazily so the core calculator works even if the engine modules are
+ * unavailable.
+ */
+async function bootstrapScientificEngine() {
+    const input = /** @type {HTMLInputElement | null} */ (document.getElementById('repl-input'));
+    const log = document.getElementById('repl-log');
+    if (!input || !log) return;
+    try {
+        const [{ ScientificREPL }, mathIndex] = await Promise.all([
+            import('./repl.js'),
+            import('./math/index.js'),
+        ]);
+        const announcer = document.getElementById('sr-announcer');
+        const repl = new ScientificREPL({ input, log, announcer: announcer ?? undefined });
+
+        // populate capability list
+        const capList = document.getElementById('repl-capabilities');
+        if (capList) {
+            const frag = document.createDocumentFragment();
+            for (const cap of mathIndex.CAPABILITIES) {
+                const li = document.createElement('li');
+                const strong = document.createElement('strong');
+                strong.textContent = `${cap.domain}: `;
+                li.append(strong, document.createTextNode(cap.functions.join(', ')));
+                frag.appendChild(li);
+            }
+            capList.replaceChildren(frag);
+        }
+        const versionBadge = document.getElementById('repl-version');
+        if (versionBadge) versionBadge.textContent = `v${mathIndex.VERSION}`;
+
+        // expose for debugging/testing
+        Object.defineProperty(window, '__sciEngine', {
+            value: Object.freeze({ repl, ...mathIndex }),
+            configurable: false, writable: false, enumerable: false,
+        });
+    } catch (err) {
+        console.error('Scientific engine failed to load:', err);
+        log.innerHTML = '<li class="repl-entry repl-error"><div class="repl-out">⚠ engine unavailable</div></li>';
     }
 }
 

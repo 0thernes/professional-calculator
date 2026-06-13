@@ -7,6 +7,8 @@
  * @module state
  */
 
+import { CEvent } from './events.js';
+
 /** @typedef {'idle' | 'entering' | 'operator_set' | 'error'} CalcState */
 
 export const STATE = Object.freeze(
@@ -56,7 +58,7 @@ export class StateMachine extends EventTarget {
         if (this.current === next) return true;
         const prev = this.current;
         this.current = next;
-        this.dispatchEvent(new CustomEvent('change', { detail: { from: prev, to: next } }));
+        this.dispatchEvent(new CEvent('change', { detail: { from: prev, to: next } }));
         return true;
     }
 
@@ -69,6 +71,6 @@ export class StateMachine extends EventTarget {
         if (this.current === next) return;
         const prev = this.current;
         this.current = next;
-        this.dispatchEvent(new CustomEvent('change', { detail: { from: prev, to: next, restored: true } }));
+        this.dispatchEvent(new CEvent('change', { detail: { from: prev, to: next, restored: true } }));
     }
 }

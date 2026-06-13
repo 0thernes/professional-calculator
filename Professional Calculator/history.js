@@ -10,6 +10,7 @@
  */
 
 import { STATE } from './state.js';
+import { CEvent } from './events.js';
 
 /**
  * @typedef {object} Snapshot
@@ -104,7 +105,7 @@ export class HistoryManager extends EventTarget {
         if (this.redoStack.length > 0) {
             this.redoStack = [];
         }
-        this.dispatchEvent(new CustomEvent('change'));
+        this.dispatchEvent(new CEvent('change'));
     }
 
     /**
@@ -117,7 +118,7 @@ export class HistoryManager extends EventTarget {
         const previous = this.undoStack.pop();
         if (!previous) return null;
         this.redoStack.push(currentSnapshot);
-        this.dispatchEvent(new CustomEvent('change'));
+        this.dispatchEvent(new CEvent('change'));
         return previous;
     }
 
@@ -129,7 +130,7 @@ export class HistoryManager extends EventTarget {
         const next = this.redoStack.pop();
         if (!next) return null;
         this.undoStack.push(currentSnapshot);
-        this.dispatchEvent(new CustomEvent('change'));
+        this.dispatchEvent(new CEvent('change'));
         return next ?? null;
     }
 
@@ -143,7 +144,7 @@ export class HistoryManager extends EventTarget {
         if (this.completed.length > this.maxCompleted) {
             this.completed.length = this.maxCompleted;
         }
-        this.dispatchEvent(new CustomEvent('completedChange'));
+        this.dispatchEvent(new CEvent('completedChange'));
     }
 
     canUndo() { return this.undoStack.length > 0; }
@@ -153,8 +154,8 @@ export class HistoryManager extends EventTarget {
         this.undoStack.clear();
         this.redoStack = [];
         this.completed = [];
-        this.dispatchEvent(new CustomEvent('change'));
-        this.dispatchEvent(new CustomEvent('completedChange'));
+        this.dispatchEvent(new CEvent('change'));
+        this.dispatchEvent(new CEvent('completedChange'));
     }
 }
 

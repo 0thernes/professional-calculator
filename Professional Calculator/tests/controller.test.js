@@ -229,10 +229,10 @@ describe('Controller — sidebar', () => {
     test('restoreValue replaces current and pushes undo', async () => {
         const { controller } = setup();
         controller.appendNumber('5');  await wait();
-        const before = controller.history.canUndo();
+        expect(controller.history.canUndo()).toBe(true); // a snapshot exists
         controller.restoreValue('42');
         expect(controller.currentValue).toBe('42');
-        expect(controller.history.canUndo()).toBe(true && before);
+        expect(controller.history.canUndo()).toBe(true); // restore pushed another
     });
 });
 
