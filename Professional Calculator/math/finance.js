@@ -8,7 +8,7 @@
  * @module math/finance
  */
 
-import { normalCdf } from './stats.js';
+import { normalCdf, normalPdf } from './stats.js';
 
 /**
  * Future value of a present sum under compound interest.
@@ -228,4 +228,154 @@ export function blackScholes(S, K, r, sigma, T) {
  */
 export function cagr(begin, end, periods) {
     return Math.pow(end / begin, 1 / periods) - 1;
+}
+
+/* ------------------------------------------------------------------ *
+ *  Option Greeks (Black–Scholes sensitivities)
+ * ------------------------------------------------------------------ */
+
+/**
+ * @typedef {object} Greeks
+ * @property {number} delta  ∂V/∂S
+ * @property {number} gamma  ∂²V/∂S²
+ * @property {number} vega   ∂V/∂σ  (per 1.00 vol, i.e. per 100%)
+ * @property {number} theta  ∂V/∂t  (per year)
+ * @property {number} rho    ∂V/∂r  (per 1.00 rate)
+ */
+
+/**
+ * Black–Scholes Greeks for a European call or put (no dividends).
+ * @param {number} S spot
+ * @param {number} K strike
+ * @param {number} r risk-free rate
+ * @param {number} sigma volatility
+ * @param {number} T time to expiry (years)
+ * @param {'call' | 'put'} [type]
+ * @returns {Greeks}
+ */
+export function greeks(S, K, r, sigma, T, type = 'call') {
+    const sqrtT = Math.sqrt(T);
+    const d1 = (Math.log(S / K) + (r + (sigma * sigma) / 2) * T) / (sigma * sqrtT);
+    const d2 = d1 - sigma * sqrtT;
+    const pdf = normalPdf(d1);
+    const disc = Math.exp(-r * T);
+    const isCall = type === 'call';
+    const Nd1 = normalCdf(isCall ? d1 : -d1);
+    const delta = isCall ? Nd1 : -Nd1;
+    const gamma = pdf / (S * sigma * sqrtT);
+    const vega = S * pdf * sqrtT; // per 1.00 (100%) vol
+    const thetaCommon = -(S * pdf * sigma) / (2 * sqrtT);
+    const theta = isCall
+        ? thetaCommon - r * K * disc * normalCdf(d2)
+        : thetaCommon + r * K * disc * normalCdf(-d2);
+    const rho = isCall
+        ? K * T * disc * normalCdf(d2)
+        : -K * T * disc * normalCdf(-d2);
+    return { delta, gamma, vega, theta, rho };
+}
+
+/* ------------------------------------------------------------------ *
+ *  Binomial (Cox–Ross–Rubinstein) option pricing
+ * ------------------------------------------------------------------ */
+
+/**
+ * Cox–Ross–Rubinstein binomial-tree price of a European or American option.
+ * Converges to Black–Scholes as `steps → ∞`. O(steps²) time, O(steps) space.
+ * @param {number} S spot
+ * @param {number} K strike
+ * @param {number} r risk-free rate
+ * @param {number} sigma volatility
+ * @param {number} T expiry (years)
+ * @param {number} steps tree depth
+ * @param {'call' | 'put'} [type]
+ * @param {boolean} [american]  allow early exercise
+ * @returns {number}
+ */
+export function binomialOption(S, K, r, sigma, T, steps, type = 'call', american = false) {
+    const dt = T / steps;
+    const u = Math.exp(sigma * Math.sqrt(dt));
+    const d = 1 / u;
+    const disc = Math.exp(-r * dt);
+    const p = (Math.exp(r * dt) - d) / (u - d); // risk-neutral up-probability
+    const isCall = type === 'call';
+    /** @param {number} s */
+    const payoff = (s) => Math.max(0, isCall ? s - K : K - s);
+
+    // terminal layer
+    const values = new Array(steps + 1);
+    for (let i = 0; i <= steps; i++) {
+        values[i] = payoff(S * Math.pow(u, steps - i) * Math.pow(d, i));
+    }
+    // backward induction
+    for (let step = steps - 1; step >= 0; step--) {
+        for (let i = 0; i <= step; i++) {
+            let v = disc * (p * values[i] + (1 - p) * values[i + 1]);
+            if (american) {
+                const spot = S * Math.pow(u, step - i) * Math.pow(d, i);
+                v = Math.max(v, payoff(spot));
+            }
+            values[i] = v;
+        }
+    }
+    return values[0];
+}
+
+/* ------------------------------------------------------------------ *
+ *  Monte Carlo (seeded, deterministic)
+ * ------------------------------------------------------------------ */
+
+/**
+ * Deterministic mulberry32 PRNG — a seeded generator so Monte Carlo runs are
+ * reproducible and testable. Returns a function producing uniforms in [0,1).
+ * @param {number} seed
+ * @returns {() => number}
+ */
+export function mulberry32(seed) {
+    let a = seed >>> 0;
+    return function () {
+        a |= 0;
+        a = (a + 0x6d2b79f5) | 0;
+        let t = Math.imul(a ^ (a >>> 15), 1 | a);
+        t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+        return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+}
+
+/**
+ * Box–Muller standard-normal sample from a uniform generator.
+ * @param {() => number} rng
+ * @returns {number}
+ */
+export function gaussianSample(rng) {
+    let u = 0;
+    let v = 0;
+    while (u === 0) u = rng();
+    while (v === 0) v = rng();
+    return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+/**
+ * Monte Carlo price of a European option under geometric Brownian motion.
+ * Seeded for reproducibility; converges to Black–Scholes as `paths → ∞`.
+ * @param {number} S spot
+ * @param {number} K strike
+ * @param {number} r risk-free rate
+ * @param {number} sigma volatility
+ * @param {number} T expiry (years)
+ * @param {number} paths number of simulated paths
+ * @param {'call' | 'put'} [type]
+ * @param {number} [seed]
+ * @returns {number}
+ */
+export function monteCarloOption(S, K, r, sigma, T, paths, type = 'call', seed = 12345) {
+    const rng = mulberry32(seed);
+    const drift = (r - (sigma * sigma) / 2) * T;
+    const vol = sigma * Math.sqrt(T);
+    const isCall = type === 'call';
+    let acc = 0;
+    for (let i = 0; i < paths; i++) {
+        const ST = S * Math.exp(drift + vol * gaussianSample(rng));
+        acc += Math.max(0, isCall ? ST - K : K - ST);
+    }
+    return Math.exp(-r * T) * (acc / paths);
 }

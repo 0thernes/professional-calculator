@@ -6,7 +6,7 @@
 
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
-[![tests](https://img.shields.io/badge/tests-403%20passing-brightgreen)](#testing)
+[![tests](https://img.shields.io/badge/tests-543%20passing-brightgreen)](#testing)
 [![coverage](https://img.shields.io/badge/coverage-96%25%20stmts%20%2F%2083%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
@@ -60,6 +60,11 @@ Two things make it trustworthy rather than merely impressive:
 | **Finance** | PV/FV/annuities, NPV, **IRR**, amortization, **Black–Scholes**, CAGR | [`finance.js`](math/finance.js) |
 | **Special functions** | `Γ`, `lnΓ`, `erf`, `erfc`, `β`, incomplete `γ`/`β`, `nCr`, `nPr` | [`special.js`](math/special.js) |
 | **Constants** | CODATA-2018 physical constants + math constants | [`constants.js`](math/constants.js) |
+| **Quantum computing** | qubits, X/Y/Z/H/S/T, CNOT/CZ/SWAP/Toffoli, Bell/GHZ, measurement, Bloch sphere | [`quantum.js`](math/quantum.js) |
+| **Physics & cosmology** | de Broglie, hydrogen levels, Lorentz γ, E=mc², Schwarzschild, Hubble, Planck/Wien | [`physics.js`](math/physics.js) |
+| **Quant finance** | Greeks (Δ/Γ/vega/Θ/ρ), CRR binomial tree, seeded Monte Carlo | [`finance.js`](math/finance.js) |
+| **Visualization** | 2D/parametric plots, 3D surfaces, **4D tesseract**, Bloch sphere, spectra | [`plot.js`](math/plot.js) |
+| **STEM Lab** | paged live-SVG visual panel (8 cyclable scientific visualizations) | [`stem.js`](stem.js) |
 
 ## Quick start
 
@@ -179,7 +184,7 @@ The O(n³) kernels (mul, det, eig) scale as documented — ~8× latency per dime
 ## Testing
 
 ```
-14 test suites · 403 tests · 100% pass
+18 test suites · 543 tests · 100% pass
 coverage (full engine — math + controllers + REPL):
   95.96% statements · 95.96% lines · 93.48% functions · 83.15% branches
   gates: 90% lines/stmts · 85% functions · 80% branches

@@ -118,15 +118,44 @@ async function bootstrapScientificEngine() {
         const versionBadge = document.getElementById('repl-version');
         if (versionBadge) versionBadge.textContent = `v${mathIndex.VERSION}`;
 
+        // STEM Lab paged visualizations
+        const stemController = await bootstrapStemLab();
+
         // expose for debugging/testing
         Object.defineProperty(window, '__sciEngine', {
-            value: Object.freeze({ repl, ...mathIndex }),
+            value: Object.freeze({ repl, stem: stemController, ...mathIndex }),
             configurable: false, writable: false, enumerable: false,
         });
     } catch (err) {
         console.error('Scientific engine failed to load:', err);
         log.innerHTML = '<li class="repl-entry repl-error"><div class="repl-out">⚠ engine unavailable</div></li>';
     }
+}
+
+/**
+ * Wire up the STEM Lab paged visualizer (prev/next buttons + arrow keys).
+ * @returns {Promise<import('./stem.js').StemController | null>}
+ */
+async function bootstrapStemLab() {
+    const stage = document.getElementById('stem-stage');
+    const title = document.getElementById('stem-title');
+    const caption = document.getElementById('stem-caption');
+    const indicator = document.getElementById('stem-indicator');
+    if (!stage || !title || !caption || !indicator) return null;
+    const { StemController } = await import('./stem.js');
+    const controller = new StemController({ stage, title, caption, indicator });
+    controller.start();
+
+    document.getElementById('stem-prev')?.addEventListener('click', () => controller.prev());
+    document.getElementById('stem-next')?.addEventListener('click', () => controller.next());
+    // Arrow keys cycle pages when focus isn't in a text input.
+    document.addEventListener('keydown', (e) => {
+        const tag = /** @type {HTMLElement} */ (e.target)?.tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        if (e.key === 'ArrowLeft') controller.prev();
+        else if (e.key === 'ArrowRight') controller.next();
+    });
+    return controller;
 }
 
 if (document.readyState === 'loading') {

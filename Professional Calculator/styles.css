@@ -747,3 +747,88 @@ body {
     .calculator { box-shadow: none; border: 1px solid #000; }
     .help-button, .keyboard-shortcuts, .btn-undo { display: none; }
 }
+
+/* =================================================================
+   STEM LAB (paged visualizations)
+   ================================================================= */
+.stem-panel {
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: var(--spacing-md);
+    background: linear-gradient(135deg, var(--color-display-bg) 0%, var(--color-display-bg-2) 100%);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(96, 165, 250, 0.18);
+    color: var(--color-display-text);
+}
+
+@media (max-width: 760px) {
+    .stem-panel { width: 100%; max-width: 400px; }
+}
+
+.stem-header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-sm);
+}
+.stem-titles { flex: 1; text-align: center; }
+.stem-titles h2 {
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #e6e9ec;
+    font-family: var(--font-mono);
+}
+.stem-caption {
+    display: block;
+    font-size: 11px;
+    color: #9aa3ac;
+    margin-top: 2px;
+}
+.stem-nav {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 auto;
+    border: 1px solid rgba(96, 165, 250, 0.3);
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.3);
+    color: var(--color-display-accent);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    transition: background var(--transition-fast), transform var(--transition-fast);
+}
+.stem-nav:hover { background: rgba(96, 165, 250, 0.18); }
+.stem-nav:active { transform: scale(0.92); }
+.stem-nav:focus-visible { outline: 2px solid var(--color-focus-ring); outline-offset: 2px; }
+
+.stem-stage {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    background: radial-gradient(circle at 50% 40%, rgba(96,165,250,0.06), transparent 70%), rgba(0, 0, 0, 0.35);
+    border: 1px solid rgba(96, 165, 250, 0.2);
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.stem-stage svg { display: block; }
+
+.stem-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--spacing-sm);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: #9aa3ac;
+}
+.stem-indicator { color: var(--color-display-accent); }
+
+@media (prefers-reduced-motion: reduce) {
+    /* animations in the stage are JS-driven; honour reduced motion by dimming */
+    .stem-stage svg { opacity: 0.96; }
+}
