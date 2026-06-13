@@ -57,6 +57,29 @@ describe('stem — page registry', () => {
         const circuit = /** @type {(typeof PAGES)[number]} */ (PAGES.find((p) => p.id === 'circuit'));
         expect(circuit.render(0)).toBe(circuit.render(9));
     });
+    test('FFT page exists and renders a bar-chart SVG', () => {
+        const fft = /** @type {(typeof PAGES)[number]} */ (PAGES.find((p) => p.id === 'fft'));
+        expect(fft).toBeTruthy();
+        const out = fft.render(0);
+        expect(out.startsWith('<svg')).toBe(true);
+        expect(out).toContain('<rect');
+        expect(fft.render(0)).toBe(fft.render(3)); // static
+    });
+});
+
+describe('stem — FFT page is functionally correct', () => {
+    test('magnitude spectrum of sin(3)+½sin(7) peaks at bins 3 and 7', async () => {
+        const Sig = await import('../math/signal.js');
+        const N = 64;
+        const signal = Array.from({ length: N }, (_, k) =>
+            Math.sin((2 * Math.PI * 3 * k) / N) + 0.5 * Math.sin((2 * Math.PI * 7 * k) / N));
+        const mag = Sig.magnitude(Sig.fft(signal)).slice(0, N / 2);
+        // the two largest bins are 3 (full amplitude) then 7 (half amplitude)
+        const ranked = mag.map((m, i) => ({ m, i })).sort((a, b) => b.m - a.m);
+        expect(ranked[0].i).toBe(3);
+        expect(ranked[1].i).toBe(7);
+        expect(ranked[0].m).toBeGreaterThan(ranked[1].m);
+    });
 });
 
 function setup() {

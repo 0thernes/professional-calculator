@@ -55,7 +55,7 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ✅ **Physics & cosmology engine** (M) — quantum/atomic, relativity, cosmology
 - ✅ **Quant finance extensions** (M) — Greeks, CRR binomial tree, seeded Monte Carlo
 - ✅ **Visualization layer** (M) — 2D/3D/parametric/surface + 4D tesseract generators
-- ✅ **STEM Lab paged UI** (M) — 8 cyclable live-SVG visualizations
+- ✅ **STEM Lab paged UI** (M) — 9 cyclable live-SVG visualizations
 - ✅ **ESLint config** (S) — flat config wired into CI
 
 ### Epic: CAS & advanced grammar (v3.1–3.4)
