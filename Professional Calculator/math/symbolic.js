@@ -257,6 +257,7 @@ export function simplify(node) {
                 case '+':
                     if (lv === 0) return r;
                     if (rv === 0) return l;
+                    if (equal(l, r)) return mul(num(2), l); // x + x = 2x
                     break;
                 case '-':
                     if (rv === 0) return l;
@@ -269,6 +270,7 @@ export function simplify(node) {
                     if (rv === 1) return l;
                     if (lv === -1) return simplify(neg(r));
                     if (rv === -1) return simplify(neg(l));
+                    if (equal(l, r)) return pow(l, num(2)); // x · x = x²
                     break;
                 case '/':
                     if (lv === 0) return ZERO;

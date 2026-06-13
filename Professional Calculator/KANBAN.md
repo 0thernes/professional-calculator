@@ -84,13 +84,16 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ✅ **Set & relation utilities** (S) — union/intersection/difference, subset/Jaccard, power set, product
 - ✅ **Base conversion & bit manipulation** (S) — base 2–36, bin/oct/hex, popcount, Hamming, Gray code
 - ✅ **Unit-aware expressions** (M) — `3 kg · 9.8 m/s²` evaluated with dimensional analysis (`unitexpr.js`)
+- ✅ **Cubic-spline STEM page** (S) — surfaces `interpolate.js` (spline through points)
+- ✅ **Bit functions in the REPL** (S) — `popcount`/`bitlength`/`gray`/`igray`/`hamming`
+- ✅ **Symbolic simplify — collect like terms** (S) — `x+x→2x`, `x·x→x²`
 
 ---
 
 ## 📋 Ready (next up)
 
 - ⬜ **Interactive circuit UI** (M) — drag/place gates onto the QuantumCircuit model
-- ⬜ **Symbolic simplification++** (M) — collect like terms, trig identities
+- ⬜ **Symbolic simplification: trig identities** (M) — `sin²+cos²→1`, angle-sum, etc.
 
 ---
 
@@ -113,6 +116,6 @@ In Progress → Review → Done**. Items are sized S / M / L.
 |---|---|
 | Epics delivered | 7 (core, applied, product, quality, STEM suite, CAS & grammar, numerical-library expansion) |
 | Modules shipped | 29 math + 6 app + 8 docs |
-| Tests | 1075 across 36 suites (100% pass) |
-| Releases | v1.0 → v3.24.0, merged via PRs #1–#34 |
+| Tests | 1079 across 36 suites (100% pass) |
+| Releases | v1.0 → v3.25.0, merged via PRs #1–#35 |
 | Cycle: idea → tested module | continuous (test-anchored each step) |
