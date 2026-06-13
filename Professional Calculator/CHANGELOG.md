@@ -6,6 +6,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.4.0] — Quantum circuit builder
+
+### Added
+- **`math/circuit.js`** — `QuantumCircuit`, a fluent/chainable builder over the
+  state-vector simulator: `new QuantumCircuit(2).h(0).cnot(0,1)`. Single-qubit
+  gates (H/X/Y/Z/S/T + Rx/Ry/Rz/phase), multi-qubit (CNOT/CZ/SWAP/Toffoli),
+  `run()`, `probabilities()`, `measureAll(samples)` (injectable RNG), `toKet()`,
+  and an ASCII `diagram()`. Helpers `bell()` and `ghz(n)`.
+- Facade exports `Circuit`; version → 3.4.0.
+- 19 new tests (680 total): X/H/Bell/GHZ(3,4)/SWAP/Toffoli/rotations probability
+  checks, probabilities sum to 1, correlated Bell measurement, diagram render.
+
 ## [3.3.0] — Symbolic integration
 
 ### Added
