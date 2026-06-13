@@ -6,6 +6,26 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.16.0] — Seeded random & sampling
+
+### Added
+- **`math/random.js`** — a deterministic, seeded RNG and sampling toolkit:
+  - `createRng(seed)` — a mulberry32 `() => [0,1)` stream; and the `Rng` class
+    wrapping it.
+  - `Rng` methods: `next`, `uniform`, `int`, `bernoulli`, `normal` (Box–Muller,
+    cached pair), `exponential`, `poisson` (Knuth), `choice`, `shuffle`
+    (Fisher–Yates, non-mutating), `sample` (without replacement).
+  - Seeded for reproducibility — the engine avoids the global unseeded
+    `Math.random`. `stats.js` has the CDFs/quantiles; this has the sampling.
+  - Exposed on the facade as `Random`; capability manifest row added.
+- Version → 3.16.0.
+- 23 new tests (950 total / 31 suites): reproducibility (same seed → identical
+  stream; `createRng` matches `Rng.next`), range invariants (`next ∈ [0,1)`,
+  `int(1,6)` covers exactly 1–6), and moment checks over a fixed seed — normal
+  mean ≈ μ / variance ≈ σ², Bernoulli proportion ≈ p, exponential mean ≈ 1/λ,
+  Poisson mean ≈ λ — plus shuffle-is-a-permutation/non-mutating and
+  sample-distinct.
+
 ### Changed
 - **Benchmarks**: `bench/bench.js` now covers the newer modules — FFT throughput
   on both the radix-2 (512-pt) and Bluestein (500-pt) paths, an 8×8 SVD, a 2-D
