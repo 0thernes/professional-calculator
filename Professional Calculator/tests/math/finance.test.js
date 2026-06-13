@@ -4,6 +4,7 @@
 import {
     futureValue, presentValue, annuityPV, annuityFV, payment,
     npv, irr, effectiveRate, continuousRate, amortization, blackScholes, cagr,
+    greeks, binomialOption, monteCarloOption, mulberry32, gaussianSample,
 } from '../../math/finance.js';
 
 const near = (/** @type {number} */ a, /** @type {number} */ b, eps = 1e-4) =>
@@ -70,4 +71,94 @@ describe('finance — Black–Scholes', () => {
         expect(deep.call).toBeGreaterThan(100);
     });
     test('d1 > d2', () => expect(bs.d1).toBeGreaterThan(bs.d2));
+});
+
+describe('finance — option Greeks', () => {
+    // S=100,K=100,r=5%,σ=20%,T=1 — standard reference set
+    const g = greeks(100, 100, 0.05, 0.2, 1, 'call');
+    const gp = greeks(100, 100, 0.05, 0.2, 1, 'put');
+    test('call delta ≈ 0.6368', () => near(g.delta, 0.6368, 1e-3));
+    test('put delta = call delta − 1', () => near(gp.delta, g.delta - 1, 1e-9));
+    test('call delta in (0,1)', () => {
+        expect(g.delta).toBeGreaterThan(0);
+        expect(g.delta).toBeLessThan(1);
+    });
+    test('gamma > 0 and equal for call/put', () => {
+        expect(g.gamma).toBeGreaterThan(0);
+        near(g.gamma, gp.gamma, 1e-12);
+    });
+    test('gamma ≈ 0.01876', () => near(g.gamma, 0.018762, 1e-5));
+    test('vega equal for call/put and ≈ 37.52', () => {
+        near(g.vega, gp.vega, 1e-9);
+        near(g.vega, 37.524, 1e-2);
+    });
+    test('call theta negative (time decay)', () => expect(g.theta).toBeLessThan(0));
+    test('call rho positive, put rho negative', () => {
+        expect(g.rho).toBeGreaterThan(0);
+        expect(gp.rho).toBeLessThan(0);
+    });
+    test('delta matches finite-difference of price', () => {
+        const eps = 1e-4;
+        const up = blackScholes(100 + eps, 100, 0.05, 0.2, 1).call;
+        const dn = blackScholes(100 - eps, 100, 0.05, 0.2, 1).call;
+        near(g.delta, (up - dn) / (2 * eps), 1e-4);
+    });
+});
+
+describe('finance — binomial tree (CRR)', () => {
+    test('converges to Black–Scholes (call)', () => {
+        const bs = blackScholes(100, 100, 0.05, 0.2, 1).call;
+        near(binomialOption(100, 100, 0.05, 0.2, 1, 500, 'call'), bs, 5e-2);
+    });
+    test('converges to Black–Scholes (put)', () => {
+        const bs = blackScholes(100, 100, 0.05, 0.2, 1).put;
+        near(binomialOption(100, 100, 0.05, 0.2, 1, 500, 'put'), bs, 5e-2);
+    });
+    test('American call = European call (no dividends)', () => {
+        const eu = binomialOption(100, 100, 0.05, 0.2, 1, 200, 'call', false);
+        const am = binomialOption(100, 100, 0.05, 0.2, 1, 200, 'call', true);
+        near(am, eu, 1e-6);
+    });
+    test('American put ≥ European put', () => {
+        const eu = binomialOption(100, 100, 0.05, 0.2, 1, 200, 'put', false);
+        const am = binomialOption(100, 100, 0.05, 0.2, 1, 200, 'put', true);
+        expect(am).toBeGreaterThanOrEqual(eu - 1e-9);
+    });
+    test('deep ITM call ≈ intrinsic', () => {
+        expect(binomialOption(200, 100, 0.05, 0.2, 1, 200, 'call')).toBeGreaterThan(100);
+    });
+});
+
+describe('finance — Monte Carlo (seeded)', () => {
+    test('mulberry32 is deterministic for a seed', () => {
+        const a = mulberry32(42);
+        const b = mulberry32(42);
+        expect(a()).toBe(b());
+        expect(a()).toBe(b());
+    });
+    test('mulberry32 outputs in [0,1)', () => {
+        const rng = mulberry32(7);
+        for (let i = 0; i < 100; i++) {
+            const x = rng();
+            expect(x).toBeGreaterThanOrEqual(0);
+            expect(x).toBeLessThan(1);
+        }
+    });
+    test('gaussian samples ~ mean 0 over many draws', () => {
+        const rng = mulberry32(99);
+        let s = 0;
+        const N = 20000;
+        for (let i = 0; i < N; i++) s += gaussianSample(rng);
+        expect(Math.abs(s / N)).toBeLessThan(0.05);
+    });
+    test('MC price ≈ Black–Scholes (call)', () => {
+        const bs = blackScholes(100, 100, 0.05, 0.2, 1).call;
+        const mc = monteCarloOption(100, 100, 0.05, 0.2, 1, 200000, 'call', 2024);
+        near(mc, bs, 0.2);
+    });
+    test('MC is reproducible for a fixed seed', () => {
+        const a = monteCarloOption(100, 100, 0.05, 0.2, 1, 5000, 'call', 1);
+        const b = monteCarloOption(100, 100, 0.05, 0.2, 1, 5000, 'call', 1);
+        expect(a).toBe(b);
+    });
 });
