@@ -67,6 +67,25 @@ describe('stem — page registry', () => {
     });
 });
 
+describe('stem — cubic spline page', () => {
+    test('spline page renders a curve + data points', () => {
+        const sp = /** @type {(typeof PAGES)[number]} */ (PAGES.find((p) => p.id === 'spline'));
+        expect(sp).toBeTruthy();
+        const out = sp.render(0);
+        expect(out.startsWith('<svg')).toBe(true);
+        expect(out).toContain('<polyline');
+        expect(out).toContain('<circle');
+        expect(sp.render(0)).toBe(sp.render(2)); // static
+    });
+    test('the spline passes through its data nodes', async () => {
+        const Interp = await import('../math/interpolate.js');
+        const xs = [0, 1, 2, 3, 4, 5];
+        const ys = [0, 2, 1, 3, 1, 4];
+        const s = Interp.cubicSpline(xs, ys);
+        xs.forEach((x, i) => expect(Math.abs(s(x) - ys[i])).toBeLessThan(1e-9));
+    });
+});
+
 describe('stem — MST graph page', () => {
     test('graph page exists and renders an SVG with nodes & edges', () => {
         const g = /** @type {(typeof PAGES)[number]} */ (PAGES.find((p) => p.id === 'graph'));
