@@ -6,6 +6,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.25.0] — Symbolic simplification: collect like terms
+
+### Added
+- **`math/symbolic.js`** `simplify` now collapses like terms/factors:
+  `x + x → 2·x` and `x · x → x²` (matched structurally via `equal`, so it works
+  for any repeated sub-expression, e.g. `sin(x) + sin(x) → 2·sin(x)`).
+- Version → 3.25.0.
+- 4 new tests (1079 total / 36 suites): `x + x → 2 · x`, `x * x → x ^ 2`,
+  `sin(x) + sin(x) → 2 · sin(x)`, and a finite-value cross-check that `x + x`
+  evaluates to `2x`. The existing diff/integrate anchors are unaffected (full
+  suite stays green — the new forms are strictly more simplified).
+
 ## [3.24.0] — Cubic-spline visualization in the STEM Lab
 
 ### Added

@@ -81,6 +81,16 @@ describe('symbolic — simplify', () => {
     test('x / x → 1', () => expect(astToString(simplify(parse('x / x')))).toBe('1'));
     test('constant folding 2 + 3*4 → 14', () => expect(astToString(simplify(parse('2 + 3*4')))).toBe('14'));
     test('double negation --x → x', () => expect(astToString(simplify(parse('-(-x)')))).toBe('x'));
+    test('like terms x + x → 2 · x', () => expect(astToString(simplify(parse('x + x')))).toBe('2 · x'));
+    test('like factors x * x → x ^ 2', () => expect(astToString(simplify(parse('x * x')))).toBe('x ^ 2'));
+    test('like terms compose: sin(x) + sin(x) → 2 · sin(x)', () =>
+        expect(astToString(simplify(parse('sin(x) + sin(x)')))).toBe('2 · sin(x)'));
+    test('x + x is numerically 2x (cross-check)', () => {
+        const f = simplify(parse('x + x'));
+        for (const xv of [1.3, -2.5, 4]) {
+            expect(Math.abs(evalExpr(astToString(f), { x: xv }).re - 2 * xv)).toBeLessThan(1e-9);
+        }
+    });
 });
 
 describe('symbolic — astToString precedence', () => {
