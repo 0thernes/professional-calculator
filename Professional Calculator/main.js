@@ -6,6 +6,7 @@
  * @module main
  */
 
+import { CEvent } from './events.js';
 import { CalculatorView } from './view.js';
 import { CalculatorController } from './controller.js';
 
@@ -77,7 +78,7 @@ function bootstrap() {
     if (clearHistBtn) {
         clearHistBtn.addEventListener('click', () => {
             controller.history.completed = [];
-            controller.history.dispatchEvent(new CustomEvent('completedChange'));
+            controller.history.dispatchEvent(new CEvent('completedChange'));
         });
     }
 
