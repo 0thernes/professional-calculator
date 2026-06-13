@@ -17,6 +17,10 @@ import * as Cal from '../math/calculus.js';
 import { gamma } from '../math/special.js';
 import { normalCdf, normalQuantile } from '../math/stats.js';
 import { blackScholes } from '../math/finance.js';
+import * as Sig from '../math/signal.js';
+import * as Decomp from '../math/decomposition.js';
+import * as Opt from '../math/optimize.js';
+import * as CB from '../math/combinatorics.js';
 
 /**
  * Time `fn` for at least `minMs` milliseconds and return ops/sec + mean ns.
@@ -69,6 +73,10 @@ console.log('\n=== Professional Calculator — Scientific Engine Benchmarks ===\
 console.log('Node', process.version, '| platform', process.platform, '\n');
 
 const ast = parse('sin(pi/4)^2 + cos(pi/4)^2 + 3*x^2 - log(8,2)');
+const sig512 = Array.from({ length: 512 }, (_, k) => Math.sin(k) + 0.3 * Math.cos(2 * k));
+const sig500 = sig512.slice(0, 500); // non-power-of-2 → Bluestein path
+const svdA = randMatrix(8);
+const sphere = (/** @type {number[]} */ v) => v[0] * v[0] + v[1] * v[1];
 const results = [
     bench('parser: tokenize+parse (medium expr)', () => parse('sin(pi/4)^2 + cos(pi/4)^2 + 3*x^2')),
     bench('parser: evaluate cached AST', () => evaluate(ast, { x: 1.5 })),
@@ -79,6 +87,11 @@ const results = [
     bench('calculus: ∫₀^π sin (adaptive)', () => Cal.integrate(Math.sin, 0, Math.PI)),
     bench('calculus: Brent root x=cos(x)', () => Cal.brent((x) => x - Math.cos(x), 0, 1)),
     bench('calculus: RK4 100 steps', () => Cal.rk4((t, y) => [y[0]], 0, 1, [1], 100)),
+    bench('signal: FFT 512-pt (radix-2)', () => Sig.fft(sig512)),
+    bench('signal: FFT 500-pt (Bluestein)', () => Sig.fft(sig500)),
+    bench('decomp: SVD 8×8 (Jacobi)', () => Decomp.svd(svdA)),
+    bench('optimize: Nelder–Mead (2D sphere)', () => Opt.minimizeNelderMead(sphere, [3, 3])),
+    bench('combinatorics: partitions(60)', () => CB.partitions(60)),
 ];
 console.log('Operation throughput');
 console.log('─'.repeat(72));
@@ -99,4 +112,11 @@ for (const n of [8, 16, 32, 64]) {
     console.log('');
 }
 
-console.log('Done. (Numbers are machine-dependent; use for relative comparison.)\n');
+console.log('FFT scaling (O(N log N) — mean latency should grow ~2× per doubling of N)');
+console.log('─'.repeat(72));
+for (const N of [256, 512, 1024, 2048]) {
+    const x = Array.from({ length: N }, (_, k) => Math.sin(k) + 0.3 * Math.cos(2 * k));
+    console.log(fmt(bench(`FFT ${N}-pt`, () => Sig.fft(x), 150)));
+}
+
+console.log('\nDone. (Numbers are machine-dependent; use for relative comparison.)\n');
