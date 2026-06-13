@@ -6,6 +6,28 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.9.0] — Numerical optimization (minimization)
+
+### Added
+- **`math/optimize.js`** — function minimization (root finding already lives in
+  `calculus.js`, so this is the complementary half):
+  - `goldenSection` — golden-section search for a unimodal 1-D function on a
+    bracket (derivative-free; tolerates a reversed bracket).
+  - `minimizeNelderMead` — the Nelder–Mead downhill simplex
+    (reflect/expand/contract/shrink) for multivariate derivative-free
+    minimization.
+  - `gradientDescent` — steepest descent with an Armijo backtracking line
+    search; uses a supplied gradient, or a central-difference gradient (via
+    `Calculus.gradient`) when passed `null`.
+  - Each returns `{ x, fx, iterations }`. Exposed on the facade as `Optimize`;
+    capability manifest row added.
+- Version → 3.9.0.
+- 12 new tests (811 total / 26 suites), closed-form anchored: `(x−2)² → 2`,
+  `−sin` on [0,π] → π/2 (fx = −1), quartic min, the sphere → origin, a shifted
+  bowl → (1,−2), the **Rosenbrock** banana → (1,1), a 3-D quadratic → its
+  centre, gradient descent with analytic *and* numerical gradients, monotone
+  objective decrease, and the at-the-minimum early stop.
+
 ## [3.8.0] — Interpolation & curve fitting
 
 ### Added
