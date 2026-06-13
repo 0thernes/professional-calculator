@@ -6,6 +6,24 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.10.0] — Vector geometry
+
+### Added
+- **`math/geometry.js`** — Euclidean operations on real n-vectors:
+  - Linear: `add`, `sub`, `scale`, `negate`.
+  - Products: `dot`, `cross` (3-D), `tripleProduct` (scalar).
+  - Metric: `norm`, `distance`, `angleBetween` (cosine clamped for robustness).
+  - Maps: `normalize`, `projection`, `reflect`, `lerp`, `centroid`.
+  - Rotations: `rotate2D`, and `rotate3D` about an arbitrary axis (Rodrigues).
+  - Exposed on the facade as `Geometry`; capability manifest row added.
+- Version → 3.10.0.
+- 34 new tests (845 total / 27 suites), closed-form anchored:
+  `dot([1,2,3],[4,5,6]) = 32`, `x̂ × ŷ = ẑ` (and cyclic), cross ⟂ both operands
+  and anti-commutative, `‖[3,4]‖ = 5`, angle(x̂,ŷ) = π/2, `normalize([3,4]) =
+  [0.6,0.8]`, projection/reflection identities (double reflection = identity),
+  triple product of the basis = 1 (degenerate = 0), `rotate2D(x̂,π/2) = ŷ`,
+  `rotate3D(x̂,ẑ,π/2) = ŷ`, axis-fixed and length-preserving rotations.
+
 ### Changed
 - Lint hygiene: removed dead code so `eslint .` reports **zero** problems
   (previously 2 warnings) — dropped the unused `constValue` helper and its now
