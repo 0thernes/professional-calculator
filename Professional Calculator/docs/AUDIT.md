@@ -853,3 +853,28 @@ numeric-not-symbolic). The highest-value follow-ups, none of them blocking:
 
 These are tracked in [KANBAN.md](../KANBAN.md) and sequenced in
 [ROADMAP.md](../ROADMAP.md).
+
+---
+
+## Addendum — v3.x expansion (post-audit)
+
+The 500-point inspection above was performed at v2.0.0. The engine has since
+grown substantially (v2.0 → **v3.4.0**) while holding the **same quality bar**
+verified by CI on every PR — ESLint 0 errors, `tsc --noEmit` strict-clean, and
+the coverage gate (90% stmts/lines, 85% funcs, 80% branches):
+
+| Added since the audit | Module | Anchor |
+|---|---|---|
+| Quantum-computing state-vector simulator | `quantum.js` | H/Bell/GHZ, Born rule, gate unitarity |
+| Fluent quantum circuit builder | `circuit.js` | Bell/GHZ probabilities, correlated measurement |
+| Physics / relativity / cosmology | `physics.js` | −13.6 eV, γ(0.8c)=5/3, Schwarzschild |
+| Option Greeks, binomial tree, Monte Carlo | `finance.js` | Greeks↔finite-diff, binomial↔BS |
+| Visualization generators (2D/3D/4D) | `plot.js` | rotation norm-preserving, 16v/32e tesseract |
+| STEM Lab paged visualizer | `stem.js` | 8 pages, wrap-around nav |
+| Symbolic differentiation **and integration** | `symbolic.js` | numeric cross-check vs finite-difference; fundamental theorem |
+| Matrix/vector literals in the grammar | `parser.js` | det/inv/solve/eig through the REPL |
+
+**Tally:** 16 math + 6 app modules, **680 tests across 21 suites** (100% pass),
+all closed-form/invariant-anchored. The honest-scope framing (double-precision,
+dense, single-threaded, numeric+CAS-but-not-full-symbolic) is unchanged and
+documented in the README.
