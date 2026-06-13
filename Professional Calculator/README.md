@@ -6,7 +6,7 @@
 
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
-[![tests](https://img.shields.io/badge/tests-1034%20passing-brightgreen)](#testing)
+[![tests](https://img.shields.io/badge/tests-1056%20passing-brightgreen)](#testing)
 [![coverage](https://img.shields.io/badge/coverage-96%25%20stmts%20%2F%2083%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
@@ -43,7 +43,7 @@ Most "calculator" projects stop at four functions and a grid of buttons. This on
 
 Two things make it trustworthy rather than merely impressive:
 
-- **Every algorithm is anchored to a closed-form check in the test suite.** Not "looks plausible" — `det(AB) = det(A)·det(B)`, eigenvalues of a rotation matrix come back `±i`, `∫₀^π sin x dx = 2`, `Φ(1.96) = 0.975`, Black–Scholes obeys put–call parity. 1034 tests, all green.
+- **Every algorithm is anchored to a closed-form check in the test suite.** Not "looks plausible" — `det(AB) = det(A)·det(B)`, eigenvalues of a rotation matrix come back `±i`, `∫₀^π sin x dx = 2`, `Φ(1.96) = 0.975`, Black–Scholes obeys put–call parity. 1056 tests, all green.
 - **It is honest about what it is.** It is a single-thread, double-precision, dense-matrix engine in JavaScript. It does not replace LAPACK/BLAS or MATLAB for large-scale or distributed work — see [Scope & limitations](#scope-honesty--limitations). Within its envelope (interactive, up to a few hundred dimensions) it is fast, correct, and dependency-free.
 
 ## Feature matrix
@@ -56,7 +56,7 @@ Two things make it trustworthy rather than merely impressive:
 | **Linear algebra** | det, inverse, solve, rank, norms, LU, **QR**, **eigenvalues/vectors** | [`matrix.js`](math/matrix.js) |
 | **Calculus** | derivative (Richardson), adaptive ∫, roots (Brent), ODE (RK4/RKF45) | [`calculus.js`](math/calculus.js) |
 | **Statistics** | descriptive, regression, distributions, **t/z/χ²/ANOVA tests**, confidence intervals | [`stats.js`](math/stats.js) |
-| **Units** | 7-dimension SI analysis, conversion, affine temperature scales | [`units.js`](math/units.js) |
+| **Units** | 7-dimension SI analysis, conversion, affine temperature scales, **unit-aware expressions** (`3 kg · 9.8 m/s²`) | [`units.js`](math/units.js) · [`unitexpr.js`](math/unitexpr.js) |
 | **Finance** | PV/FV/annuities, NPV, **IRR**, amortization, **Black–Scholes**, CAGR | [`finance.js`](math/finance.js) |
 | **Special functions** | `Γ`, `lnΓ`, `erf`, `erfc`, `β`, incomplete `γ`/`β`, `nCr`, `nPr` | [`special.js`](math/special.js) |
 | **Constants** | CODATA-2018 physical constants + math constants | [`constants.js`](math/constants.js) |
@@ -86,7 +86,7 @@ ES modules require HTTP (not `file://`):
 ```bash
 npm install         # dev deps only (jest, typescript) — zero runtime deps
 npm run serve       # static server → open the printed URL
-npm test            # 1034 tests
+npm test            # 1056 tests
 npm run typecheck   # tsc --noEmit (strict)
 npm run bench       # throughput + empirical O(n³) scaling
 ```
@@ -203,7 +203,7 @@ The O(n³) kernels (mul, det, eig) scale as documented — ~8× latency per dime
 ## Testing
 
 ```
-35 test suites · 1034 tests · 100% pass
+36 test suites · 1056 tests · 100% pass
 coverage (full engine — math + controllers + REPL):
   95.96% statements · 95.96% lines · 93.48% functions · 83.15% branches
   gates: 90% lines/stmts · 85% functions · 80% branches
