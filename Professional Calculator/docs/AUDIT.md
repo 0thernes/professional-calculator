@@ -12,6 +12,18 @@ output, and an in-browser smoke test (http-server + headless DOM eval).
 Section score is out of 10 and reflects evidence, not aspiration — 9–10 is
 reserved for genuinely excellent, and real gaps are graded honestly.
 
+> **Post-audit remediation (same PR).** This audit drove immediate action.
+> Three flagged gaps were closed before merge and the affected rows below now
+> read PASS: **§4/§21** an ESLint flat config was added (`eslint.config.js`,
+> `npm run lint`, CI lint job) — it caught and fixed 4 real errors (3
+> over-precise float literals that silently rounded, 1 `true &&` dead
+> expression) plus dead `y`/`w` vars in the eigensolver; **§21/§23** a
+> `package-lock.json` is now committed and CI uses `npm ci`; **§11** coverage
+> scope was corrected to measure the *entire* engine (it previously omitted
+> `math/` and `repl.js`), giving an honest 95.96% stmts / 83.15% branches.
+> Remaining open items (eigensolver hardening, e2e/axe tests, Web Worker) stay
+> tracked in ROADMAP.
+
 ---
 
 ## Scorecard summary
@@ -21,14 +33,14 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 | 1 | Security | 9.6 | no CSP header doc for embeds |
 | 2 | Correctness & Logic | 9.4 | general eigensolver edge cases |
 | 3 | Numerical Accuracy | 9.3 | double precision only |
-| 4 | Code Quality | 9.2 | no linter config |
+| 4 | Code Quality | 9.4 | ESLint added; no Prettier |
 | 5 | Architecture & Modularity | 9.5 | — |
 | 6 | Design Patterns | 9.2 | — |
 | 7 | Data Structures & Algorithms | 9.4 | naive matmul (no Strassen) |
 | 8 | Time & Space Complexity | 9.3 | O(n³) dense only |
 | 9 | Type Safety | 9.1 | bench `@ts-nocheck` |
 | 10 | Error Handling | 9.3 | — |
-| 11 | Testing & Coverage | 9.0 | branches 81%; no e2e |
+| 11 | Testing & Coverage | 9.1 | branches 83%; no e2e |
 | 12 | Accessibility (WCAG) | 8.8 | no automated axe test |
 | 13 | User Experience | 8.7 | assignment echo cosmetic |
 | 14 | UI & Visual Design | 8.8 | — |
@@ -38,12 +50,12 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 | 18 | Performance | 9.1 | single-threaded |
 | 19 | Documentation | 9.6 | — |
 | 20 | API Design | 9.3 | — |
-| 21 | Build & Tooling | 8.9 | no lockfile committed |
-| 22 | CI/CD | 9.0 | no deploy stage |
-| 23 | Dependency & Supply-chain | 9.6 | — |
-| 24 | Maintainability & Tech Debt | 9.1 | — |
+| 21 | Build & Tooling | 9.4 | no Prettier |
+| 22 | CI/CD | 9.1 | no deploy stage |
+| 23 | Dependency & Supply-chain | 9.7 | — |
+| 24 | Maintainability & Tech Debt | 9.2 | — |
 | 25 | Git Hygiene & Process | 9.2 | monorepo coupling |
-| | **Weighted average** | **9.16/10** | |
+| | **Weighted average** | **9.24/10** | |
 
 ---
 
@@ -142,7 +154,7 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 
 ### 4. Code Quality
 
-**Score: 9.2/10** — Consistent style, small focused functions, thorough JSDoc, descriptive names, no duplication. Missing an enforced linter/formatter config.
+**Score: 9.4/10** — Consistent style, small focused functions, thorough JSDoc, descriptive names, no duplication, now ESLint-enforced (caught 4 real errors). Only a dedicated formatter (Prettier) is absent.
 
 | # | Checkpoint | Status | Evidence |
 |---|---|---|---|
@@ -164,10 +176,10 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 | 16 | Consistent export style | ✅ PASS | named exports throughout |
 | 17 | Comment density appropriate | ✅ PASS | ~18% on dense numerics |
 | 18 | No TODO/FIXME left dangling | ✅ PASS | grep clean |
-| 19 | ESLint config | ❌ FAIL | `lint` script is a stub `echo` |
-| 20 | Prettier/format config | ⚠️ WARN | style consistent but unenforced |
+| 19 | ESLint config | ✅ PASS | `eslint.config.js` flat config; `npm run lint`; CI lint job; 0 errors |
+| 20 | Prettier/format config | ⚠️ WARN | style consistent + ESLint-enforced; no dedicated formatter |
 
-**Top fix:** add ESLint (+ Prettier) config and wire it into CI.
+**Top fix:** add Prettier for autoformatting (ESLint now enforces correctness rules).
 
 ---
 
@@ -364,9 +376,9 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 | # | Checkpoint | Status | Evidence |
 |---|---|---|---|
 | 1 | 403 tests pass | ✅ PASS | 14 suites |
-| 2 | Statement coverage ~99% | ✅ PASS | V8 report |
-| 3 | Branch coverage ≥80% gate | ✅ PASS | 81% (gate 80) |
-| 4 | Branch coverage ≥85% | ⚠️ WARN | 81% < statement bar |
+| 2 | Statement coverage (full engine) | ✅ PASS | 95.96% — scope now incl. math/ + repl.js |
+| 3 | Branch coverage ≥80% gate | ✅ PASS | 83.15% (gate 80) |
+| 4 | Branch coverage ≥90% (stmt bar) | ⚠️ WARN | 83.15% — defensive numeric branches uncovered |
 | 5 | Closed-form anchors (not snapshots) | ✅ PASS | Euler, π, parity |
 | 6 | Complex module tested | ✅ PASS | 30 tests |
 | 7 | Parser precedence/assoc tested | ✅ PASS | 50 tests |
@@ -669,7 +681,7 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 
 ### 21. Build & Tooling
 
-**Score: 8.9/10** — Deliberately build-free; clean scripts. Main gap is no committed lockfile.
+**Score: 9.4/10** — Deliberately build-free; clean scripts; committed lockfile, real lint, and an `engines` field now in place.
 
 | # | Checkpoint | Status | Evidence |
 |---|---|---|---|
@@ -686,15 +698,15 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 | 11 | V8 coverage provider | ✅ PASS | ESM-compatible |
 | 12 | tsconfig present | ✅ PASS | strict |
 | 13 | `.gitignore` complete | ✅ PASS | node_modules/coverage/editor |
-| 14 | Committed lockfile | ❌ FAIL | package-lock gitignored |
+| 14 | Committed lockfile | ✅ PASS | package-lock.json committed; CI uses `npm ci` |
 | 15 | Dev deps pinned (caret) | ✅ PASS | package.json |
 | 16 | No global tool assumptions | ✅ PASS | npx for http-server |
 | 17 | Scripts documented | ✅ PASS | README table |
-| 18 | Lint script present | ⚠️ WARN | stub only |
-| 19 | Coverage thresholds in config | ✅ PASS | jest.coverageThreshold |
-| 20 | Node engines field | ⚠️ WARN | not declared (CI tests 18/20/22) |
+| 18 | Lint script present | ✅ PASS | `eslint .` (real config) |
+| 19 | Coverage thresholds in config | ✅ PASS | jest.coverageThreshold 90/85/80 |
+| 20 | Node engines field | ✅ PASS | `"engines": { "node": ">=18" }` |
 
-**Top fix:** commit `package-lock.json` and add an `engines` field for reproducible installs.
+**Top fix:** add Prettier for autoformatting (the remaining tooling nicety).
 
 ---
 
@@ -741,7 +753,7 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 | 4 | Dependabot enabled | ✅ PASS | dependabot.yml |
 | 5 | No transitive runtime risk | ✅ PASS | nothing ships |
 | 6 | No `postinstall` scripts | ✅ PASS | package.json |
-| 7 | `npm install --no-audit` in CI | ✅ PASS | ci.yml |
+| 7 | `npm ci --no-audit` in CI | ✅ PASS | ci.yml (clean, locked installs) |
 | 8 | No bundled vendored code | ✅ PASS | source-only |
 | 9 | No CDN script tags | ✅ PASS | index.html local only |
 | 10 | http-server via npx (not dep) | ✅ PASS | serve script |
@@ -751,7 +763,7 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 | 14 | Supply-chain noted in SECURITY | ✅ PASS | SECURITY.md |
 | 15 | No deprecated deps in runtime | ✅ PASS | none |
 | 16 | Dev-only attack surface | ✅ PASS | jest/tsc not shipped |
-| 17 | Reproducible (pending lockfile) | ⚠️ WARN | see §21 |
+| 17 | Reproducible installs | ✅ PASS | lockfile committed; `npm ci` in CI |
 | 18 | No private registry coupling | ✅ PASS | public npm |
 | 19 | Audit-clean install | ✅ PASS | `0 vulnerabilities` at install |
 | 20 | Algorithms self-implemented | ✅ PASS | no math libs pulled |
@@ -824,7 +836,7 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 
 ## Verdict
 
-**Weighted average: 9.16 / 10 — production-grade.**
+**Weighted average: 9.24 / 10 — production-grade** (up from 9.16 after the same-PR remediation above).
 
 The repository would withstand scrutiny from an engineer, researcher, or
 reviewer: the numerics are correct and anchored, the architecture is clean and
@@ -832,11 +844,12 @@ documented, the process is disciplined, and — critically — the project is
 **honest about its envelope** (double precision, dense, single-threaded,
 numeric-not-symbolic). The highest-value follow-ups, none of them blocking:
 
-1. **Lint/format config** in CI (§4, §21).
-2. **Commit the lockfile** + `engines` field (§21, §23).
+1. ~~Lint config in CI~~ ✅ **done this PR** (ESLint + CI job).
+2. ~~Commit the lockfile + `engines` field~~ ✅ **done this PR**.
 3. **Francis double-shift QR** for adversarial non-normal eigenproblems (§2).
 4. **Playwright e2e + axe-core a11y** tests (§11, §12).
 5. **Web Worker offload** for large solves (§18).
+6. **Prettier** autoformatting + first-class matrix/unit literals in the REPL grammar (Phase 2).
 
 These are tracked in [KANBAN.md](../KANBAN.md) and sequenced in
 [ROADMAP.md](../ROADMAP.md).

@@ -14,6 +14,20 @@ defaults:
     working-directory: 'Professional Calculator'
 
 jobs:
+  lint:
+    name: lint (ESLint)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: 'Professional Calculator/package-lock.json'
+      - run: npm ci --no-audit --no-fund
+      - name: Lint (ESLint, 0 errors)
+        run: npm run lint
+
   test:
     name: test (Node ${{ matrix.node }})
     runs-on: ubuntu-latest
@@ -27,8 +41,10 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          cache: 'npm'
+          cache-dependency-path: 'Professional Calculator/package-lock.json'
       - name: Install dev dependencies
-        run: npm install --no-audit --no-fund
+        run: npm ci --no-audit --no-fund
       - name: Type-check (tsc --noEmit, strict)
         run: npm run typecheck
       - name: Run test suite
@@ -42,8 +58,10 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install --no-audit --no-fund
-      - name: Coverage (enforces 85% lines / 80% branches)
+          cache: 'npm'
+          cache-dependency-path: 'Professional Calculator/package-lock.json'
+      - run: npm ci --no-audit --no-fund
+      - name: Coverage (enforces 90% lines/stmts, 85% funcs, 80% branches)
         run: npm run test:coverage
 
   benchmark:
@@ -54,6 +72,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - run: npm install --no-audit --no-fund
+          cache: 'npm'
+          cache-dependency-path: 'Professional Calculator/package-lock.json'
+      - run: npm ci --no-audit --no-fund
       - name: Run benchmarks (must not throw)
         run: npm run bench

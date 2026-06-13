@@ -25,14 +25,14 @@ export const MATH = Object.freeze({
     e: Math.E,
     tau: 2 * Math.PI,
     phi: (1 + Math.sqrt(5)) / 2, // golden ratio
-    gamma: 0.5772156649015328606, // Euler–Mascheroni
+    gamma: 0.5772156649015329, // Euler–Mascheroni (nearest f64)
     sqrt2: Math.SQRT2,
     sqrt1_2: Math.SQRT1_2,
     ln2: Math.LN2,
     ln10: Math.LN10,
     log2e: Math.LOG2E,
     log10e: Math.LOG10E,
-    catalan: 0.915965594177219015, // Catalan's constant
+    catalan: 0.915965594177219, // Catalan's constant (nearest f64)
 });
 
 /** @type {Readonly<Record<string, PhysicalConstant>>} */

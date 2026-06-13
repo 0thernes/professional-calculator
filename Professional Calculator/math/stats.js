@@ -15,7 +15,7 @@
  * @module math/stats
  */
 
-import { erf, erfc, lowerGammaP, betaInc, combinations, lgamma } from './special.js';
+import { erfc, lowerGammaP, betaInc, combinations, lgamma } from './special.js';
 
 const SQRT2 = Math.SQRT2;
 const SQRT2PI = Math.sqrt(2 * Math.PI);

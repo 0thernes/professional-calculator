@@ -2,8 +2,8 @@
  * @jest-environment node
  */
 import {
-    identity, zeros, diag, clone, add, sub, scale, mul, matvec, transpose,
-    trace, lu, det, solve, inv, rank, normFro, norm1, normInf, qr,
+    identity, zeros, diag, add, sub, scale, mul, matvec, transpose,
+    trace, det, solve, inv, rank, normFro, norm1, normInf, qr,
     eigSymmetric, eigenvalues, isSymmetric,
 } from '../../math/matrix.js';
 

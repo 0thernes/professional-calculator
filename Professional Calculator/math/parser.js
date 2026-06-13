@@ -30,7 +30,7 @@
  */
 
 import * as C from './complex.js';
-import { MATH, constantValue } from './constants.js';
+import { constantValue } from './constants.js';
 import { gamma, erf, erfc, factorial as realFactorial, combinations, permutations, lgamma } from './special.js';
 
 /**

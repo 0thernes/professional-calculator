@@ -4,17 +4,23 @@
   "description": "Professional calculator with modular architecture, TypeScript type-checking, and Jest test suite",
   "type": "module",
   "main": "main.js",
+  "engines": {
+    "node": ">=18"
+  },
   "scripts": {
     "serve": "npx --yes http-server -c-1 .",
     "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
     "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch",
     "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
-    "bench": "node bench/bench.js",
-    "lint": "echo 'add eslint here'"
+    "bench": "node bench/bench.js"
   },
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "@types/jest": "^29.5.0",
+    "eslint": "^9.0.0",
+    "globals": "^15.0.0",
     "jest": "^29.7.0",
     "jest-environment-jsdom": "^29.7.0",
     "typescript": "^5.4.0"
@@ -26,18 +32,21 @@
     "moduleFileExtensions": ["js", "mjs"],
     "testMatch": ["**/tests/**/*.test.js"],
     "collectCoverageFrom": [
-      "**/engine.js",
-      "**/history.js",
-      "**/state.js",
+      "**/math/*.js",
+      "**/controller.js",
       "**/view.js",
-      "**/controller.js"
+      "**/state.js",
+      "**/history.js",
+      "**/repl.js",
+      "!**/math/index.js"
     ],
+    "coveragePathIgnorePatterns": ["/node_modules/", "/tests/"],
     "coverageThreshold": {
       "global": {
         "branches": 80,
         "functions": 85,
-        "lines": 85,
-        "statements": 85
+        "lines": 90,
+        "statements": 90
       }
     }
   }

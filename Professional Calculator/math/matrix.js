@@ -343,7 +343,7 @@ export function normInf(A) {
 export function qr(A) {
     const [m, n] = shape(A);
     const R = clone(A);
-    let Q = identity(m);
+    const Q = identity(m);
     const steps = Math.min(m - 1, n);
     for (let k = 0; k < steps; k++) {
         // Householder vector for column k below the diagonal
@@ -393,7 +393,7 @@ export function eigSymmetric(A, maxSweeps = 100) {
     const [n, m] = shape(A);
     if (n !== m) throw new RangeError('eigSymmetric requires a square matrix');
     const S = clone(A);
-    let V = identity(n);
+    const V = identity(n);
     for (let sweep = 0; sweep < maxSweeps; sweep++) {
         // off-diagonal magnitude
         let off = 0;
@@ -572,23 +572,14 @@ function francisQR(Hin) {
             // single-shift QR step (Wilkinson-style origin shift)
             if (iter++ > 1000) throw new RangeError('QR iteration failed to converge');
             let x = H[nn][nn];
-            let y = 0;
-            let w = 0;
-            if (nn > 0) {
-                y = H[nn - 1][nn - 1];
-                w = H[nn][nn - 1] * H[nn - 1][nn];
-            }
-            // exceptional shift every 10 iters
-            let shift = 0;
+            // exceptional shift every 10 iterations to break convergence cycles
             if (iter % 10 === 0) {
                 t += x;
                 for (let i = 0; i <= nn; i++) H[i][i] -= x;
                 const s = Math.abs(H[nn][nn - 1]) + Math.abs(H[nn - 1][nn - 2] || 0);
                 x = 0.75 * s;
-                y = x;
-                w = -0.4375 * s * s;
             }
-            shift = x; // Rayleigh-ish single shift target
+            const shift = x; // Rayleigh-ish single shift target
             // perform a shifted QR sweep on the active submatrix [l..nn]
             singleShiftSweep(H, l, nn, shift);
         }

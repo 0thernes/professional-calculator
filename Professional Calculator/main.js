@@ -123,7 +123,6 @@ async function bootstrapScientificEngine() {
             configurable: false, writable: false, enumerable: false,
         });
     } catch (err) {
-        // eslint-disable-next-line no-console
         console.error('Scientific engine failed to load:', err);
         log.innerHTML = '<li class="repl-entry repl-error"><div class="repl-out">⚠ engine unavailable</div></li>';
     }

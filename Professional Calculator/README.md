@@ -7,7 +7,8 @@
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
 [![tests](https://img.shields.io/badge/tests-403%20passing-brightgreen)](#testing)
-[![coverage](https://img.shields.io/badge/coverage-99%25%20stmts-brightgreen)](#testing)
+[![coverage](https://img.shields.io/badge/coverage-96%25%20stmts%20%2F%2083%25%20br-brightgreen)](#testing)
+[![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
 [![deps](https://img.shields.io/badge/runtime%20deps-0-blueviolet)](#zero-dependencies)
 [![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
@@ -179,7 +180,9 @@ The O(n³) kernels (mul, det, eig) scale as documented — ~8× latency per dime
 
 ```
 14 test suites · 403 tests · 100% pass
-coverage: 99% statements / 99% lines / 81% branches (gates: 85 / 80)
+coverage (full engine — math + controllers + REPL):
+  95.96% statements · 95.96% lines · 93.48% functions · 83.15% branches
+  gates: 90% lines/stmts · 85% functions · 80% branches
 ```
 
 Tests live in [`tests/`](tests/) (mirroring the source tree under `tests/math/`). Every numerical routine is checked against a **known closed-form value or invariant**, e.g.:
@@ -236,6 +239,7 @@ Professional Calculator/
 | `npm test` | run the Jest suite |
 | `npm run test:watch` | watch mode |
 | `npm run test:coverage` | coverage with thresholds |
+| `npm run lint` | ESLint (flat config, 0 errors) |
 | `npm run typecheck` | `tsc --noEmit` (strict) |
 | `npm run bench` | benchmarks |
 | `npm run serve` | local static server |

@@ -3,7 +3,7 @@
  */
 import {
     gamma, lgamma, factorial, combinations, permutations,
-    erf, erfc, beta, lbeta, lowerGammaP, upperGammaQ, betaInc,
+    erf, erfc, beta, lowerGammaP, upperGammaQ, betaInc,
 } from '../../math/special.js';
 
 /** @param {number} a @param {number} b @param {number} [eps] */

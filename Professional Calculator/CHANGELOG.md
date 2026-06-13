@@ -42,9 +42,18 @@ A ground-up scientific computing engine added on top of the calculator.
 - **Documentation suite**: README rewrite, `docs/ARCHITECTURE.md`,
   `docs/DATA_MODEL.md`, `docs/COMPLEXITY.md`, `docs/AUDIT.md`, `KANBAN.md`,
   `ROADMAP.md`, `CONTRIBUTING.md`, `SECURITY.md`.
-- **CI/CD**: GitHub Actions matrix (typecheck + test + coverage), issue/PR
-  templates, Dependabot.
+- **CI/CD**: GitHub Actions matrix (lint + typecheck + test + coverage + bench),
+  issue/PR templates, Dependabot.
+- **ESLint** flat config (`eslint.config.js`) wired into CI — caught and fixed
+  4 real defects (3 over-precise float literals that silently rounded, a
+  `true &&` dead expression) plus dead `y`/`w` locals in the eigensolver.
+- Committed `package-lock.json` + `engines` (`node >=18`); CI uses `npm ci`.
 - 286 new tests (403 total), all closed-form-anchored.
+
+### Changed (tooling)
+- Coverage scope corrected to measure the **entire engine** (previously
+  referenced a non-existent `engine.js` and omitted `math/` + `repl.js`).
+  Honest coverage: 95.96% stmts / 83.15% branches; gates raised to 90/85/80.
 
 ### Changed
 - Renamed download-artifact filenames to canonical names:
