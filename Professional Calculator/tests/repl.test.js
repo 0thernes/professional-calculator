@@ -83,6 +83,12 @@ describe('REPL — symbolic differentiation', () => {
         void v;
         expect(repl.submit(d.output).output).toBe('12');
     });
+    test('integrate(cos(x), x) → sin(x) + C', () => {
+        expect(setup().submit('integrate(cos(x), x)').output).toBe('sin(x) + C');
+    });
+    test('integral(x^3, x) alias works', () => {
+        expect(setup().submit('integral(x^3, x)').output).toBe('x ^ 4 / 4 + C');
+    });
 });
 
 describe('REPL — errors', () => {

@@ -15,7 +15,7 @@
  * @module math/symbolic
  */
 
-import { parse } from './parser.js';
+import { parse, evaluate } from './parser.js';
 
 /** @typedef {import('./parser.js').Node} Node */
 
@@ -25,6 +25,8 @@ import { parse } from './parser.js';
 
 /** @param {number} value @returns {Node} */
 const num = (value) => ({ type: 'num', value });
+/** @param {string} name @returns {Node} */
+const vr = (name) => ({ type: 'var', name });
 /** @param {Node} operand @returns {Node} */
 const neg = (operand) => ({ type: 'unary', op: '-', operand });
 /** @param {Node} left @param {Node} right @returns {Node} */
@@ -344,7 +346,153 @@ function render(node, parentPrec) {
 }
 
 /* ------------------------------------------------------------------ *
- *  Convenience entry point
+ *  Symbolic integration (antiderivatives)
+ *
+ *  A pattern-matching integrator: linearity, the power rule, an
+ *  antiderivative table for the standard functions, and the linear-
+ *  substitution rule ∫f(a·x+b) dx = (1/a)·F(a·x+b). It throws on integrands
+ *  that genuinely need parts/partial-fractions/non-elementary results — it
+ *  never returns a wrong answer.
+ * ------------------------------------------------------------------ */
+
+/** Antiderivatives F such that F'(u) = f(u). @type {Record<string, (u: Node) => Node>} */
+const ANTI = {
+    sin: (u) => neg(call('cos', u)),
+    cos: (u) => call('sin', u),
+    exp: (u) => call('exp', u),
+    sinh: (u) => call('cosh', u),
+    cosh: (u) => call('sinh', u),
+    tan: (u) => neg(call('ln', call('cos', u))),       // ∫tan = -ln|cos|
+    ln: (u) => sub(mul(u, call('ln', u)), u),          // ∫ln  = u·ln u - u
+    sqrt: (u) => div(mul(num(2), call('sqrt', pow(u, num(3)))), num(3)), // (2/3) u^{3/2}
+};
+
+/** True if `node` does not depend on `x` (derivative is identically 0). */
+/** @param {Node} node @param {string} x @returns {boolean} */
+function isConstant(node, x) {
+    const d = simplify(differentiate(node, x));
+    return d.type === 'num' && d.value === 0;
+}
+
+/**
+ * If `node` is linear in `x` (= a·x + b with a, b constant), return the slope
+ * a as a number; otherwise null. Detected via: d(node)/dx is a constant.
+ * @param {Node} node
+ * @param {string} x
+ * @returns {number | null}
+ */
+function linearSlope(node, x) {
+    const d = simplify(differentiate(node, x));
+    if (d.type === 'num') return d.value;
+    return null;
+}
+
+/** Evaluate a constant node to a real number. @param {Node} node @returns {number} */
+function constValue(node) {
+    const z = evaluate(node, {});
+    return z.re;
+}
+
+/**
+ * Symbolic indefinite integral ∫ node d`x` (the constant of integration is
+ * omitted). Returns a new AST; pass through {@link simplify} for clean output.
+ * @param {Node} node
+ * @param {string} x
+ * @returns {Node}
+ */
+export function integrate(node, x) {
+    // ∫c dx = c·x  for any expression constant in x (covers numbers, π, sin(5), …)
+    if (isConstant(node, x)) return mul(node, vr(x));
+
+    switch (node.type) {
+        case 'var':
+            // must be x (constants handled above): ∫x dx = x²/2
+            return div(pow(vr(x), num(2)), num(2));
+
+        case 'unary':
+            return node.op === '-' ? neg(integrate(node.operand, x)) : integrate(node.operand, x);
+
+        case 'binary': {
+            const { op, left, right } = node;
+            switch (op) {
+                case '+': return add(integrate(left, x), integrate(right, x));
+                case '-': return sub(integrate(left, x), integrate(right, x));
+                case '*':
+                    if (isConstant(left, x)) return mul(left, integrate(right, x));
+                    if (isConstant(right, x)) return mul(right, integrate(left, x));
+                    throw new RangeError('cannot integrate this product (needs integration by parts)');
+                case '/':
+                    if (isConstant(right, x)) return div(integrate(left, x), right);
+                    // ∫(c/x) dx = c·ln(x)
+                    if (isConstant(left, x) && right.type === 'var' && right.name === x) {
+                        return mul(left, call('ln', vr(x)));
+                    }
+                    throw new RangeError('cannot integrate division by a non-constant');
+                case '^':
+                    return integratePower(left, right, x);
+                case '%':
+                    throw new RangeError('cannot integrate modulo');
+                default:
+                    throw new SyntaxError(`unknown operator '${op}'`);
+            }
+        }
+
+        case 'call': {
+            if (node.args.length !== 1 || !(node.name in ANTI)) {
+                throw new RangeError(`cannot integrate '${node.name}'`);
+            }
+            const u = node.args[0];
+            const a = linearSlope(u, x);
+            if (a === null || a === 0) throw new RangeError(`cannot integrate ${node.name} of a non-linear argument`);
+            const F = ANTI[node.name](u);
+            return a === 1 ? F : div(F, num(a));
+        }
+
+        case 'abs':
+        case 'postfix':
+        case 'matrix':
+        case 'vector':
+            throw new RangeError('cannot symbolically integrate this expression');
+
+        default:
+            throw new SyntaxError('malformed AST node');
+    }
+}
+
+/**
+ * ∫ base^exp dx. Handles x^c / (a·x+b)^c (power rule + linear sub) and c^(a·x+b)
+ * (exponential).
+ * @param {Node} base
+ * @param {Node} exp
+ * @param {string} x
+ * @returns {Node}
+ */
+function integratePower(base, exp, x) {
+    if (isConstant(exp, x)) {
+        // (a·x+b)^c
+        const a = linearSlope(base, x);
+        if (a === null || a === 0) throw new RangeError('cannot integrate this power (non-linear base)');
+        const isMinusOne = exp.type === 'num' && exp.value === -1;
+        if (isMinusOne) {
+            // ∫(ax+b)^-1 dx = ln(ax+b)/a
+            return a === 1 ? call('ln', base) : div(call('ln', base), num(a));
+        }
+        // ∫(ax+b)^c dx = (ax+b)^(c+1) / (a·(c+1))
+        const c1 = exp.type === 'num' ? num(exp.value + 1) : add(exp, num(1));
+        const denom = a === 1 ? c1 : mul(num(a), c1);
+        return div(pow(base, c1), denom);
+    }
+    if (isConstant(base, x)) {
+        // c^(a·x+b): ∫ = c^(a·x+b) / (a·ln c)
+        const a = linearSlope(exp, x);
+        if (a === null || a === 0) throw new RangeError('cannot integrate this exponential (non-linear exponent)');
+        return div(pow(base, exp), mul(num(a), call('ln', base)));
+    }
+    throw new RangeError('cannot integrate this power');
+}
+
+/* ------------------------------------------------------------------ *
+ *  Convenience entry points
  * ------------------------------------------------------------------ */
 
 /**
@@ -356,4 +504,16 @@ function render(node, parentPrec) {
 export function diff(src, x = 'x') {
     const d = simplify(differentiate(parse(src), x));
     return { ast: d, string: astToString(d) };
+}
+
+/**
+ * Parse, integrate w.r.t. `x`, simplify, and render. (Constant of integration
+ * omitted.)
+ * @param {string} src
+ * @param {string} [x]
+ * @returns {{ ast: Node, string: string }}
+ */
+export function integral(src, x = 'x') {
+    const i = simplify(integrate(parse(src), x));
+    return { ast: i, string: astToString(i) };
 }

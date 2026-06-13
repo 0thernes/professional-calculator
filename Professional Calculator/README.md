@@ -6,7 +6,7 @@
 
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
-[![tests](https://img.shields.io/badge/tests-636%20passing-brightgreen)](#testing)
+[![tests](https://img.shields.io/badge/tests-661%20passing-brightgreen)](#testing)
 [![coverage](https://img.shields.io/badge/coverage-96%25%20stmts%20%2F%2083%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
@@ -43,7 +43,7 @@ Most "calculator" projects stop at four functions and a grid of buttons. This on
 
 Two things make it trustworthy rather than merely impressive:
 
-- **Every algorithm is anchored to a closed-form check in the test suite.** Not "looks plausible" — `det(AB) = det(A)·det(B)`, eigenvalues of a rotation matrix come back `±i`, `∫₀^π sin x dx = 2`, `Φ(1.96) = 0.975`, Black–Scholes obeys put–call parity. 403 tests, all green.
+- **Every algorithm is anchored to a closed-form check in the test suite.** Not "looks plausible" — `det(AB) = det(A)·det(B)`, eigenvalues of a rotation matrix come back `±i`, `∫₀^π sin x dx = 2`, `Φ(1.96) = 0.975`, Black–Scholes obeys put–call parity. 661 tests, all green.
 - **It is honest about what it is.** It is a single-thread, double-precision, dense-matrix engine in JavaScript. It does not replace LAPACK/BLAS or MATLAB for large-scale or distributed work — see [Scope & limitations](#scope-honesty--limitations). Within its envelope (interactive, up to a few hundred dimensions) it is fast, correct, and dependency-free.
 
 ## Feature matrix
@@ -65,7 +65,7 @@ Two things make it trustworthy rather than merely impressive:
 | **Quant finance** | Greeks (Δ/Γ/vega/Θ/ρ), CRR binomial tree, seeded Monte Carlo | [`finance.js`](math/finance.js) |
 | **Visualization** | 2D/parametric plots, 3D surfaces, **4D tesseract**, Bloch sphere, spectra | [`plot.js`](math/plot.js) |
 | **STEM Lab** | paged live-SVG visual panel (8 cyclable scientific visualizations) | [`stem.js`](stem.js) |
-| **Symbolic (CAS)** | `diff(expr, x)` — product/quotient/chain rules, simplify, re-parseable output | [`symbolic.js`](math/symbolic.js) |
+| **Symbolic (CAS)** | `diff(expr, x)` + `integrate(expr, x)` — chain/power rules, antiderivatives, simplify, re-parseable | [`symbolic.js`](math/symbolic.js) |
 
 ## Quick start
 
@@ -74,7 +74,7 @@ ES modules require HTTP (not `file://`):
 ```bash
 npm install         # dev deps only (jest, typescript) — zero runtime deps
 npm run serve       # static server → open the printed URL
-npm test            # 403 tests
+npm test            # 661 tests
 npm run typecheck   # tsc --noEmit (strict)
 npm run bench       # throughput + empirical O(n³) scaling
 ```
@@ -185,7 +185,7 @@ The O(n³) kernels (mul, det, eig) scale as documented — ~8× latency per dime
 ## Testing
 
 ```
-20 test suites · 636 tests · 100% pass
+20 test suites · 661 tests · 100% pass
 coverage (full engine — math + controllers + REPL):
   95.96% statements · 95.96% lines · 93.48% functions · 83.15% branches
   gates: 90% lines/stmts · 85% functions · 80% branches
