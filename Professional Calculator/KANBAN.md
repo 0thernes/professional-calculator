@@ -65,6 +65,21 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ✅ **Symbolic integration** (L) — power rule, antiderivative table, linear substitution
 - ✅ **Quantum circuit builder** (M) — fluent `QuantumCircuit` over the simulator
 
+### Epic: numerical-library expansion (v3.5–3.16)
+- ✅ **Number theory** (M) — Miller–Rabin, factorization, modular arithmetic, totient, Fibonacci
+- ✅ **Inferential statistics** (M) — t/z/χ²/ANOVA tests + confidence intervals
+- ✅ **Signal processing** (L) — FFT (radix-2 + Bluestein), convolution, windows, spectra
+- ✅ **Interpolation & curve fitting** (M) — spline, Lagrange/Newton, `polyfit`
+- ✅ **Numerical optimization** (M) — golden-section, Nelder–Mead, gradient descent
+- ✅ **Vector geometry** (S) — dot/cross/projection/reflection, 2D/3D rotation
+- ✅ **Combinatorics** (M) — Catalan/Bell/Stirling/partitions/derangements (exact BigInt)
+- ✅ **Matrix decompositions** (L) — SVD (Jacobi), Cholesky, pseudoinverse, least squares
+- ✅ **Coordinate systems** (S) — polar/spherical/cylindrical ↔ Cartesian
+- ✅ **Seeded RNG & sampling** (M) — distributions + shuffle/sample, reproducible
+- ✅ **Combinatorics in the REPL** (S) — `catalan`/`bell`/`partitions`/… scalar functions
+- ✅ **FFT spectrum STEM page** (S) — surfaces `signal.js` visually
+- ✅ **Property-based invariant tests** (M) — seeded randomized cross-module invariants
+
 ---
 
 ## 📋 Ready (next up)
@@ -85,6 +100,7 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ⬜ Export REPL transcript / plots to Markdown/LaTeX/SVG (S)
 - ⬜ Prettier autoformatting (S)
 - ⬜ Playwright e2e + axe-core accessibility tests (M)
+- ⬜ Graph algorithms (BFS/DFS/Dijkstra/MST) (M)
 
 ---
 
@@ -92,8 +108,8 @@ In Progress → Review → Done**. Items are sized S / M / L.
 
 | Metric | Value |
 |---|---|
-| Epics delivered | 6 (core, applied, product, quality, STEM suite, CAS & grammar) |
-| Modules shipped | 16 math + 6 app + 8 docs |
-| Tests | 680 across 21 suites (100% pass) |
-| Releases | v1.0 → v3.4.0, merged via PRs #1–#9 |
+| Epics delivered | 7 (core, applied, product, quality, STEM suite, CAS & grammar, numerical-library expansion) |
+| Modules shipped | 25 math + 6 app + 8 docs |
+| Tests | 971 across 32 suites (100% pass) |
+| Releases | v1.0 → v3.16.0, merged via PRs #1–#25 |
 | Cycle: idea → tested module | continuous (test-anchored each step) |

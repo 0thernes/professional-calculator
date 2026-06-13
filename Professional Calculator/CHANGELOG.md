@@ -6,6 +6,15 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- **Docs accuracy sweep**: synced `docs/ARCHITECTURE.md` (both Mermaid graphs +
+  the dependency prose now include numtheory/signal/interpolate/optimize/
+  geometry/combinatorics/decomposition/coordinates/random), `docs/AUDIT.md`
+  (addendum → v3.16.0, full module table, tally **25 math + 6 app, 971 tests /
+  32 suites**), and `KANBAN.md` (flow metrics + a new "numerical-library
+  expansion" epic). The historical v2.0.0 500-point inspection is left intact as
+  a point-in-time record.
+
 ### Added
 - **Property-based tests** (`tests/math/properties.test.js`): a seeded-`Rng`
   suite that draws many random inputs per test and asserts mathematical
