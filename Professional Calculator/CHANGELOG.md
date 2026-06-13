@@ -6,6 +6,13 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Changed
+- **Benchmarks**: `bench/bench.js` now covers the newer modules — FFT throughput
+  on both the radix-2 (512-pt) and Bluestein (500-pt) paths, an 8×8 SVD, a 2-D
+  Nelder–Mead minimization, and `partitions(60)` — plus a dedicated **FFT
+  O(N log N) scaling** section (256→2048) alongside the existing O(n³) kernel
+  table. Script-only; no library or test changes.
+
 ## [3.15.0] — FFT spectrum in the STEM Lab
 
 ### Added
