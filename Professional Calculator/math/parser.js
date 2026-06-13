@@ -33,6 +33,7 @@ import * as C from './complex.js';
 import * as M from './matrix.js';
 import * as NT from './numtheory.js';
 import * as CB from './combinatorics.js';
+import * as Bits from './bits.js';
 import { constantValue } from './constants.js';
 import { gamma, erf, erfc, factorial as realFactorial, combinations, permutations, lgamma } from './special.js';
 
@@ -559,6 +560,21 @@ function evaluateCall(node, scope) {
         case 'multichoose':
             requireArgs(name, argv, 2);
             return { re: CB.combinationsWithRepetition(argv[0].re, argv[1].re), im: 0 };
+        case 'popcount':
+            requireArgs(name, argv, 1);
+            return { re: Bits.popcount(argv[0].re), im: 0 };
+        case 'bitlength':
+            requireArgs(name, argv, 1);
+            return { re: Bits.bitLength(argv[0].re), im: 0 };
+        case 'gray':
+            requireArgs(name, argv, 1);
+            return { re: Bits.grayEncode(argv[0].re), im: 0 };
+        case 'igray':
+            requireArgs(name, argv, 1);
+            return { re: Bits.grayDecode(argv[0].re), im: 0 };
+        case 'hamming':
+            requireArgs(name, argv, 2);
+            return { re: Bits.hammingDistance(argv[0].re, argv[1].re), im: 0 };
         case 're':
             requireArgs(name, argv, 1);
             return { re: argv[0].re, im: 0 };

@@ -44,7 +44,7 @@ export {
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.22.0';
+export const VERSION = '3.23.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine

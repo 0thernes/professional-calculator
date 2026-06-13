@@ -113,6 +113,6 @@ In Progress → Review → Done**. Items are sized S / M / L.
 |---|---|
 | Epics delivered | 7 (core, applied, product, quality, STEM suite, CAS & grammar, numerical-library expansion) |
 | Modules shipped | 29 math + 6 app + 8 docs |
-| Tests | 1066 across 36 suites (100% pass) |
-| Releases | v1.0 → v3.22.0, merged via PRs #1–#32 |
+| Tests | 1073 across 36 suites (100% pass) |
+| Releases | v1.0 → v3.23.0, merged via PRs #1–#33 |
 | Cycle: idea → tested module | continuous (test-anchored each step) |
