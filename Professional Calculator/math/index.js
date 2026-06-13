@@ -30,7 +30,7 @@ export {
 };
 
 /** Library version (semantic). */
-export const VERSION = '3.5.0';
+export const VERSION = '3.6.0';
 
 /**
  * A flat capability manifest — used by the UI to advertise what the engine
@@ -43,7 +43,7 @@ export const CAPABILITIES = Object.freeze([
     { domain: 'Algebra', functions: ['exact rationals', 'gcd', 'lcm', 'nCr', 'nPr'] },
     { domain: 'Linear algebra', functions: ['[[..]] literals in REPL', 'det', 'inv', 'solve', 'rank', 'LU', 'QR', 'eigenvalues', 'eigenvectors'] },
     { domain: 'Calculus', functions: ["d/dx", '∫ (adaptive)', 'roots (Brent)', 'ODE (RK4/RKF45)', 'gradient'] },
-    { domain: 'Statistics', functions: ['mean/median/std', 'regression', 'normal', 't', 'χ²', 'F', 'binomial', 'Poisson'] },
+    { domain: 'Statistics', functions: ['mean/median/std', 'regression', 'normal/t/χ²/F/binomial/Poisson', 't-test', 'z-test', 'χ² GoF', 'ANOVA', 'CI'] },
     { domain: 'Units', functions: ['SI dimensional analysis', 'conversion', 'temperature scales'] },
     { domain: 'Finance', functions: ['NPV', 'IRR', 'PV/FV', 'annuities', 'Black–Scholes', 'Greeks', 'binomial', 'Monte Carlo'] },
     { domain: 'Special fns', functions: ['Γ', 'lnΓ', 'erf', 'erfc', 'β', 'incomplete γ/β'] },

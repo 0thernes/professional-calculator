@@ -6,6 +6,20 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.6.0] — Inferential statistics (hypothesis tests)
+
+### Added
+- **`math/stats.js`**: `tTestOneSample`, `tTestTwoSample` (Welch + pooled),
+  `zTest`, `chiSquareGoF`, `anovaOneWay`, `pearsonTest`, `confidenceIntervalMean`,
+  and `tQuantile` (inverse-t by bisection). Each test returns its statistic,
+  degrees of freedom, and a p-value (built on the existing t/χ²/F/normal CDFs).
+- Version → 3.6.0.
+- 20 new tests (747 total / 23 suites), anchored on hand-computed statistics:
+  one-sample t = 4.2426, Welch t = −1 with df = 8, z = 5/3, fair-die χ² = 1.0
+  (df 5), ANOVA F = 3 (df 2,6), perfect-correlation r = 1, and the 95% CI of
+  [1..5] (mean 3, margin 1.9632); plus invariants (wider CI at higher
+  confidence, t* round-trips the t-CDF).
+
 ## [3.5.0] — Number theory
 
 ### Added

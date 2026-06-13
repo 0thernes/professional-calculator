@@ -6,7 +6,7 @@
 
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
-[![tests](https://img.shields.io/badge/tests-727%20passing-brightgreen)](#testing)
+[![tests](https://img.shields.io/badge/tests-747%20passing-brightgreen)](#testing)
 [![coverage](https://img.shields.io/badge/coverage-96%25%20stmts%20%2F%2083%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
@@ -55,7 +55,7 @@ Two things make it trustworthy rather than merely impressive:
 | **Exact rationals** | BigInt `n/d` in lowest terms; `+ − × ÷ ^`; `0.1 + 0.2 = 3/10` exactly | [`rational.js`](math/rational.js) |
 | **Linear algebra** | det, inverse, solve, rank, norms, LU, **QR**, **eigenvalues/vectors** | [`matrix.js`](math/matrix.js) |
 | **Calculus** | derivative (Richardson), adaptive ∫, roots (Brent), ODE (RK4/RKF45) | [`calculus.js`](math/calculus.js) |
-| **Statistics** | descriptive, regression, normal/t/χ²/F/binomial/Poisson distributions | [`stats.js`](math/stats.js) |
+| **Statistics** | descriptive, regression, distributions, **t/z/χ²/ANOVA tests**, confidence intervals | [`stats.js`](math/stats.js) |
 | **Units** | 7-dimension SI analysis, conversion, affine temperature scales | [`units.js`](math/units.js) |
 | **Finance** | PV/FV/annuities, NPV, **IRR**, amortization, **Black–Scholes**, CAGR | [`finance.js`](math/finance.js) |
 | **Special functions** | `Γ`, `lnΓ`, `erf`, `erfc`, `β`, incomplete `γ`/`β`, `nCr`, `nPr` | [`special.js`](math/special.js) |
@@ -186,7 +186,7 @@ The O(n³) kernels (mul, det, eig) scale as documented — ~8× latency per dime
 ## Testing
 
 ```
-22 test suites · 727 tests · 100% pass
+23 test suites · 747 tests · 100% pass
 coverage (full engine — math + controllers + REPL):
   95.96% statements · 95.96% lines · 93.48% functions · 83.15% branches
   gates: 90% lines/stmts · 85% functions · 80% branches
