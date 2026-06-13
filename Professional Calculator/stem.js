@@ -18,7 +18,21 @@
 import * as Plot from './math/plot.js';
 import * as Q from './math/quantum.js';
 import * as Phys from './math/physics.js';
+import * as Sig from './math/signal.js';
 import { blackScholes } from './math/finance.js';
+
+/** Sample count for the FFT demo signal — a power of two for the radix-2 path. */
+const FFT_N = 64;
+
+/**
+ * Two-tone demo signal: a 3-cycle sine plus a half-amplitude 7-cycle sine.
+ * Its magnitude spectrum has clear peaks at bins 3 and 7. Pure & deterministic.
+ * @param {number} k
+ * @returns {number}
+ */
+function fftDemoSample(k) {
+    return Math.sin((2 * Math.PI * 3 * k) / FFT_N) + 0.5 * Math.sin((2 * Math.PI * 7 * k) / FFT_N);
+}
 
 /** @typedef {{ x: number, y: number }} Point2 */
 
@@ -228,6 +242,29 @@ function drawPayoff() {
         <text x="${PAD}" y="${PAD + 20}" fill="${FG}" font-size="10" opacity="0.7">payoff at expiry (dashed)</text>`);
 }
 
+/** @returns {string} */
+function drawFFT() {
+    // Magnitude spectrum of the two-tone demo signal, non-redundant half.
+    const signal = Array.from({ length: FFT_N }, (_, k) => fftDemoSample(k));
+    const mag = Sig.magnitude(Sig.fft(signal)).slice(0, FFT_N / 2);
+    const maxMag = Math.max(...mag, 1e-9);
+    const n = mag.length;
+    const innerW = VIEW - 2 * PAD;
+    const barW = innerW / n;
+    const maxH = VIEW - 2 * PAD - 16;
+    const bars = mag.map((m, i) => {
+        const h = (m / maxMag) * maxH;
+        const x = PAD + i * barW;
+        const y = VIEW - PAD - h;
+        const color = h > 0.5 * maxH ? ACCENT2 : ACCENT; // highlight the dominant bins
+        return `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${Math.max(1, barW * 0.8).toFixed(1)}" height="${h.toFixed(1)}" fill="${color}"/>`;
+    }).join('');
+    const axis = `<text x="${PAD}" y="${VIEW - PAD + 12}" fill="${FG}" font-size="9">bin 0</text>
+                  <text x="${(VIEW - PAD).toFixed(1)}" y="${VIEW - PAD + 12}" fill="${FG}" font-size="9" text-anchor="end">${n}</text>
+                  <text x="${PAD}" y="${PAD + 4}" fill="${ACCENT2}" font-size="11">|FFT| — peaks at bins 3 &amp; 7</text>`;
+    return svg(`<rect x="${PAD}" y="${PAD}" width="${innerW}" height="${maxH}" fill="rgba(0,0,0,0.3)"/>${bars}${axis}`);
+}
+
 /* ------------------------------------------------------------------ *
  *  Page registry
  * ------------------------------------------------------------------ */
@@ -250,6 +287,7 @@ export const PAGES = [
     { id: 'tesseract', title: '4D Tesseract',       caption: 'hypercube rotating in xw/zw',    animated: true,  render: drawTesseract },
     { id: 'circuit',   title: 'Quantum Circuit',    caption: 'Bell state |Φ+⟩ probabilities',  animated: false, render: drawCircuit },
     { id: 'spectrum',  title: 'Hydrogen Spectrum',  caption: 'Balmer series (n→2)',            animated: false, render: drawSpectrum },
+    { id: 'fft',       title: 'FFT Spectrum',       caption: '|FFT| of sin(3)+½·sin(7)',       animated: false, render: drawFFT },
     { id: 'payoff',    title: 'Option Pricing',     caption: 'Black–Scholes call vs payoff',   animated: false, render: drawPayoff },
 ];
 

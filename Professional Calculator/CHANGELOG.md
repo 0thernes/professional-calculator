@@ -6,6 +6,18 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.15.0] — FFT spectrum in the STEM Lab
+
+### Added
+- **STEM Lab**: a new **FFT Spectrum** page (`stem.js`) that surfaces the
+  `signal.js` engine visually — the magnitude spectrum (bar chart) of a
+  two-tone signal `sin(2π·3k/N) + ½·sin(2π·7k/N)` (N = 64), with the two
+  dominant bins highlighted. The STEM Lab now cycles through **9** pages.
+- Version → 3.15.0.
+- 2 new tests (927 total / 30 suites): the page renders a static bar-chart SVG,
+  and a functional check that the computed magnitude spectrum peaks at bins 3
+  (full amplitude) then 7 (half amplitude). README page-count updated.
+
 ## [3.14.0] — Coordinate systems
 
 ### Added
