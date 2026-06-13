@@ -6,6 +6,27 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.8.0] — Interpolation & curve fitting
+
+### Added
+- **`math/interpolate.js`** — a new zero-dependency interpolation module:
+  - `linearInterp` — piecewise-linear interpolation (clamps outside the range,
+    NumPy-`interp` style).
+  - `lagrange`/`lagrangeEval` — Lagrange interpolating polynomial.
+  - `newton`/`dividedDifferences`/`newtonEval` — Newton divided-difference form.
+  - `cubicSpline` — natural cubic spline (C² continuous; tridiagonal solve via
+    the Thomas algorithm).
+  - `polyfit` — least-squares polynomial fit via the normal equations, solved
+    with the engine's LU `solve`; **ascending** coefficient vectors.
+  - `polyval` — Horner evaluation of ascending coefficients.
+  - Exposed on the facade as `Interpolate`; capability manifest row added.
+- Version → 3.8.0.
+- 22 new tests (799 total / 25 suites), closed-form anchored: interpolant exact
+  at every node, parabola `y=x²` recovery, Newton ≡ Lagrange over a sweep, cubic
+  spline exact on linear data + knot continuity, `polyfit` recovering exact
+  quadratic `[1,2,3]` and cubic `[2,-1,0,½]` coefficients, degree-1 `polyfit`
+  matching `Stats.linearRegression`, and small-residual fit on noisy data.
+
 ## [3.7.0] — Signal processing (DFT/FFT)
 
 ### Added
