@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="color-scheme" content="light dark">
+    <meta name="description" content="Professional calculator with full keyboard support, history, and accessibility">
+    <meta name="theme-color" content="#2c3e50">
+    <title>Professional Calculator — Scientific Engine</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Single shared live region (P3) -->
+    <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <div class="app">
+        <main class="calculator" role="application" aria-label="Basic Calculator">
+
+            <!-- Header -->
+            <header class="header">
+                <h1 class="brand">CALC</h1>
+                <p class="subtitle">Professional Calculator</p>
+                <button type="button"
+                        class="help-button"
+                        data-type="action"
+                        data-action="help"
+                        aria-label="Show keyboard shortcuts"
+                        aria-haspopup="dialog"
+                        aria-controls="help-modal">
+                    ?
+                </button>
+            </header>
+
+            <!-- Display -->
+            <section class="display-panel" aria-label="Calculator display">
+                <div class="display-secondary"
+                     aria-label="Current operation"
+                     aria-hidden="true">&nbsp;</div>
+                <output class="display-main"
+                        for="calculator-keypad"
+                        aria-label="Current value">0</output>
+            </section>
+
+            <!-- Hidden keyboard help for screen readers -->
+            <aside class="sr-only" aria-label="Keyboard shortcuts">
+                <h2>Keyboard Shortcuts</h2>
+                <ul>
+                    <li>Digits 0 through 9 enter numbers.</li>
+                    <li>Plus, minus, asterisk, slash for operators.</li>
+                    <li>Enter or equals to calculate.</li>
+                    <li>Backspace deletes the last digit.</li>
+                    <li>Escape clears the calculator.</li>
+                    <li>Control Z or Control U undoes the last action.</li>
+                    <li>Control Y or Control Shift Z redoes.</li>
+                    <li>Control N toggles negative.</li>
+                </ul>
+            </aside>
+
+            <!-- Keypad -->
+            <div id="calculator-keypad"
+                 class="button-grid"
+                 role="group"
+                 aria-label="Calculator keypad">
+
+                <button type="button" class="btn btn-function" data-type="action" data-action="clear"   aria-label="Clear (Escape)">C</button>
+                <button type="button" class="btn btn-function" data-type="action" data-action="delete"  aria-label="Delete last digit (Backspace)">←</button>
+                <button type="button" class="btn btn-function" data-type="action" data-action="percent" aria-label="Percentage">%</button>
+                <button type="button" class="btn btn-operator" data-type="operator" data-operator="/"   aria-label="Divide">÷</button>
+
+                <button type="button" class="btn btn-number" data-type="number" data-number="7" aria-label="Seven">7</button>
+                <button type="button" class="btn btn-number" data-type="number" data-number="8" aria-label="Eight">8</button>
+                <button type="button" class="btn btn-number" data-type="number" data-number="9" aria-label="Nine">9</button>
+                <button type="button" class="btn btn-operator" data-type="operator" data-operator="*" aria-label="Multiply">×</button>
+
+                <button type="button" class="btn btn-number" data-type="number" data-number="4" aria-label="Four">4</button>
+                <button type="button" class="btn btn-number" data-type="number" data-number="5" aria-label="Five">5</button>
+                <button type="button" class="btn btn-number" data-type="number" data-number="6" aria-label="Six">6</button>
+                <button type="button" class="btn btn-operator" data-type="operator" data-operator="-" aria-label="Subtract">−</button>
+
+                <button type="button" class="btn btn-number" data-type="number" data-number="1" aria-label="One">1</button>
+                <button type="button" class="btn btn-number" data-type="number" data-number="2" aria-label="Two">2</button>
+                <button type="button" class="btn btn-number" data-type="number" data-number="3" aria-label="Three">3</button>
+                <button type="button" class="btn btn-operator" data-type="operator" data-operator="+" aria-label="Add">+</button>
+
+                <button type="button" class="btn btn-number btn-zero" data-type="number" data-number="0" aria-label="Zero">0</button>
+                <button type="button" class="btn btn-number"          data-type="number" data-number="." aria-label="Decimal point">.</button>
+                <button type="button" class="btn btn-function"        data-type="action" data-action="negate" aria-label="Toggle sign (Control N)">+/−</button>
+                <button type="button" class="btn btn-equals"          data-type="action" data-action="equals" aria-label="Calculate (Enter)">=</button>
+
+                <button type="button" class="btn btn-function btn-undo"
+                        data-type="action" data-action="undo"
+                        aria-label="Undo (Control Z)" disabled>↶ Undo</button>
+                <button type="button" class="btn btn-function btn-redo"
+                        data-type="action" data-action="redo"
+                        aria-label="Redo (Control Y)" disabled>Redo ↷</button>
+            </div>
+
+            <details class="keyboard-shortcuts">
+                <summary>Keyboard Shortcuts</summary>
+                <ul>
+                    <li><kbd>0</kbd>–<kbd>9</kbd> Numbers</li>
+                    <li><kbd>.</kbd> Decimal</li>
+                    <li><kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd> Operators</li>
+                    <li><kbd>Enter</kbd> / <kbd>=</kbd> Calculate</li>
+                    <li><kbd>Backspace</kbd> Delete</li>
+                    <li><kbd>Esc</kbd> Clear</li>
+                    <li><kbd>%</kbd> Percentage</li>
+                    <li><kbd>Ctrl</kbd>+<kbd>N</kbd> Toggle ±</li>
+                    <li><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>U</kbd> Undo</li>
+                    <li><kbd>Ctrl</kbd>+<kbd>Y</kbd> Redo</li>
+                </ul>
+            </details>
+        </main>
+
+        <!-- History sidebar -->
+        <aside class="history-panel" aria-label="Calculation history">
+            <header class="history-header">
+                <h2>History</h2>
+                <button type="button" id="clear-history" class="history-clear" aria-label="Clear history">Clear</button>
+            </header>
+            <ul id="history-list" class="history-list" role="list" tabindex="0" aria-label="Previous calculations, click to restore"></ul>
+            <p class="history-empty" aria-hidden="true">No calculations yet</p>
+        </aside>
+
+        <!-- Scientific REPL: full expression engine -->
+        <section class="repl-panel" aria-label="Scientific expression engine">
+            <header class="repl-header">
+                <h2>Scientific Engine</h2>
+                <span class="repl-badge" id="repl-version">v2.0</span>
+            </header>
+            <ul id="repl-log" class="repl-log" aria-live="off"></ul>
+            <div class="repl-input-row">
+                <span class="repl-prompt" aria-hidden="true">›</span>
+                <input id="repl-input" class="repl-input" type="text" spellcheck="false"
+                       autocomplete="off" autocapitalize="off"
+                       placeholder="e.g.  sin(pi/2),  3+4i,  5!,  log(8,2),  x=7"
+                       aria-label="Scientific expression input" />
+            </div>
+            <details class="repl-cheatsheet">
+                <summary>What can it do?</summary>
+                <ul id="repl-capabilities"></ul>
+            </details>
+        </section>
+
+        <!-- STEM Lab: paged scientific visualizations -->
+        <section class="stem-panel" aria-label="STEM visualization lab">
+            <header class="stem-header">
+                <button type="button" id="stem-prev" class="stem-nav" aria-label="Previous visualization">‹</button>
+                <div class="stem-titles">
+                    <h2 id="stem-title">STEM Lab</h2>
+                    <span id="stem-caption" class="stem-caption"></span>
+                </div>
+                <button type="button" id="stem-next" class="stem-nav" aria-label="Next visualization">›</button>
+            </header>
+            <div id="stem-stage" class="stem-stage" role="img" aria-label="Live STEM visualization"></div>
+            <footer class="stem-footer">
+                <span id="stem-indicator" class="stem-indicator">— / —</span>
+                <span class="stem-hint">◂ ▸ to cycle pages</span>
+            </footer>
+        </section>
+    </div>
+
+    <!-- Help modal -->
+    <dialog id="help-modal" aria-labelledby="help-title">
+        <h2 id="help-title">Keyboard Shortcuts</h2>
+        <table>
+            <tbody>
+                <tr><th scope="row"><kbd>0</kbd>–<kbd>9</kbd></th><td>Digits</td></tr>
+                <tr><th scope="row"><kbd>.</kbd></th><td>Decimal point</td></tr>
+                <tr><th scope="row"><kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd></th><td>Operators</td></tr>
+                <tr><th scope="row"><kbd>Enter</kbd> / <kbd>=</kbd></th><td>Calculate</td></tr>
+                <tr><th scope="row"><kbd>Backspace</kbd></th><td>Delete last digit</td></tr>
+                <tr><th scope="row"><kbd>Escape</kbd></th><td>Clear all</td></tr>
+                <tr><th scope="row"><kbd>%</kbd></th><td>Percentage</td></tr>
+                <tr><th scope="row"><kbd>Ctrl</kbd>+<kbd>N</kbd></th><td>Toggle negative</td></tr>
+                <tr><th scope="row"><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>U</kbd></th><td>Undo</td></tr>
+                <tr><th scope="row"><kbd>Ctrl</kbd>+<kbd>Y</kbd></th><td>Redo</td></tr>
+            </tbody>
+        </table>
+        <form method="dialog">
+            <button type="submit" class="btn btn-function" autofocus>Close</button>
+        </form>
+    </dialog>
+
+    <!-- ES module entry. Serve via a local server (e.g., `npm run serve`)
+         because modules require HTTP, not file:// -->
+    <script type="module" src="main.js"></script>
+</body>
+</html>
