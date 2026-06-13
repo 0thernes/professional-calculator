@@ -1,7 +1,7 @@
 /**
  * @jest-environment node
  */
-import { diff, differentiate, simplify, astToString, equal } from '../../math/symbolic.js';
+import { diff, differentiate, simplify, astToString, equal, integral, integrate } from '../../math/symbolic.js';
 import { parse, evalExpr } from '../../math/parser.js';
 import { derivative } from '../../math/calculus.js';
 
@@ -92,6 +92,48 @@ describe('symbolic — astToString precedence', () => {
         expect(astToString(parse('2 ^ 3 ^ 2'))).toBe('2 ^ 3 ^ 2'));
     test('function call render', () =>
         expect(astToString(parse('sin(x + 1)'))).toBe('sin(x + 1)'));
+});
+
+describe('symbolic — integration (rendered form)', () => {
+    test('∫cos(x) = sin(x)', () => expect(integral('cos(x)', 'x').string).toBe('sin(x)'));
+    test('∫sin(x) = -cos(x)', () => expect(integral('sin(x)', 'x').string).toBe('-cos(x)'));
+    test('∫exp(x) = exp(x)', () => expect(integral('exp(x)', 'x').string).toBe('exp(x)'));
+    test('∫1/x = ln(x)', () => expect(integral('1/x', 'x').string).toBe('ln(x)'));
+    test('∫x^3 = x^4/4', () => expect(integral('x^3', 'x').string).toBe('x ^ 4 / 4'));
+    test('∫(2x+1)^3 = (2x+1)^4/8', () => expect(integral('(2*x+1)^3', 'x').string).toBe('(2 · x + 1) ^ 4 / 8'));
+});
+
+describe('symbolic — integration (verified by differentiating back)', () => {
+    const pts = [0.4, 0.9, 1.6, 2.3];
+    /** ∫f then d/dx of the result must recover f. @param {string} expr @param {number[]} xs */
+    const verify = (expr, xs) => {
+        const F = integral(expr, 'x').string;
+        for (const x of xs) {
+            const dF = derivative((t) => evalExpr(F, { x: t }).re, x);
+            const f = evalExpr(expr, { x }).re;
+            expect(Math.abs(dF - f)).toBeLessThan(1e-5);
+        }
+    };
+    test('∫2x', () => verify('2*x', pts));
+    test('∫(3x²+2x+1)', () => verify('3*x^2 + 2*x + 1', pts));
+    test('∫x^-2', () => verify('x^-2', pts));
+    test('∫sin(2x) (linear sub)', () => verify('sin(2*x)', pts));
+    test('∫exp(3x)', () => verify('exp(3*x)', pts));
+    test('∫cos(x)', () => verify('cos(x)', pts));
+    test('∫1/x', () => verify('1/x', pts));
+    test('∫sqrt(x)', () => verify('sqrt(x)', pts));
+    test('∫ln(x)', () => verify('ln(x)', pts));
+    test('∫tan(x)', () => verify('tan(x)', [0.3, 0.7, 1.0]));
+    test('∫2^x (exp base)', () => verify('2^x', pts));
+    test('∫(2x+1)^3 (linear-sub power)', () => verify('(2*x+1)^3', pts));
+    test('∫c dx = c·x', () => verify('5', pts));
+    test('fundamental theorem: d/dx ∫f = f for a mix', () => verify('cos(2*x) + x^3 - exp(x)', pts));
+});
+
+describe('symbolic — integration errors', () => {
+    test('product needing parts throws', () => expect(() => integrate(parse('x*sin(x)'), 'x')).toThrow(RangeError));
+    test('non-linear function argument throws', () => expect(() => integrate(parse('sin(x^2)'), 'x')).toThrow(RangeError));
+    test('factorial throws', () => expect(() => integrate(parse('x!'), 'x')).toThrow(RangeError));
 });
 
 describe('symbolic — equality & errors', () => {

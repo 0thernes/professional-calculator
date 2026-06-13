@@ -10,7 +10,7 @@
  */
 
 import { compute } from './math/parser.js';
-import { diff } from './math/symbolic.js';
+import { diff, integral } from './math/symbolic.js';
 import * as C from './math/complex.js';
 
 /**
@@ -24,6 +24,8 @@ import * as C from './math/complex.js';
 const ASSIGN_RE = /^\s*([A-Za-z_]\w*)\s*=\s*(?!=)(.+)$/;
 /** Matches `diff(<expr>, <var>)` — greedy expr so the LAST comma splits off the var. */
 const DIFF_RE = /^\s*diff\(\s*(.+),\s*([A-Za-z_]\w*)\s*\)\s*$/;
+/** Matches `integrate(<expr>, <var>)` (alias `integral`). */
+const INTEGRATE_RE = /^\s*(?:integrate|integral)\(\s*(.+),\s*([A-Za-z_]\w*)\s*\)\s*$/;
 
 export class ScientificREPL {
     /** @param {ReplElements} el */
@@ -59,6 +61,13 @@ export class ScientificREPL {
             const dm = DIFF_RE.exec(text);
             if (dm) {
                 const out = diff(dm[1], dm[2]).string;
+                this._render(text, out, false);
+                return { ok: true, input: text, output: out };
+            }
+            // Symbolic integration: integrate(expr, x) → antiderivative (+C).
+            const im = INTEGRATE_RE.exec(text);
+            if (im) {
+                const out = `${integral(im[1], im[2]).string} + C`;
                 this._render(text, out, false);
                 return { ok: true, input: text, output: out };
             }

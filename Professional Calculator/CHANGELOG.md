@@ -6,6 +6,21 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## [3.3.0] — Symbolic integration
+
+### Added
+- **`integrate(node, x)`** in `math/symbolic.js`: a pattern-matching
+  antiderivative engine — linearity, the power rule (incl. `∫x⁻¹ = ln x`), an
+  antiderivative table (sin/cos/exp/sinh/cosh/tan/ln/sqrt), and the
+  linear-substitution rule `∫f(a·x+b) dx = (1/a)·F(a·x+b)` (so `∫sin(2x)`,
+  `∫exp(3x)`, `∫(2x+1)³`, `∫2ˣ` all work). Throws on integrands that need
+  parts / partial fractions / non-elementary results — never a wrong answer.
+- REPL `integrate(expr, x)` / `integral(expr, x)` commands (print `… + C`).
+- 25 new tests (661 total): clean-form checks (`∫cos = sin`, `∫x³ = x⁴/4`,
+  `∫(2x+1)³ = (2x+1)⁴/8`) **plus** fundamental-theorem verification —
+  differentiating each antiderivative numerically recovers the integrand.
+  Engine version → 3.3.0.
+
 ## [3.2.0] — Matrix/vector literals in the expression grammar
 
 ### Added
