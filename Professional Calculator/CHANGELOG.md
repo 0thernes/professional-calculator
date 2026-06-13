@@ -9,6 +9,38 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - First-class matrix/vector literals in the expression grammar *(planned, Phase 2)*
 
+## [3.0.0] — STEM suite: quantum, physics, visualization
+
+Adds whole new scientific domains and a live visual lab on top of the 2.0
+engine. 140 new tests (543 total), all closed-form-anchored; lint + tsc + CI
+green.
+
+### Added
+- **math/quantum.js** — state-vector quantum-computing simulator over the
+  complex field: basis states, X/Y/Z/H/S/T gates, Rx/Ry/Rz/phase rotations,
+  CNOT/CZ/SWAP/Toffoli, Born-rule measurement with injectable-RNG collapse,
+  Bloch-sphere coordinates, tensor products, `runCircuit`, Bell/GHZ helpers,
+  `toKet` pretty-printer. (47 tests)
+- **math/physics.js** — quantum/atomic (de Broglie, photon energy, hydrogen
+  levels, Rydberg, particle-in-box, harmonic oscillator, Heisenberg, Compton),
+  special relativity (Lorentz γ, dilation, contraction, E=mc², velocity
+  addition), and cosmology (escape velocity, Schwarzschild radius, Hubble,
+  redshift, Wien, Stefan–Boltzmann, Planck radiance, Kepler). (35 tests)
+- **math/finance.js** — Black–Scholes Greeks (Δ/Γ/vega/Θ/ρ), Cox–Ross–Rubinstein
+  binomial tree (European + American), seeded Monte Carlo (mulberry32 +
+  Box–Muller). (16 new tests)
+- **math/plot.js** — pure visualization generators: linspace, function &
+  parametric sampling, 3-D rotation + perspective projection, surface meshes,
+  and a 4-D tesseract (16 vertices / 32 edges, 4D→3D→2D pipeline). (22 tests)
+- **stem.js** + UI **STEM Lab** — a paged panel cycling through 8 live SVG
+  visualizations (damped wave, Lissajous, rotating 3-D surface, Bloch sphere,
+  4-D tesseract, Bell-state probabilities, hydrogen spectrum, option payoff)
+  with prev/next buttons and arrow-key navigation. (17 tests)
+
+### Changed
+- Engine version → 3.0.0; facade re-exports Quantum/Physics/Plot namespaces and
+  advertises them in `CAPABILITIES`.
+
 ## [2.0.0] — Scientific engine
 
 A ground-up scientific computing engine added on top of the calculator.
