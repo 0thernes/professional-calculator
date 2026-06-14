@@ -522,110 +522,166 @@ function hessenberg(A) {
 }
 
 /**
- * Shifted QR iteration on an upper-Hessenberg matrix, returning all
- * eigenvalues (real and complex). Adapted from the classic EISPACK `hqr`
- * real-Schur algorithm with origin shifts and deflation.
+ * Eigenvalues of an upper-Hessenberg matrix via the Francis double-shift
+ * implicit-QR algorithm (real Schur form), faithfully adapted from EISPACK
+ * `hqr`. Each step applies an implicit double shift — the two eigenvalues of
+ * the trailing 2×2 block, taken as a conjugate pair — and chases the resulting
+ * bulge down the sub-diagonal with 3×3 Householder reflectors. Real and
+ * complex-conjugate eigenvalues both fall out of the 1×1 and 2×2 diagonal
+ * blocks. The double shift is robust on non-normal matrices that a single real
+ * shift can stall on; exceptional shifts break the rare convergence cycle.
  * @param {Matrix} Hin
  * @returns {Complex[]}
  */
 function francisQR(Hin) {
     const n = Hin.length;
     const H = clone(Hin);
-    /** @type {Complex[]} */
-    const eig = new Array(n);
-    let nn = n - 1;
-    let t = 0;
+    /** @type {number[]} */ const wr = new Array(n).fill(0); // eigenvalue real parts
+    /** @type {number[]} */ const wi = new Array(n).fill(0); // eigenvalue imag parts
     const eps = Number.EPSILON;
-    let iter = 0;
+
+    // Sum of stored magnitudes — the yardstick for a "negligible" sub-diagonal.
+    let norm = 0;
+    for (let i = 0; i < n; i++) {
+        for (let j = Math.max(i - 1, 0); j < n; j++) norm += Math.abs(H[i][j]);
+    }
+
+    let nn = n - 1; // bottom-right index of the still-active submatrix
+    let t = 0;      // accumulated exceptional shift
     while (nn >= 0) {
-        let l = nn;
-        // look for a small sub-diagonal element (deflation)
-        while (l > 0) {
-            let s = Math.abs(H[l - 1][l - 1]) + Math.abs(H[l][l]);
-            if (s === 0) s = 1;
-            if (Math.abs(H[l][l - 1]) <= eps * s) break;
-            l--;
-        }
-        if (l === nn) {
-            // one real eigenvalue
-            eig[nn] = complex(H[nn][nn] + t, 0);
-            nn--;
-            iter = 0;
-        } else if (l === nn - 1) {
-            // 2×2 block → two eigenvalues (real or complex pair)
-            const w = H[nn][nn - 1] * H[nn - 1][nn];
-            const p = (H[nn - 1][nn - 1] - H[nn][nn]) / 2;
-            const q = p * p + w;
-            const zz = Math.sqrt(Math.abs(q));
-            const x = H[nn][nn] + t;
-            if (q >= 0) {
-                const z2 = p >= 0 ? p + zz : p - zz;
-                eig[nn - 1] = complex(x + z2, 0);
-                eig[nn] = z2 !== 0 ? complex(x - w / z2, 0) : complex(x, 0);
-            } else {
-                eig[nn - 1] = complex(x + p, zz);
-                eig[nn] = complex(x + p, -zz);
+        let its = 0; // iterations since the last deflation (resets per eigenvalue)
+        for (;;) {
+            // Deflation: smallest l whose sub-diagonal H[l][l-1] is negligible.
+            let l = nn;
+            while (l > 0) {
+                let s = Math.abs(H[l - 1][l - 1]) + Math.abs(H[l][l]);
+                if (s === 0) s = norm;
+                if (Math.abs(H[l][l - 1]) <= eps * s) break;
+                l--;
             }
-            nn -= 2;
-            iter = 0;
-        } else {
-            // single-shift QR step (Wilkinson-style origin shift)
-            if (iter++ > 1000) throw new RangeError('QR iteration failed to converge');
             let x = H[nn][nn];
-            // exceptional shift every 10 iterations to break convergence cycles
-            if (iter % 10 === 0) {
+            if (l === nn) {
+                // 1×1 block → one real eigenvalue
+                wr[nn] = x + t;
+                wi[nn] = 0;
+                nn--;
+                break;
+            }
+            let y = H[nn - 1][nn - 1];
+            let w = H[nn][nn - 1] * H[nn - 1][nn];
+            if (l === nn - 1) {
+                // 2×2 block → real pair or complex-conjugate pair
+                const p = 0.5 * (y - x);
+                const q = p * p + w;
+                let z = Math.sqrt(Math.abs(q));
+                x += t;
+                if (q >= 0) {
+                    z = p + (p >= 0 ? z : -z); // real pair
+                    wr[nn - 1] = x + z;
+                    wr[nn] = z !== 0 ? x - w / z : x + z;
+                    wi[nn - 1] = 0;
+                    wi[nn] = 0;
+                } else {
+                    wr[nn - 1] = x + p; // complex-conjugate pair
+                    wr[nn] = x + p;
+                    wi[nn - 1] = z;
+                    wi[nn] = -z;
+                }
+                nn -= 2;
+                break;
+            }
+            if (its >= 30) throw new RangeError('QR iteration failed to converge');
+            if (its === 10 || its === 20) {
+                // Exceptional shift to break a convergence cycle.
                 t += x;
                 for (let i = 0; i <= nn; i++) H[i][i] -= x;
-                const s = Math.abs(H[nn][nn - 1]) + Math.abs(H[nn - 1][nn - 2] || 0);
+                const s = Math.abs(H[nn][nn - 1]) + Math.abs(H[nn - 1][nn - 2]);
                 x = 0.75 * s;
+                y = x;
+                w = -0.4375 * s * s;
             }
-            const shift = x; // Rayleigh-ish single shift target
-            // perform a shifted QR sweep on the active submatrix [l..nn]
-            singleShiftSweep(H, l, nn, shift);
+            its++;
+            // Find the bulge start m: two consecutive negligible sub-diagonals,
+            // building the first column (p,q,r) of the implicit double shift.
+            let p = 0;
+            let q = 0;
+            let r = 0;
+            let m = nn - 2;
+            for (; m >= l; m--) {
+                const z = H[m][m];
+                const rr = x - z;
+                const ss = y - z;
+                p = (rr * ss - w) / H[m + 1][m] + H[m][m + 1];
+                q = H[m + 1][m + 1] - z - rr - ss;
+                r = H[m + 2][m + 1];
+                const s = Math.abs(p) + Math.abs(q) + Math.abs(r);
+                p /= s;
+                q /= s;
+                r /= s;
+                if (m === l) break;
+                const u = Math.abs(H[m][m - 1]) * (Math.abs(q) + Math.abs(r));
+                const v = Math.abs(p) * (Math.abs(H[m - 1][m - 1]) + Math.abs(z) + Math.abs(H[m + 1][m + 1]));
+                if (u <= eps * v) break;
+            }
+            for (let i = m + 2; i <= nn; i++) {
+                H[i][i - 2] = 0;
+                if (i !== m + 2) H[i][i - 3] = 0;
+            }
+            // Implicit double-QR sweep: chase the bulge from m down to nn.
+            for (let k = m; k <= nn - 1; k++) {
+                const notlast = k !== nn - 1;
+                if (k !== m) {
+                    p = H[k][k - 1];
+                    q = H[k + 1][k - 1];
+                    r = notlast ? H[k + 2][k - 1] : 0;
+                    x = Math.abs(p) + Math.abs(q) + Math.abs(r);
+                    if (x === 0) continue;
+                    p /= x;
+                    q /= x;
+                    r /= x;
+                }
+                let s = Math.sqrt(p * p + q * q + r * r);
+                if (p < 0) s = -s;
+                if (s === 0) continue;
+                if (k === m) {
+                    if (l !== m) H[k][k - 1] = -H[k][k - 1];
+                } else {
+                    H[k][k - 1] = -s * x;
+                }
+                p += s;
+                x = p / s;
+                y = q / s;
+                const z = r / s;
+                q /= p;
+                r /= p;
+                // Row transformation.
+                for (let j = k; j <= nn; j++) {
+                    p = H[k][j] + q * H[k + 1][j];
+                    if (notlast) {
+                        p += r * H[k + 2][j];
+                        H[k + 2][j] -= p * z;
+                    }
+                    H[k + 1][j] -= p * y;
+                    H[k][j] -= p * x;
+                }
+                // Column transformation.
+                const jmax = Math.min(nn, k + 3);
+                for (let i = l; i <= jmax; i++) {
+                    p = x * H[i][k] + y * H[i][k + 1];
+                    if (notlast) {
+                        p += z * H[i][k + 2];
+                        H[i][k + 2] -= p * r;
+                    }
+                    H[i][k + 1] -= p * q;
+                    H[i][k] -= p;
+                }
+            }
         }
     }
+    /** @type {Complex[]} */
+    const eig = new Array(n);
+    for (let i = 0; i < n; i++) eig[i] = complex(wr[i], wi[i]);
     return eig;
-}
-
-/**
- * One shifted QR sweep over rows/cols [l..h] of a Hessenberg matrix using
- * Givens rotations (bulge chase). Mutates H.
- * @param {Matrix} H
- * @param {number} l
- * @param {number} h
- * @param {number} shift
- */
-function singleShiftSweep(H, l, h, shift) {
-    const n = H.length;
-    for (let i = l; i <= h; i++) H[i][i] -= shift;
-    // QR of the (shifted) active block via Givens, then RQ + shift back
-    /** @type {{c:number,s:number,i:number}[]} */
-    const rots = [];
-    for (let k = l; k < h; k++) {
-        const a = H[k][k];
-        const b = H[k + 1][k];
-        const r = Math.hypot(a, b);
-        const c = r === 0 ? 1 : a / r;
-        const s = r === 0 ? 0 : b / r;
-        rots.push({ c, s, i: k });
-        // apply G(k,k+1)ᵀ on the left across columns
-        for (let j = k; j < n; j++) {
-            const hk = H[k][j];
-            const hk1 = H[k + 1][j];
-            H[k][j] = c * hk + s * hk1;
-            H[k + 1][j] = -s * hk + c * hk1;
-        }
-    }
-    // RQ: apply rotations on the right
-    for (const { c, s, i: k } of rots) {
-        for (let rIdx = 0; rIdx <= Math.min(k + 2, h); rIdx++) {
-            const hk = H[rIdx][k];
-            const hk1 = H[rIdx][k + 1];
-            H[rIdx][k] = c * hk + s * hk1;
-            H[rIdx][k + 1] = -s * hk + c * hk1;
-        }
-    }
-    for (let i = l; i <= h; i++) H[i][i] += shift;
 }
 
 /* ------------------------------------------------------------------ *

@@ -6,7 +6,7 @@
 
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
-[![tests](https://img.shields.io/badge/tests-1079%20passing-brightgreen)](#testing)
+[![tests](https://img.shields.io/badge/tests-1090%20passing-brightgreen)](#testing)
 [![coverage](https://img.shields.io/badge/coverage-97.6%25%20stmts%20%2F%2088%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
@@ -43,7 +43,7 @@ Most "calculator" projects stop at four functions and a grid of buttons. This on
 
 Two things make it trustworthy rather than merely impressive:
 
-- **Every algorithm is anchored to a closed-form check in the test suite.** Not "looks plausible" — `det(AB) = det(A)·det(B)`, eigenvalues of a rotation matrix come back `±i`, `∫₀^π sin x dx = 2`, `Φ(1.96) = 0.975`, Black–Scholes obeys put–call parity. 1079 tests, all green.
+- **Every algorithm is anchored to a closed-form check in the test suite.** Not "looks plausible" — `det(AB) = det(A)·det(B)`, eigenvalues of a rotation matrix come back `±i`, `∫₀^π sin x dx = 2`, `Φ(1.96) = 0.975`, Black–Scholes obeys put–call parity. 1090 tests, all green.
 - **It is honest about what it is.** It is a single-thread, double-precision, dense-matrix engine in JavaScript. It does not replace LAPACK/BLAS or MATLAB for large-scale or distributed work — see [Scope & limitations](#scope-honesty--limitations). Within its envelope (interactive, up to a few hundred dimensions) it is fast, correct, and dependency-free.
 
 ## Feature matrix
@@ -86,7 +86,7 @@ ES modules require HTTP (not `file://`):
 ```bash
 npm install         # dev deps only (jest, typescript) — zero runtime deps
 npm run serve       # static server → open the printed URL
-npm test            # 1079 tests
+npm test            # 1090 tests
 npm run typecheck   # tsc --noEmit (strict)
 npm run bench       # throughput + empirical O(n³) scaling
 ```
@@ -203,7 +203,7 @@ The O(n³) kernels (mul, det, eig) scale as documented — ~8× latency per dime
 ## Testing
 
 ```
-36 test suites · 1079 tests · 100% pass
+37 test suites · 1090 tests · 100% pass
 coverage (full engine — math + controllers + REPL):
   97.6% statements · 97.6% lines · 95.61% functions · 87.87% branches
   gates: 90% lines/stmts · 85% functions · 80% branches
@@ -295,7 +295,7 @@ This engine is **Tier-1 for interactive, single-machine, double-precision work**
 
 - **Precision:** IEEE-754 double. No arbitrary-precision floats (exact arithmetic is available for *rationals* only).
 - **Scale:** dense matrices, single-threaded. Excellent to ~few-hundred dimensions; it is not a sparse/distributed/GPU solver.
-- **General eigenvalues:** real Schur via shifted QR with single-shift bulge-chase — robust on the tested cases (including complex pairs); for adversarial non-normal matrices a production Francis double-shift would be more bulletproof. Symmetric problems use the rock-solid Jacobi method.
+- **General eigenvalues:** real Schur via the **Francis double-shift implicit QR** (EISPACK `hqr`) — robust on non-normal matrices, verified against closed-form cases and eigenvalue invariants (Σλ = trace, Πλ = det, Σλ² = trace(A²)) to ~1e-13. Symmetric problems use the rock-solid Jacobi method.
 - **CAS is deliberately "lite":** symbolic differentiation and pattern-matching integration exist (`diff`/`integrate` in [`symbolic.js`](math/symbolic.js)), but this is not a full computer-algebra system — there is no symbolic equation solving, and integration throws (never guesses) on integrands needing integration-by-parts, partial fractions, or non-elementary results. Numerical calculus covers the rest.
 
 Where it competes: correctness you can audit, zero install/runtime deps, instant startup, a real parser, and a clean API — in the browser, offline.

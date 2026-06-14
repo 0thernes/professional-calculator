@@ -157,4 +157,39 @@ describe('matrix — general eigenvalues (QR iteration)', () => {
         const sumRe = ev.reduce((a, z) => a + z.re, 0);
         near(sumRe, trace(A), 1e-6);
     });
+
+    // Francis double-shift hardening — non-normal & adversarial cases.
+    test('companion matrix → real roots 1, 2, 3', () => {
+        const ev = sortByReIm(eigenvalues([[6, -11, 6], [1, 0, 0], [0, 1, 0]]));
+        near(ev[0].re, 1, 1e-6); near(ev[1].re, 2, 1e-6); near(ev[2].re, 3, 1e-6);
+        ev.forEach((z) => near(z.im, 0, 1e-6));
+    });
+    test('4×4 non-normal → two complex pairs (±2i, 1±i)', () => {
+        const ev = sortByReIm(eigenvalues([[0, -2, 0, 0], [2, 0, 0, 0], [0, 0, 1, -1], [0, 0, 1, 1]]));
+        near(ev[0].im, -2, 1e-6); near(ev[1].im, 2, 1e-6);
+        near(ev[2].re, 1, 1e-6); near(ev[2].im, -1, 1e-6);
+        near(ev[3].re, 1, 1e-6); near(ev[3].im, 1, 1e-6);
+    });
+    test('defective [[4,1,0],[0,4,1],[0,0,4]] → 4, 4, 4', () => {
+        eigenvalues([[4, 1, 0], [0, 4, 1], [0, 0, 4]]).forEach((z) => {
+            near(z.re, 4, 1e-6); near(z.im, 0, 1e-6);
+        });
+    });
+    test('non-normal invariants: Σλ=trace, Πλ=det, Σλ²=trace(A²)', () => {
+        const A = [[1, 2, 3, 4], [5, 1, -2, 1], [0, 4, 2, -3], [2, -1, 5, 3]];
+        const ev = eigenvalues(A);
+        const cmul = (/** @type {{re:number,im:number}} */ a, /** @type {{re:number,im:number}} */ b) =>
+            ({ re: a.re * b.re - a.im * b.im, im: a.re * b.im + a.im * b.re });
+        const sum = { re: 0, im: 0 };
+        let prod = { re: 1, im: 0 };
+        const sumSq = { re: 0, im: 0 };
+        for (const z of ev) {
+            sum.re += z.re; sum.im += z.im;
+            prod = cmul(prod, z);
+            const s = cmul(z, z); sumSq.re += s.re; sumSq.im += s.im;
+        }
+        near(sum.re, trace(A), 1e-6); near(sum.im, 0, 1e-6);
+        near(prod.re, det(A), 1e-6); near(prod.im, 0, 1e-6);
+        near(sumSq.re, trace(mul(A, A)), 1e-6); near(sumSq.im, 0, 1e-6);
+    });
 });

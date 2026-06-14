@@ -100,13 +100,13 @@ In Progress → Review → Done**. Items are sized S / M / L.
 ## 🧊 Backlog
 
 - ⬜ Arbitrary-precision floats (decimal.js-style) behind a flag (L)
-- ⬜ Francis double-shift QR for adversarial non-normal eigenproblems (M)
+- ✅ Francis double-shift QR for adversarial non-normal eigenproblems (M) — **shipped** (EISPACK `hqr`)
 - ⬜ Sparse matrix storage + iterative solvers (CG, GMRES) (L)
 - ⬜ Web Worker offload for large matrices / many-qubit sims (M)
 - ⬜ Session persistence (localStorage) for REPL history (S)
 - ⬜ Export REPL transcript / plots to Markdown/LaTeX/SVG (S)
 - ⬜ Prettier autoformatting (S)
-- ⬜ Playwright e2e + axe-core accessibility tests (M)
+- ✅ e2e + axe-core accessibility tests (M) — **shipped** (jsdom + jest-axe, `tests/e2e.test.js`)
 
 ---
 

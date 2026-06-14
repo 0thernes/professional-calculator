@@ -14,7 +14,7 @@
     <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
     <div class="app">
-        <main class="calculator" role="application" aria-label="Basic Calculator">
+        <main class="calculator" aria-label="Basic Calculator">
 
             <!-- Header -->
             <header class="header">
@@ -41,8 +41,10 @@
                         aria-label="Current value">0</output>
             </section>
 
-            <!-- Hidden keyboard help for screen readers -->
-            <aside class="sr-only" aria-label="Keyboard shortcuts">
+            <!-- Hidden keyboard help for screen readers (a heading, not a
+                 nested landmark — keeps it reachable without breaking the
+                 landmark hierarchy). -->
+            <div class="sr-only">
                 <h2>Keyboard Shortcuts</h2>
                 <ul>
                     <li>Digits 0 through 9 enter numbers.</li>
@@ -54,7 +56,7 @@
                     <li>Control Y or Control Shift Z redoes.</li>
                     <li>Control N toggles negative.</li>
                 </ul>
-            </aside>
+            </div>
 
             <!-- Keypad -->
             <div id="calculator-keypad"
