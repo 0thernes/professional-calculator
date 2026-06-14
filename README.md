@@ -7,7 +7,7 @@
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
 [![tests](https://img.shields.io/badge/tests-1079%20passing-brightgreen)](#testing)
-[![coverage](https://img.shields.io/badge/coverage-96%25%20stmts%20%2F%2083%25%20br-brightgreen)](#testing)
+[![coverage](https://img.shields.io/badge/coverage-97.6%25%20stmts%20%2F%2088%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
 [![deps](https://img.shields.io/badge/runtime%20deps-0-blueviolet)](#zero-dependencies)
@@ -205,7 +205,7 @@ The O(n³) kernels (mul, det, eig) scale as documented — ~8× latency per dime
 ```
 36 test suites · 1079 tests · 100% pass
 coverage (full engine — math + controllers + REPL):
-  95.96% statements · 95.96% lines · 93.48% functions · 83.15% branches
+  97.6% statements · 97.6% lines · 95.61% functions · 87.87% branches
   gates: 90% lines/stmts · 85% functions · 80% branches
 ```
 

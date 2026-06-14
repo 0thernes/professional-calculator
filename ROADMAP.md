@@ -25,7 +25,7 @@ checking, CI. The base the engine is built on.
 
 **Exit criteria met:** 403 tests green, tsc clean, in-browser verified.
 
-## Phase 2 — First-class structured types *(next)*
+## Phase 2 — First-class structured types ✅ *(shipped)*
 
 Bring matrices, vectors, and units **into the expression grammar** so the REPL
 speaks them natively:
@@ -49,7 +49,7 @@ speaks them natively:
 - Sparse storage + iterative solvers (CG, GMRES)
 - Web Worker offload so large solves don't block the UI
 
-## Phase 5 — Symbolic (CAS-lite)
+## Phase 5 — Symbolic (CAS-lite) ✅ *(shipped)*
 
 - Symbolic differentiation of parsed expressions
 - Basic simplification and polynomial algebra

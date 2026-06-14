@@ -859,7 +859,7 @@ These are tracked in [KANBAN.md](../KANBAN.md) and sequenced in
 ## Addendum — v3.x expansion (post-audit)
 
 The 500-point inspection above was performed at v2.0.0. The engine has since
-grown substantially (v2.0 → **v3.16.0**) while holding the **same quality bar**
+grown substantially (v2.0 → **v3.25.0**) while holding the **same quality bar**
 verified by CI on every PR — ESLint 0 problems, `tsc --noEmit` strict-clean, and
 the coverage gate (90% stmts/lines, 85% funcs, 80% branches):
 
@@ -883,9 +883,13 @@ the coverage gate (90% stmts/lines, 85% funcs, 80% branches):
 | Matrix decompositions (SVD/Cholesky/pinv) | `decomposition.js` | `U·Σ·Vᵀ=A`, Moore–Penrose `A·A⁺·A=A` |
 | Coordinate systems | `coordinates.js` | polar/spherical/cylindrical round-trips |
 | Seeded RNG & sampling | `random.js` | reproducible streams, moment checks (μ, σ², λ) |
+| Graph algorithms (BFS/DFS/Dijkstra/MST) | `graph.js` | shortest-path, Kruskal MST weight, topological order |
+| Set & relation utilities | `sets.js` | union/intersection/Jaccard, power-set 2ⁿ, Cartesian product |
+| Bits & base conversion (2–36) | `bits.js` | popcount, Hamming distance, Gray-code round-trip |
+| Unit-aware expression evaluator | `unitexpr.js` | `3 kg·9.8 m/s² → 29.4 N`, dimensional algebra |
 | Property-based invariant tests | `properties.test.js` | seeded randomized cross-module invariants |
 
-**Tally:** 25 math + 6 app modules, **971 tests across 32 suites** (100% pass),
+**Tally:** 29 math + 6 app modules, **1079 tests across 36 suites** (100% pass),
 all closed-form/invariant-anchored. The honest-scope framing (double-precision,
 dense, single-threaded, numeric+CAS-but-not-full-symbolic) is unchanged and
 documented in the README.

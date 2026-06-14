@@ -6,7 +6,7 @@
  *
  * Implementations and their accuracy:
  *  - lgamma / gamma: Lanczos approximation (g=7, n=9), |rel err| < 1e-13.
- *  - erf / erfc: Numerical Recipes rational Chebyshev, |err| < 1.2e-7.
+ *  - erf / erfc: Numerical Recipes 3rd-ed. Chebyshev (`erfccheb`), ~1e-15 (full double).
  *  - lowerGammaP / upperGammaQ: series + continued fraction (Numerical
  *    Recipes `gammp`/`gammq`), |err| < 1e-10 across the domain.
  *  - betaInc: Lentz continued fraction (`betai`), |err| < 1e-10.

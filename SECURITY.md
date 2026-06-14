@@ -38,4 +38,4 @@ correctness bugs — those are welcome as normal issues.
 
 ## Supported versions
 
-The latest `2.x` release line receives fixes. Older lines are not maintained.
+The latest `3.x` release line receives fixes. Older lines are not maintained.

@@ -106,8 +106,15 @@ export function div(a, b) {
     const { re: c, im: d } = b;
     if (Math.abs(c) >= Math.abs(d)) {
         if (c === 0 && d === 0) {
-            // 0/0 → NaN; x/0 → Infinity, matching IEEE behaviour for reals.
-            return { re: a.re / c, im: a.im / c };
+            // Division by an exact zero. Keep ±∞ (or NaN for 0/0) on the correct
+            // axis instead of letting 0/0 = NaN bleed into the other component —
+            // that stray NaN is what turned a plain real "1/0" into the
+            // confusing "Infinity + NaNi".
+            if (a.re === 0 && a.im === 0) return { re: NaN, im: 0 }; // 0/0 indeterminate
+            return {
+                re: a.re === 0 ? 0 : a.re / 0,
+                im: a.im === 0 ? 0 : a.im / 0,
+            };
         }
         const r = d / c;
         const den = c + d * r;

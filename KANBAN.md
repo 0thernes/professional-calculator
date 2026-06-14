@@ -31,7 +31,7 @@ In Progress → Review → Done**. Items are sized S / M / L.
 - ✅ **Accessibility** (M) — ARIA live regions, keyboard, reduced-motion, contrast
 
 ### Epic: Quality & ops
-- ✅ **Jest suite** (L) — 403 tests, closed-form anchored
+- ✅ **Jest suite** (L) — 1079 tests, closed-form anchored
 - ✅ **Strict TypeScript checking** (M) — `checkJs`, zero errors
 - ✅ **Benchmark harness** (S) — throughput + O(n³) scaling
 - ✅ **Documentation suite** (L) — README, ARCHITECTURE, DATA_MODEL, COMPLEXITY
