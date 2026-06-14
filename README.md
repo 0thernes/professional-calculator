@@ -11,7 +11,7 @@ Expression parsing · complex numbers · exact rational arithmetic · linear alg
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
 [![deps](https://img.shields.io/badge/runtime%20deps-0-blueviolet)](#zero-dependencies)
-[![license](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+[![license](https://img.shields.io/badge/license-Proprietary%20%C2%B7%20All%20Rights%20Reserved-red)](LICENSE)
 
 </div>
 
@@ -296,10 +296,10 @@ This engine is **Tier-1 for interactive, single-machine, double-precision work**
 - **Precision:** IEEE-754 double. No arbitrary-precision floats (exact arithmetic is available for *rationals* only).
 - **Scale:** dense matrices, single-threaded. Excellent to ~few-hundred dimensions; it is not a sparse/distributed/GPU solver.
 - **General eigenvalues:** real Schur via shifted QR with single-shift bulge-chase — robust on the tested cases (including complex pairs); for adversarial non-normal matrices a production Francis double-shift would be more bulletproof. Symmetric problems use the rock-solid Jacobi method.
-- **No symbolic algebra** (no CAS): differentiation/integration are numerical, not symbolic.
+- **CAS is deliberately "lite":** symbolic differentiation and pattern-matching integration exist (`diff`/`integrate` in [`symbolic.js`](math/symbolic.js)), but this is not a full computer-algebra system — there is no symbolic equation solving, and integration throws (never guesses) on integrands needing integration-by-parts, partial fractions, or non-elementary results. Numerical calculus covers the rest.
 
 Where it competes: correctness you can audit, zero install/runtime deps, instant startup, a real parser, and a clean API — in the browser, offline.
 
 ## License
 
-[MIT](LICENSE) © 0thernes
+**Proprietary — All Rights Reserved.** Copyright © 2026 0thernes (0thernes LLC). This is **not** open-source software. No use, copying, modification, distribution, or derivative work is permitted without the copyright holder's prior written permission. See [LICENSE](LICENSE) for the full terms (patent pending; trademarks reserved).

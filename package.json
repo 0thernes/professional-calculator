@@ -1,7 +1,9 @@
 {
   "name": "professional-calculator",
-  "version": "2.0.0",
-  "description": "Professional calculator with modular architecture, TypeScript type-checking, and Jest test suite",
+  "version": "3.25.0",
+  "description": "Professional Calculator — extensible scientific/engineering computing engine (complex, matrix, calculus, signal, decomposition, combinatorics, graph, set, bit, finance & symbolic math). Proprietary — All Rights Reserved.",
+  "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "main": "main.js",
   "engines": {

@@ -4,14 +4,14 @@ name: Professional Calculator CI
 on:
   push:
     branches: [master, scientific-engine]
-    paths: ['Professional Calculator/**', '.github/workflows/ci.yml']
+    paths: ['**', '.github/workflows/ci.yml']
   pull_request:
-    paths: ['Professional Calculator/**', '.github/workflows/ci.yml']
+    paths: ['**', '.github/workflows/ci.yml']
   workflow_dispatch:
 
 defaults:
   run:
-    working-directory: 'Professional Calculator'
+    working-directory: '.'
 
 jobs:
   lint:
@@ -23,7 +23,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: 'Professional Calculator/package-lock.json'
+          cache-dependency-path: 'package-lock.json'
       - run: npm ci --no-audit --no-fund
       - name: Lint (ESLint, 0 errors)
         run: npm run lint
@@ -42,7 +42,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: 'npm'
-          cache-dependency-path: 'Professional Calculator/package-lock.json'
+          cache-dependency-path: 'package-lock.json'
       - name: Install dev dependencies
         run: npm ci --no-audit --no-fund
       - name: Type-check (tsc --noEmit, strict)
@@ -59,7 +59,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: 'Professional Calculator/package-lock.json'
+          cache-dependency-path: 'package-lock.json'
       - run: npm ci --no-audit --no-fund
       - name: Coverage (enforces 90% lines/stmts, 85% funcs, 80% branches)
         run: npm run test:coverage
@@ -73,7 +73,7 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
-          cache-dependency-path: 'Professional Calculator/package-lock.json'
+          cache-dependency-path: 'package-lock.json'
       - run: npm ci --no-audit --no-fund
       - name: Run benchmarks (must not throw)
         run: npm run bench
