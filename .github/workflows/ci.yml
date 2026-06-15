@@ -3,7 +3,7 @@ name: Professional Calculator CI
 # Scoped to the calculator subproject so the rest of the monorepo is untouched.
 on:
   push:
-    branches: [master, scientific-engine]
+    branches: [main]
     paths: ['**', '.github/workflows/ci.yml']
   pull_request:
     paths: ['**', '.github/workflows/ci.yml']

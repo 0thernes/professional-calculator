@@ -15,7 +15,7 @@
  * @module math/stats
  */
 
-import { erfc, lowerGammaP, betaInc, combinations, lgamma } from './special.js';
+import { erfc, lowerGammaP, betaInc, lgamma } from './special.js';
 
 const SQRT2 = Math.SQRT2;
 const SQRT2PI = Math.sqrt(2 * Math.PI);
@@ -290,7 +290,12 @@ export function exponentialCdf(x, lambda) {
 /** Binomial pmf P(X=k). @param {number} k @param {number} n @param {number} p @returns {number} */
 export function binomialPmf(k, n, p) {
     if (k < 0 || k > n || !Number.isInteger(k)) return 0;
-    return combinations(n, k) * Math.pow(p, k) * Math.pow(1 - p, n - k);
+    if (p <= 0) return k === 0 ? 1 : 0;
+    if (p >= 1) return k === n ? 1 : 0;
+    // Log-space (mirrors poissonPmf) so large n doesn't overflow the binomial
+    // coefficient: combinations(1030,515) === Infinity, but lgamma stays finite.
+    const logChoose = lgamma(n + 1) - lgamma(k + 1) - lgamma(n - k + 1);
+    return Math.exp(logChoose + k * Math.log(p) + (n - k) * Math.log(1 - p));
 }
 
 /** Binomial CDF P(X≤k). @param {number} k @param {number} n @param {number} p @returns {number} */

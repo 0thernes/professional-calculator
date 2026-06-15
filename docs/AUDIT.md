@@ -638,7 +638,7 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 | 13 | KANBAN board | ✅ PASS | columns + metrics |
 | 14 | CONTRIBUTING | ✅ PASS | workflow + rules |
 | 15 | SECURITY policy | ✅ PASS | threat model |
-| 16 | LICENSE (MIT) | ✅ PASS | LICENSE |
+| 16 | LICENSE (Proprietary · All Rights Reserved) | ✅ PASS | LICENSE |
 | 17 | JSDoc throughout source | ✅ PASS | every export |
 | 18 | Doc index in README | ✅ PASS | table |
 | 19 | Bracket-path gotcha documented | ✅ PASS | README + CONTRIBUTING |
@@ -757,7 +757,7 @@ reserved for genuinely excellent, and real gaps are graded honestly.
 | 8 | No bundled vendored code | ✅ PASS | source-only |
 | 9 | No CDN script tags | ✅ PASS | index.html local only |
 | 10 | http-server via npx (not dep) | ✅ PASS | serve script |
-| 11 | License is permissive (MIT) | ✅ PASS | LICENSE |
+| 11 | License is proprietary (All Rights Reserved) | ✅ PASS | LICENSE |
 | 12 | No GPL contamination | ✅ PASS | no copyleft deps |
 | 13 | `node_modules` gitignored | ✅ PASS | .gitignore |
 | 14 | Supply-chain noted in SECURITY | ✅ PASS | SECURITY.md |
@@ -889,7 +889,7 @@ the coverage gate (90% stmts/lines, 85% funcs, 80% branches):
 | Unit-aware expression evaluator | `unitexpr.js` | `3 kg·9.8 m/s² → 29.4 N`, dimensional algebra |
 | Property-based invariant tests | `properties.test.js` | seeded randomized cross-module invariants |
 
-**Tally:** 29 math + 6 app modules, **1090 tests across 37 suites** (100% pass,
+**Tally:** 29 math + 6 app modules, **1091 tests across 37 suites** (100% pass,
 incl. an end-to-end + axe-core accessibility suite over the real `index.html`),
 all closed-form/invariant-anchored. The honest-scope framing (double-precision,
 dense, single-threaded, numeric+CAS-but-not-full-symbolic) is unchanged and

@@ -1,8 +1,8 @@
 version: 2
 updates:
-  # Dev dependencies of the Professional Calculator subproject.
+  # Dev dependencies (repo flattened to root in 01386f4).
   - package-ecosystem: "npm"
-    directory: "/Professional Calculator"
+    directory: "/"
     schedule:
       interval: "weekly"
     open-pull-requests-limit: 5

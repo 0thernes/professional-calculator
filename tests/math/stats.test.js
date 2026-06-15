@@ -90,6 +90,17 @@ describe('stats — discrete distributions', () => {
         near(s, 1);
     });
     test('binomial cdf P(X≤5,n=10,p=.5)', () => near(binomialCdf(5, 10, 0.5), 0.623046875));
+    test('binomial pmf does not overflow for large n (log-space)', () => {
+        // Regression: combinations(1030,515) === Infinity, so the old
+        // C(n,k)·p^k·q^(n-k) form returned Infinity here. Log-space stays finite.
+        const p = binomialPmf(515, 1030, 0.5);
+        expect(Number.isFinite(p)).toBe(true);
+        near(p, 0.024858, 2e-4);            // mode pmf ≈ 1/√(2π·n·pq)
+        const c = binomialCdf(515, 1030, 0.5);
+        expect(Number.isFinite(c)).toBe(true);
+        expect(c).toBeLessThanOrEqual(1);
+        near(c, 0.5, 0.02);                 // symmetric ⇒ median ≈ mean
+    });
     test('poisson pmf λ=3, k=2', () => near(poissonPmf(2, 3), 0.2240418077, 1e-9));
     test('poisson pmf sums to ~1', () => {
         let s = 0;
