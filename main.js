@@ -118,6 +118,20 @@ async function bootstrapScientificEngine() {
         const versionBadge = document.getElementById('repl-version');
         if (versionBadge) versionBadge.textContent = `v${mathIndex.VERSION}`;
 
+        // Live engine stats in the command bar (sourced from the manifest).
+        const statDomains = document.getElementById('stat-domains');
+        if (statDomains) statDomains.textContent = String(mathIndex.CAPABILITIES.length);
+        const statOps = document.getElementById('stat-ops');
+        if (statOps) {
+            const total = mathIndex.CAPABILITIES.reduce((n, c) => n + c.functions.length, 0);
+            statOps.textContent = `${total}+`;
+        }
+
+        // Interactive surfaces: runnable capability palette + Linear Algebra Lab.
+        const { initPalette, initMatrixLab } = await import('./lab.js');
+        initPalette(repl);
+        initMatrixLab(mathIndex);
+
         // STEM Lab paged visualizations
         const stemController = await bootstrapStemLab();
 

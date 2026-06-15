@@ -3,163 +3,238 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="color-scheme" content="light dark">
-    <meta name="description" content="Professional calculator with full keyboard support, history, and accessibility">
-    <meta name="theme-color" content="#2c3e50">
-    <title>Professional Calculator — Scientific Engine</title>
+    <meta name="color-scheme" content="dark light">
+    <meta name="description" content="A scientific computing terminal — expression engine, linear-algebra lab, calculus, statistics, complex, quantum & signal math. Zero dependencies.">
+    <meta name="theme-color" content="#05070d">
+    <title>CALC — Scientific Compute Terminal</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Single shared live region (P3) -->
+    <!-- Single shared live region -->
     <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-    <div class="app">
-        <main class="calculator" aria-label="Basic Calculator">
+    <div class="workstation">
 
-            <!-- Header -->
-            <header class="header">
-                <h1 class="brand">CALC</h1>
-                <p class="subtitle">Professional Calculator</p>
-                <button type="button"
-                        class="help-button"
-                        data-type="action"
-                        data-action="help"
-                        aria-label="Show keyboard shortcuts"
-                        aria-haspopup="dialog"
-                        aria-controls="help-modal">
-                    ?
-                </button>
-            </header>
+        <!-- ===================== TOP COMMAND BAR ===================== -->
+        <header class="topbar">
+            <div class="brand-block">
+                <span class="brand-glyph" aria-hidden="true">∑</span>
+                <h1 class="wordmark">CALC<span class="wordmark-sub">scientific compute terminal</span></h1>
+            </div>
 
-            <!-- Display -->
-            <section class="display-panel" aria-label="Calculator display">
-                <div class="display-secondary"
-                     aria-label="Current operation"
-                     aria-hidden="true">&nbsp;</div>
-                <output class="display-main"
-                        for="calculator-keypad"
-                        aria-label="Current value">0</output>
+            <div class="stat-rail">
+                <span class="stat"><b id="stat-domains">25</b><i>domains</i></span>
+                <span class="stat"><b id="stat-ops">150+</b><i>operators</i></span>
+                <span class="stat stat-ok"><b>1091</b><i>tests&nbsp;✓</i></span>
+                <span class="stat"><b>0</b><i>deps</i></span>
+                <span class="stat stat-ver" id="repl-version">v3.25.0</span>
+            </div>
+
+            <button type="button"
+                    class="help-button"
+                    data-type="action"
+                    data-action="help"
+                    aria-label="Show keyboard shortcuts"
+                    aria-haspopup="dialog"
+                    aria-controls="help-modal">?</button>
+        </header>
+
+        <!-- ===================== MAIN WORKSTATION GRID ===================== -->
+        <main class="grid" aria-label="Computational workstation">
+
+            <!-- ----------- HERO: SCIENTIFIC EXPRESSION ENGINE ----------- -->
+            <section class="panel console" aria-label="Scientific expression engine">
+                <header class="panel-head">
+                    <h2>Expression&nbsp;Engine</h2>
+                    <span class="panel-tag">ℂ-field · Pratt parser · no&nbsp;eval</span>
+                </header>
+
+                <ul id="repl-log" class="repl-log" aria-live="off"></ul>
+
+                <div class="repl-input-row">
+                    <span class="repl-prompt" aria-hidden="true">∑›</span>
+                    <input id="repl-input" class="repl-input" type="text" spellcheck="false"
+                           autocomplete="off" autocapitalize="off" autocorrect="off"
+                           placeholder="eigvals([[2,1],[1,2]])   ∫ integrate(cos(x),x)   e^(i*pi)   nCr(52,5)   x=7"
+                           aria-label="Scientific expression input" />
+                </div>
+
+                <!-- Capability palette — every chip is a real, runnable computation -->
+                <div class="palette">
+                    <div class="pgroup" role="group" aria-label="Complex & analysis examples">
+                        <span class="pgroup-label">Complex / analysis</span>
+                        <button type="button" id="ex-eipi" class="chip" data-insert="e^(i*pi)" aria-label="Evaluate e to the i pi">e^(iπ)</button>
+                        <button type="button" id="ex-sqrtneg" class="chip" data-insert="sqrt(-4)" aria-label="Evaluate square root of minus four">√(−4)</button>
+                        <button type="button" id="ex-modulus" class="chip" data-insert="|3+4i|" aria-label="Modulus of 3 plus 4 i">|3+4i|</button>
+                        <button type="button" id="ex-trig" class="chip" data-insert="sin(pi/2)+ln(e)" aria-label="Evaluate sine pi over two plus natural log e">sin(π/2)+ln e</button>
+                        <button type="button" id="ex-pow" class="chip" data-insert="2^3^2" aria-label="Evaluate two to the three to the two">2^3^2</button>
+                    </div>
+                    <div class="pgroup" role="group" aria-label="Calculus and symbolic examples">
+                        <span class="pgroup-label">Calculus / CAS</span>
+                        <button type="button" id="ex-diff" class="chip" data-insert="diff(x^3, x)" aria-label="Differentiate x cubed">d/dx x³</button>
+                        <button type="button" id="ex-int" class="chip" data-insert="integrate(cos(x), x)" aria-label="Integrate cosine x">∫ cos x dx</button>
+                        <button type="button" id="ex-diffprod" class="chip" data-insert="diff(sin(x)*x, x)" aria-label="Differentiate sine x times x">d/dx (x·sin x)</button>
+                    </div>
+                    <div class="pgroup" role="group" aria-label="Linear algebra examples">
+                        <span class="pgroup-label">Linear algebra</span>
+                        <button type="button" id="ex-det" class="chip" data-insert="det([[1,2],[3,4]])" aria-label="Determinant of a 2 by 2 matrix">det&nbsp;A</button>
+                        <button type="button" id="ex-inv" class="chip" data-insert="inv([[2,0],[0,4]])" aria-label="Inverse of a diagonal matrix">A⁻¹</button>
+                        <button type="button" id="ex-matpow" class="chip" data-insert="[[1,1],[0,1]]^5" aria-label="Matrix power">A^5</button>
+                    </div>
+                    <div class="pgroup" role="group" aria-label="Number theory examples">
+                        <span class="pgroup-label">Number theory</span>
+                        <button type="button" id="ex-isprime" class="chip" data-insert="isprime(2305843009213693951)" aria-label="Primality test of a Mersenne number">isprime</button>
+                        <button type="button" id="ex-factor" class="chip" data-insert="factor(360)" aria-label="Prime factorization of 360">factor 360</button>
+                        <button type="button" id="ex-modpow" class="chip" data-insert="modpow(7, 256, 13)" aria-label="Modular exponentiation">modpow</button>
+                        <button type="button" id="ex-totient" class="chip" data-insert="totient(36)" aria-label="Euler totient of 36">φ(36)</button>
+                        <button type="button" id="ex-fib" class="chip" data-insert="fib(80)" aria-label="80th Fibonacci number">fib 80</button>
+                    </div>
+                    <div class="pgroup" role="group" aria-label="Combinatorics and special function examples">
+                        <span class="pgroup-label">Combinatorics / special</span>
+                        <button type="button" id="ex-ncr" class="chip" data-insert="nCr(52, 5)" aria-label="52 choose 5">₅₂C₅</button>
+                        <button type="button" id="ex-catalan" class="chip" data-insert="catalan(12)" aria-label="12th Catalan number">Catalan</button>
+                        <button type="button" id="ex-gamma" class="chip" data-insert="gamma(0.5)" aria-label="Gamma of one half">Γ(½)</button>
+                        <button type="button" id="ex-stirling" class="chip" data-insert="stirling2(8, 3)" aria-label="Stirling number of the second kind">Stirling₂</button>
+                        <button type="button" id="ex-erf" class="chip" data-insert="erf(1)" aria-label="Error function at 1">erf 1</button>
+                    </div>
+                </div>
+
+                <details class="repl-cheatsheet">
+                    <summary>Full capability index</summary>
+                    <ul id="repl-capabilities"></ul>
+                </details>
             </section>
 
-            <!-- Hidden keyboard help for screen readers (a heading, not a
-                 nested landmark — keeps it reachable without breaking the
-                 landmark hierarchy). -->
-            <div class="sr-only">
-                <h2>Keyboard Shortcuts</h2>
-                <ul>
-                    <li>Digits 0 through 9 enter numbers.</li>
-                    <li>Plus, minus, asterisk, slash for operators.</li>
-                    <li>Enter or equals to calculate.</li>
-                    <li>Backspace deletes the last digit.</li>
-                    <li>Escape clears the calculator.</li>
-                    <li>Control Z or Control U undoes the last action.</li>
-                    <li>Control Y or Control Shift Z redoes.</li>
-                    <li>Control N toggles negative.</li>
-                </ul>
-            </div>
+            <!-- ----------- LINEAR ALGEBRA LAB (live engine) ----------- -->
+            <section class="panel matrixlab" aria-label="Linear algebra lab">
+                <header class="panel-head">
+                    <h2>Linear&nbsp;Algebra&nbsp;Lab</h2>
+                    <span class="panel-tag">dense real · LU · QR · eig · SVD</span>
+                </header>
 
-            <!-- Keypad -->
-            <div id="calculator-keypad"
-                 class="button-grid"
-                 role="group"
-                 aria-label="Calculator keypad">
+                <label class="ml-label" for="ml-input">Matrix literal — rows of <code>[[a,b],[c,d]]</code></label>
+                <textarea id="ml-input" class="ml-input" rows="3" spellcheck="false"
+                          autocomplete="off" autocapitalize="off"
+                          aria-label="Matrix literal input">[[2,1,0],[1,3,1],[0,1,2]]</textarea>
 
-                <button type="button" class="btn btn-function" data-type="action" data-action="clear"   aria-label="Clear (Escape)">C</button>
-                <button type="button" class="btn btn-function" data-type="action" data-action="delete"  aria-label="Delete last digit (Backspace)">←</button>
-                <button type="button" class="btn btn-function" data-type="action" data-action="percent" aria-label="Percentage">%</button>
-                <button type="button" class="btn btn-operator" data-type="operator" data-operator="/"   aria-label="Divide">÷</button>
-
-                <button type="button" class="btn btn-number" data-type="number" data-number="7" aria-label="Seven">7</button>
-                <button type="button" class="btn btn-number" data-type="number" data-number="8" aria-label="Eight">8</button>
-                <button type="button" class="btn btn-number" data-type="number" data-number="9" aria-label="Nine">9</button>
-                <button type="button" class="btn btn-operator" data-type="operator" data-operator="*" aria-label="Multiply">×</button>
-
-                <button type="button" class="btn btn-number" data-type="number" data-number="4" aria-label="Four">4</button>
-                <button type="button" class="btn btn-number" data-type="number" data-number="5" aria-label="Five">5</button>
-                <button type="button" class="btn btn-number" data-type="number" data-number="6" aria-label="Six">6</button>
-                <button type="button" class="btn btn-operator" data-type="operator" data-operator="-" aria-label="Subtract">−</button>
-
-                <button type="button" class="btn btn-number" data-type="number" data-number="1" aria-label="One">1</button>
-                <button type="button" class="btn btn-number" data-type="number" data-number="2" aria-label="Two">2</button>
-                <button type="button" class="btn btn-number" data-type="number" data-number="3" aria-label="Three">3</button>
-                <button type="button" class="btn btn-operator" data-type="operator" data-operator="+" aria-label="Add">+</button>
-
-                <button type="button" class="btn btn-number btn-zero" data-type="number" data-number="0" aria-label="Zero">0</button>
-                <button type="button" class="btn btn-number"          data-type="number" data-number="." aria-label="Decimal point">.</button>
-                <button type="button" class="btn btn-function"        data-type="action" data-action="negate" aria-label="Toggle sign (Control N)">+/−</button>
-                <button type="button" class="btn btn-equals"          data-type="action" data-action="equals" aria-label="Calculate (Enter)">=</button>
-
-                <button type="button" class="btn btn-function btn-undo"
-                        data-type="action" data-action="undo"
-                        aria-label="Undo (Control Z)" disabled>↶ Undo</button>
-                <button type="button" class="btn btn-function btn-redo"
-                        data-type="action" data-action="redo"
-                        aria-label="Redo (Control Y)" disabled>Redo ↷</button>
-            </div>
-
-            <details class="keyboard-shortcuts">
-                <summary>Keyboard Shortcuts</summary>
-                <ul>
-                    <li><kbd>0</kbd>–<kbd>9</kbd> Numbers</li>
-                    <li><kbd>.</kbd> Decimal</li>
-                    <li><kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd> Operators</li>
-                    <li><kbd>Enter</kbd> / <kbd>=</kbd> Calculate</li>
-                    <li><kbd>Backspace</kbd> Delete</li>
-                    <li><kbd>Esc</kbd> Clear</li>
-                    <li><kbd>%</kbd> Percentage</li>
-                    <li><kbd>Ctrl</kbd>+<kbd>N</kbd> Toggle ±</li>
-                    <li><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>U</kbd> Undo</li>
-                    <li><kbd>Ctrl</kbd>+<kbd>Y</kbd> Redo</li>
-                </ul>
-            </details>
-        </main>
-
-        <!-- History sidebar -->
-        <aside class="history-panel" aria-label="Calculation history">
-            <header class="history-header">
-                <h2>History</h2>
-                <button type="button" id="clear-history" class="history-clear" aria-label="Clear history">Clear</button>
-            </header>
-            <ul id="history-list" class="history-list" role="list" tabindex="0" aria-label="Previous calculations, click to restore"></ul>
-            <p class="history-empty" aria-hidden="true">No calculations yet</p>
-        </aside>
-
-        <!-- Scientific REPL: full expression engine -->
-        <section class="repl-panel" aria-label="Scientific expression engine">
-            <header class="repl-header">
-                <h2>Scientific Engine</h2>
-                <span class="repl-badge" id="repl-version">v3.25.0</span>
-            </header>
-            <ul id="repl-log" class="repl-log" aria-live="off"></ul>
-            <div class="repl-input-row">
-                <span class="repl-prompt" aria-hidden="true">›</span>
-                <input id="repl-input" class="repl-input" type="text" spellcheck="false"
-                       autocomplete="off" autocapitalize="off"
-                       placeholder="e.g.  sin(pi/2),  3+4i,  5!,  log(8,2),  x=7"
-                       aria-label="Scientific expression input" />
-            </div>
-            <details class="repl-cheatsheet">
-                <summary>What can it do?</summary>
-                <ul id="repl-capabilities"></ul>
-            </details>
-        </section>
-
-        <!-- STEM Lab: paged scientific visualizations -->
-        <section class="stem-panel" aria-label="STEM visualization lab">
-            <header class="stem-header">
-                <button type="button" id="stem-prev" class="stem-nav" aria-label="Previous visualization">‹</button>
-                <div class="stem-titles">
-                    <h2 id="stem-title">STEM Lab</h2>
-                    <span id="stem-caption" class="stem-caption"></span>
+                <div class="ml-ops" role="group" aria-label="Matrix operations">
+                    <button type="button" class="chip op" data-op="det">det</button>
+                    <button type="button" class="chip op" data-op="eig">eigenvalues</button>
+                    <button type="button" class="chip op" data-op="inv">inverse</button>
+                    <button type="button" class="chip op" data-op="svd">singular&nbsp;values</button>
+                    <button type="button" class="chip op" data-op="cond">cond&nbsp;κ</button>
+                    <button type="button" class="chip op" data-op="rank">rank</button>
+                    <button type="button" class="chip op" data-op="trace">trace</button>
+                    <button type="button" class="chip op" data-op="transpose">transpose</button>
+                    <button type="button" class="chip op" data-op="norm">‖·‖F</button>
                 </div>
-                <button type="button" id="stem-next" class="stem-nav" aria-label="Next visualization">›</button>
-            </header>
-            <div id="stem-stage" class="stem-stage" role="img" aria-label="Live STEM visualization"></div>
-            <footer class="stem-footer">
-                <span id="stem-indicator" class="stem-indicator">— / —</span>
-                <span class="stem-hint">◂ ▸ to cycle pages</span>
-            </footer>
-        </section>
+
+                <div id="ml-output" class="ml-output" aria-live="polite">
+                    <span class="ml-hint">Pick an operation. Eigenvalues return exact complex pairs (try <code>[[0,-1],[1,0]]</code> → ±i).</span>
+                </div>
+            </section>
+
+            <!-- ----------- STEM LAB: paged scientific visualizations ----------- -->
+            <section class="panel viz" aria-label="STEM visualization lab">
+                <header class="panel-head viz-head">
+                    <button type="button" id="stem-prev" class="stem-nav" aria-label="Previous visualization">‹</button>
+                    <div class="stem-titles">
+                        <h2 id="stem-title">STEM&nbsp;Lab</h2>
+                        <span id="stem-caption" class="stem-caption"></span>
+                    </div>
+                    <button type="button" id="stem-next" class="stem-nav" aria-label="Next visualization">›</button>
+                </header>
+                <div id="stem-stage" class="stem-stage" role="img" aria-label="Live STEM visualization"></div>
+                <footer class="stem-footer">
+                    <span id="stem-indicator" class="stem-indicator">— / —</span>
+                    <span class="stem-hint">◂ ▸ cycle</span>
+                </footer>
+            </section>
+
+            <!-- ----------- QUICK PAD: the 4-function calculator (demoted) ----------- -->
+            <section class="panel quickcalc" aria-label="Basic Calculator">
+                <header class="panel-head">
+                    <h2>Quick&nbsp;Pad</h2>
+                    <span class="panel-tag">FSM · undo/redo</span>
+                </header>
+
+                <div class="display-panel">
+                    <div class="display-secondary" aria-label="Current operation" aria-hidden="true">&nbsp;</div>
+                    <output class="display-main" for="calculator-keypad" aria-label="Current value">0</output>
+                </div>
+
+                <div id="calculator-keypad" class="button-grid" role="group" aria-label="Calculator keypad">
+                    <button type="button" class="btn btn-function" data-type="action" data-action="clear"   aria-label="Clear (Escape)">C</button>
+                    <button type="button" class="btn btn-function" data-type="action" data-action="delete"  aria-label="Delete last digit (Backspace)">←</button>
+                    <button type="button" class="btn btn-function" data-type="action" data-action="percent" aria-label="Percentage">%</button>
+                    <button type="button" class="btn btn-operator" data-type="operator" data-operator="/"   aria-label="Divide">÷</button>
+
+                    <button type="button" class="btn btn-number" data-type="number" data-number="7" aria-label="Seven">7</button>
+                    <button type="button" class="btn btn-number" data-type="number" data-number="8" aria-label="Eight">8</button>
+                    <button type="button" class="btn btn-number" data-type="number" data-number="9" aria-label="Nine">9</button>
+                    <button type="button" class="btn btn-operator" data-type="operator" data-operator="*" aria-label="Multiply">×</button>
+
+                    <button type="button" class="btn btn-number" data-type="number" data-number="4" aria-label="Four">4</button>
+                    <button type="button" class="btn btn-number" data-type="number" data-number="5" aria-label="Five">5</button>
+                    <button type="button" class="btn btn-number" data-type="number" data-number="6" aria-label="Six">6</button>
+                    <button type="button" class="btn btn-operator" data-type="operator" data-operator="-" aria-label="Subtract">−</button>
+
+                    <button type="button" class="btn btn-number" data-type="number" data-number="1" aria-label="One">1</button>
+                    <button type="button" class="btn btn-number" data-type="number" data-number="2" aria-label="Two">2</button>
+                    <button type="button" class="btn btn-number" data-type="number" data-number="3" aria-label="Three">3</button>
+                    <button type="button" class="btn btn-operator" data-type="operator" data-operator="+" aria-label="Add">+</button>
+
+                    <button type="button" class="btn btn-number btn-zero" data-type="number" data-number="0" aria-label="Zero">0</button>
+                    <button type="button" class="btn btn-number"          data-type="number" data-number="." aria-label="Decimal point">.</button>
+                    <button type="button" class="btn btn-function"        data-type="action" data-action="negate" aria-label="Toggle sign (Control N)">+/−</button>
+                    <button type="button" class="btn btn-equals"          data-type="action" data-action="equals" aria-label="Calculate (Enter)">=</button>
+
+                    <button type="button" class="btn btn-function btn-undo"
+                            data-type="action" data-action="undo"
+                            aria-label="Undo (Control Z)" disabled>↶ Undo</button>
+                    <button type="button" class="btn btn-function btn-redo"
+                            data-type="action" data-action="redo"
+                            aria-label="Redo (Control Y)" disabled>Redo ↷</button>
+                </div>
+
+                <details class="keyboard-shortcuts">
+                    <summary>Keyboard Shortcuts</summary>
+                    <ul>
+                        <li><kbd>0</kbd>–<kbd>9</kbd> Numbers</li>
+                        <li><kbd>.</kbd> Decimal</li>
+                        <li><kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd> Operators</li>
+                        <li><kbd>Enter</kbd> / <kbd>=</kbd> Calculate</li>
+                        <li><kbd>Backspace</kbd> Delete</li>
+                        <li><kbd>Esc</kbd> Clear</li>
+                        <li><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd> Undo/Redo</li>
+                    </ul>
+                </details>
+
+                <!-- Screen-reader keyboard reference (kept in a landmark) -->
+                <div class="sr-only">
+                    <h3>Keyboard shortcuts</h3>
+                    <ul>
+                        <li>Digits 0 through 9 enter numbers.</li>
+                        <li>Plus, minus, asterisk, slash for operators.</li>
+                        <li>Enter or equals to calculate.</li>
+                        <li>Backspace deletes the last digit.</li>
+                        <li>Escape clears the calculator.</li>
+                        <li>Control Z or Control U undoes; Control Y redoes.</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- ----------- HISTORY / SESSION LEDGER ----------- -->
+            <aside class="panel history" aria-label="Calculation history">
+                <header class="panel-head">
+                    <h2>History</h2>
+                    <button type="button" id="clear-history" class="history-clear" aria-label="Clear history">Clear</button>
+                </header>
+                <ul id="history-list" class="history-list" role="list" tabindex="0" aria-label="Previous calculations, click to restore"></ul>
+                <p class="history-empty" aria-hidden="true">No calculations yet</p>
+            </aside>
+
+        </main>
     </div>
 
     <!-- Help modal -->
@@ -184,8 +259,7 @@
         </form>
     </dialog>
 
-    <!-- ES module entry. Serve via a local server (e.g., `npm run serve`)
-         because modules require HTTP, not file:// -->
+    <!-- ES module entry. Serve via a local server (e.g., `npm run serve`). -->
     <script type="module" src="main.js"></script>
 </body>
 </html>
