@@ -6,6 +6,39 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+- **UI rebuilt as a "scientific compute terminal"** (`index.html`, `styles.css`):
+  the Expression Engine is now the hero (large console + 21 one-click *runnable*
+  capability chips across complex/analysis, calculus·CAS, linear algebra, number
+  theory, combinatorics/special). New **Linear Algebra Lab** (`lab.js`) runs
+  det/eigenvalues/inverse/SVD/cond/rank/trace/transpose/‖·‖F live and renders
+  matrices as bracketed grids — surfacing **complex eigenvalues** (`[[0,-1],[1,0]] → ±i`)
+  that the REPL's `eigvals` dropped. The 4-function keypad is demoted to a
+  "Quick Pad"; STEM Lab + History become panels. Dense dark terminal aesthetic,
+  responsive phone→ultrawide, dark-first with light fallback; top-bar stats are
+  sourced live from `CAPABILITIES`.
+- **`lab.js`** — capability-palette wiring + Matrix Lab. All DOM writes use
+  `textContent`/`createElement` (no injection surface); strict-`checkJs` clean.
+
+### Fixed
+- **`math/stats.js`** `binomialPmf` overflowed to `Infinity` for large `n`
+  (`combinations(1030,515) === Infinity`); now computed in log-space via `lgamma`
+  (mirrors `poissonPmf`), with p=0/p=1 guards. +1 regression test → **1091** total.
+- **`.github/dependabot.yml`** npm updater pointed at a non-existent
+  `/Professional Calculator` dir (dead since the flatten in `01386f4`) → `/`.
+- **`.github/workflows/ci.yml`** push trigger was `master`/`scientific-engine`
+  (the only branch is `main`, so push CI never ran) → `[main]`.
+- **`docs/AUDIT.md`** two checkpoints still claimed an MIT license (stale since
+  the relicense in `7226ddc`) → corrected to Proprietary · All Rights Reserved.
+
+### Changed
+- Suite/test counts synced across README, KANBAN, docs/AUDIT (14→37 suites; 1079/1090→1091).
+
+### Notes
+- Version intentionally not bumped this run; a **`3.26.0`** tag is queued once the
+  UI rebuild is reviewed (it would also retroactively cover the Francis-QR + e2e
+  work that landed unlogged in `2b2fe3f`).
+
 ## [3.25.0] — Symbolic simplification: collect like terms
 
 ### Added
