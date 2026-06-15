@@ -224,6 +224,117 @@
                 </div>
             </section>
 
+            <!-- ----------- QUANTUM LAB (gate-model state-vector sim) ----------- -->
+            <section class="panel quantum" aria-label="Quantum computing lab">
+                <header class="panel-head">
+                    <h2>Quantum&nbsp;Lab</h2>
+                    <span class="panel-tag">state-vector · gate model · Born rule</span>
+                </header>
+                <div class="q-controls" role="group" aria-label="Quantum circuit controls">
+                    <label class="q-inline" for="q-nqubits">qubits</label>
+                    <input id="q-nqubits" class="q-num" type="number" min="1" max="4" value="2" aria-label="Number of qubits">
+                    <label class="q-inline" for="q-target">on q</label>
+                    <input id="q-target" class="q-num" type="number" min="0" max="3" value="0" aria-label="Target qubit index">
+                    <button type="button" class="chip op" data-q="h">H</button>
+                    <button type="button" class="chip op" data-q="x">X</button>
+                    <button type="button" class="chip op" data-q="y">Y</button>
+                    <button type="button" class="chip op" data-q="z">Z</button>
+                    <button type="button" class="chip op" data-q="s">S</button>
+                    <button type="button" class="chip op" data-q="t">T</button>
+                    <button type="button" class="chip op" data-q="cnot">CNOT q→q+1</button>
+                    <button type="button" class="chip" data-q="bell">Bell</button>
+                    <button type="button" class="chip" data-q="ghz">GHZ</button>
+                    <button type="button" class="chip" data-q="reset">Reset</button>
+                </div>
+                <pre id="q-diagram" class="q-diagram"></pre>
+                <div id="q-ket" class="q-ket" aria-live="polite"></div>
+                <div id="q-probs" class="q-probs"></div>
+                <div id="q-bloch" class="q-bloch"></div>
+            </section>
+
+            <!-- ----------- SIGNAL · FFT LAB ----------- -->
+            <section class="panel signal" aria-label="Signal and FFT lab">
+                <header class="panel-head">
+                    <h2>Signal&nbsp;·&nbsp;FFT</h2>
+                    <span class="panel-tag">radix-2 + Bluestein · any length</span>
+                </header>
+                <label class="ml-label" for="sig-input">Samples — comma-separated (any length)</label>
+                <input id="sig-input" class="ml-input" type="text" spellcheck="false" autocomplete="off"
+                       value="1, 0, -1, 0, 1, 0, -1, 0" aria-label="Signal samples">
+                <div class="ml-ops" role="group" aria-label="Signal operations">
+                    <button type="button" class="chip op" data-sig="fft">magnitude spectrum</button>
+                    <button type="button" class="chip" data-sig="twotone">load 2-tone</button>
+                    <button type="button" class="chip" data-sig="impulse">load impulse</button>
+                </div>
+                <div id="sig-output" class="ml-output" aria-live="polite">
+                    <span class="ml-hint">FFT a real signal → magnitude spectrum |X(k)|.</span>
+                </div>
+            </section>
+
+            <!-- ----------- QUANT FINANCE LAB ----------- -->
+            <section class="panel finance" aria-label="Quantitative finance lab">
+                <header class="panel-head">
+                    <h2>Quant&nbsp;Finance</h2>
+                    <span class="panel-tag">Black–Scholes · Greeks</span>
+                </header>
+                <div class="fin-grid">
+                    <label for="fin-S">Spot S<input id="fin-S" type="number" value="100" step="1"></label>
+                    <label for="fin-K">Strike K<input id="fin-K" type="number" value="100" step="1"></label>
+                    <label for="fin-r">Rate r<input id="fin-r" type="number" value="0.05" step="0.01"></label>
+                    <label for="fin-sig">Vol σ<input id="fin-sig" type="number" value="0.2" step="0.01"></label>
+                    <label for="fin-T">Years T<input id="fin-T" type="number" value="1" step="0.25"></label>
+                </div>
+                <div class="ml-ops" role="group" aria-label="Pricing">
+                    <button type="button" class="chip op" data-fin="price">price + Greeks</button>
+                </div>
+                <div id="fin-output" class="ml-output" aria-live="polite">
+                    <span class="ml-hint">European option price (call/put) and the Greeks Δ Γ vega Θ ρ.</span>
+                </div>
+            </section>
+
+            <!-- ----------- PLOT STUDIO (f(x) + distributions) ----------- -->
+            <section class="panel plot-studio" aria-label="Plot studio">
+                <header class="panel-head">
+                    <h2>Plot&nbsp;Studio</h2>
+                    <span class="panel-tag">f(x) over [a, b]</span>
+                </header>
+                <label class="ml-label" for="plot-expr">f(x) =</label>
+                <input id="plot-expr" class="ml-input" type="text" spellcheck="false" autocomplete="off"
+                       value="sin(x) * e^(-x*x/12)" aria-label="Function of x to plot">
+                <div class="plot-range">
+                    <label for="plot-a">a<input id="plot-a" type="number" value="-8"></label>
+                    <label for="plot-b">b<input id="plot-b" type="number" value="8"></label>
+                </div>
+                <div class="ml-ops" role="group" aria-label="Plot controls">
+                    <button type="button" class="chip op" data-plot="draw">plot</button>
+                    <button type="button" class="chip" data-plot="normal">Normal pdf</button>
+                    <button type="button" class="chip" data-plot="chi2">χ² pdf</button>
+                    <button type="button" class="chip" data-plot="sinc">sinc</button>
+                </div>
+                <div id="plot-output" class="ml-output plot-stage" aria-live="polite"></div>
+            </section>
+
+            <!-- ----------- ODE LAB (RK4) ----------- -->
+            <section class="panel ode" aria-label="Differential equation lab">
+                <header class="panel-head">
+                    <h2>ODE&nbsp;Lab</h2>
+                    <span class="panel-tag">RK4 · y′ = f(t, y)</span>
+                </header>
+                <label class="ml-label" for="ode-expr">y′ = f(t, y) =</label>
+                <input id="ode-expr" class="ml-input" type="text" spellcheck="false" autocomplete="off"
+                       value="cos(t) - y" aria-label="Right-hand side of the ODE">
+                <div class="plot-range">
+                    <label for="ode-y0">y(0)<input id="ode-y0" type="number" value="0" step="0.1"></label>
+                    <label for="ode-t1">t&#8321;<input id="ode-t1" type="number" value="12" step="1"></label>
+                </div>
+                <div class="ml-ops" role="group" aria-label="ODE controls">
+                    <button type="button" class="chip op" data-ode="solve">integrate</button>
+                    <button type="button" class="chip" data-ode="decay">decay</button>
+                    <button type="button" class="chip" data-ode="logistic">logistic</button>
+                </div>
+                <div id="ode-output" class="ml-output plot-stage" aria-live="polite"></div>
+            </section>
+
             <!-- ----------- HISTORY / SESSION LEDGER ----------- -->
             <aside class="panel history" aria-label="Calculation history">
                 <header class="panel-head">

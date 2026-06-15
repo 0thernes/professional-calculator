@@ -171,17 +171,13 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cyan); }
     display: grid;
     gap: var(--md);
     align-items: stretch;
-    grid-template-columns: minmax(360px, 1.5fr) minmax(320px, 1.1fr) minmax(300px, 1fr);
-    grid-template-rows: minmax(360px, auto) minmax(280px, auto);
-    grid-template-areas:
-        "console matrixlab viz"
-        "console quickcalc history";
+    /* Auto-flow workstation: scales to any number of panels, responsive by
+       intrinsic min-width. The console (hero) spans two tracks where it can. */
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-auto-rows: minmax(300px, auto);
 }
-.console   { grid-area: console; }
-.matrixlab { grid-area: matrixlab; }
-.viz       { grid-area: viz; }
-.quickcalc { grid-area: quickcalc; }
-.history   { grid-area: history; }
+.console { grid-column: span 2; min-height: 460px; }
+.viz, .quantum { min-height: 420px; }
 
 /* ---------- PANEL CHROME ---------- */
 .panel {
@@ -541,6 +537,49 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cyan); }
     .panel { box-shadow: none; border: 1px solid #000; }
     .help-button, .stem-nav, .btn-undo, .palette { display: none; }
 }
+
+/* =================================================================
+   LIVE ENGINE PANELS (quantum / signal / finance / plot / ode)
+   ================================================================= */
+.q-controls { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; padding: var(--sm) var(--md); }
+.q-inline { font-family: var(--mono); font-size: 10px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: 1px; }
+.q-num {
+    width: 48px; background: #06090f; color: var(--green);
+    border: 1px solid var(--line); border-radius: var(--r-sm);
+    font-family: var(--mono); font-size: 13px; padding: 4px 6px;
+}
+.q-num:focus { outline: none; border-color: var(--cyan); }
+.q-diagram {
+    margin: 0 var(--md); padding: var(--sm); background: #06090f;
+    border: 1px solid var(--line); border-radius: var(--r-sm);
+    font-family: var(--mono); font-size: 11px; color: var(--cyan);
+    white-space: pre; overflow-x: auto; line-height: 1.5;
+}
+.q-ket { padding: var(--sm) var(--md); font-family: var(--mono); font-size: 13px; color: var(--green); word-break: break-word; }
+.q-probs { padding: 0 var(--md) var(--sm); display: flex; flex-direction: column; gap: 3px; }
+.q-prob-row { display: flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: 11px; }
+.q-prob-label { color: var(--ink-dim); width: 70px; }
+.q-prob-track { flex: 1; height: 9px; background: var(--panel-3); border-radius: 5px; overflow: hidden; }
+.q-prob-fill { display: block; height: 100%; background: linear-gradient(90deg, var(--cyan), var(--violet)); }
+.q-prob-pct { color: var(--ink-faint); width: 48px; text-align: right; }
+.q-bloch { display: flex; justify-content: center; padding: var(--sm) var(--md) var(--md); }
+
+.fin-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); gap: var(--sm); padding: var(--md) var(--md) var(--sm); }
+.fin-grid label, .plot-range label {
+    display: flex; flex-direction: column; gap: 3px;
+    font-family: var(--mono); font-size: 10px; color: var(--ink-faint);
+    text-transform: uppercase; letter-spacing: .5px;
+}
+.fin-grid input, .plot-range input {
+    background: #06090f; color: var(--green); border: 1px solid var(--line);
+    border-radius: var(--r-sm); font-family: var(--mono); font-size: 13px;
+    padding: 5px 6px; width: 100%;
+}
+.fin-grid input:focus, .plot-range input:focus { outline: none; border-color: var(--cyan); }
+.plot-range { display: flex; gap: var(--sm); padding: 0 var(--md) var(--sm); }
+.plot-range label { flex: 1; }
+.plot-stage { min-height: 200px; display: flex; align-items: center; justify-content: center; }
+.plot-stage svg, #sig-output svg { display: block; max-width: 100%; }
 
 /* Light-mode fallback for users who force it — keeps the terminal legible. */
 @media (prefers-color-scheme: light) {

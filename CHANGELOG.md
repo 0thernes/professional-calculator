@@ -19,6 +19,12 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
   sourced live from `CAPABILITIES`.
 - **`lab.js`** — capability-palette wiring + Matrix Lab. All DOM writes use
   `textContent`/`createElement` (no injection surface); strict-`checkJs` clean.
+- **Five live engine panels** (`lab.js`, `index.html`): **Quantum Lab** (fluent
+  gate-model circuit → ket / probability bars / Bloch sphere; Bell + GHZ presets),
+  **Signal·FFT** (magnitude spectrum), **Quant Finance** (Black–Scholes + Greeks),
+  **Plot Studio** (f(x) over [a,b] + Normal/χ² distribution presets), and **ODE Lab**
+  (RK4 on y′=f(t,y)). Charts render as SVG via `createElementNS`/`textContent`. The
+  workstation grid switched to auto-flow to host the growing panel set.
 
 ### Fixed
 - **`math/stats.js`** `binomialPmf` overflowed to `Infinity` for large `n`

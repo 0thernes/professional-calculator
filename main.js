@@ -127,10 +127,12 @@ async function bootstrapScientificEngine() {
             statOps.textContent = `${total}+`;
         }
 
-        // Interactive surfaces: runnable capability palette + Linear Algebra Lab.
-        const { initPalette, initMatrixLab } = await import('./lab.js');
+        // Interactive surfaces: runnable palette + Linear Algebra Lab + live
+        // engine panels (Quantum, Signal/FFT, Finance, Plot, ODE).
+        const { initPalette, initMatrixLab, initLabs } = await import('./lab.js');
         initPalette(repl);
         initMatrixLab(mathIndex);
+        initLabs(mathIndex);
 
         // STEM Lab paged visualizations
         const stemController = await bootstrapStemLab();
