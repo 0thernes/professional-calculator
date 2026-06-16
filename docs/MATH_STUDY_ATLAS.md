@@ -2,9 +2,9 @@
 
 # Mathematics Study Atlas — Undergrad → PhD
 
-**A deduplicated catalog of 542 courses, topics, and research areas across all of mathematics**, organized by domain → subdomain, leveled from undergraduate to doctoral, and grounded in the curricula of the world's top-100 research mathematics departments.
+**A deduplicated catalog of 617 courses, topics, and research areas across all of mathematics**, organized by domain → subdomain, leveled from undergraduate to doctoral, and grounded in the curricula of the world's top-100 research mathematics departments.
 
-`542 unique entries · 21 domains · 190 subdomains · no repeats`
+`617 unique entries · 21 domains · 190 subdomains · no repeats`
 
 </div>
 
@@ -34,10 +34,10 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 | III | [Number Theory and Arithmetic Geometry](#iii-number-theory-and-arithmetic-geometry) | `pure-applied-bridge` | 22 |
 | IV | [Algebra: Structures, Symmetries, and Representations](#iv-algebra-structures-symmetries-and-representations) | `core-pure` | 34 |
 | V | [Geometry: Shape, Space, Curvature, and Measurement](#v-geometry-shape-space-curvature-and-measurement) | `core-pure-applied` | 41 |
-| VI | [Topology: Continuity, Holes, Manifolds, and Invariants](#vi-topology-continuity-holes-manifolds-and-invariants) | `core-pure-applied` | 30 |
+| VI | [Topology: Continuity, Holes, Manifolds, and Invariants](#vi-topology-continuity-holes-manifolds-and-invariants) | `core-pure-applied` | 31 |
 | VII | [Analysis, Calculus, and Function Spaces](#vii-analysis-calculus-and-function-spaces) | `core-pure-applied` | 33 |
 | VIII | [Differential Equations, Dynamical Systems, and Chaos](#viii-differential-equations-dynamical-systems-and-chaos) | `core-applied-research` | 27 |
-| IX | [Probability, Statistics, and Inference](#ix-probability-statistics-and-inference) | `core-applied-research` | 33 |
+| IX | [Probability, Statistics, and Inference](#ix-probability-statistics-and-inference) | `core-applied-research` | 34 |
 | X | [Optimization, Control, Operations Research, and Game Theory](#x-optimization-control-operations-research-and-game-theory) | `core-applied-research` | 25 |
 | XI | [Discrete Mathematics, Combinatorics, and Graph Theory](#xi-discrete-mathematics-combinatorics-and-graph-theory) | `core-pure-applied` | 26 |
 | XII | [Numerical and Computational Mathematics](#xii-numerical-and-computational-mathematics) | `core-computational` | 27 |
@@ -45,12 +45,12 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 | XIV | [Mathematical Physics, Cosmology, and Astronomy](#xiv-mathematical-physics-cosmology-and-astronomy) | `applied-research` | 30 |
 | XV | [Engineering Mathematics, Signals, Systems, and Control](#xv-engineering-mathematics-signals-systems-and-control) | `applied-engineering` | 21 |
 | XVI | [Quantitative Finance, Economics, and Risk Engineering](#xvi-quantitative-finance-economics-and-risk-engineering) | `applied-financial` | 24 |
-| XVII | [Cryptography, Security Mathematics, and Coding Theory](#xvii-cryptography-security-mathematics-and-coding-theory) | `applied-computational-security` | 21 |
-| XVIII | [AI, Machine Learning, Data Science, and Learning Theory](#xviii-ai-machine-learning-data-science-and-learning-theory) | `applied-computational-research` | 27 |
-| XIX | [Computer Science, Algorithms, and Complexity](#xix-computer-science-algorithms-and-complexity) | `applied-computational-foundational` | 20 |
-| XX | [Applied Sciences, Biology, Networks, and Social Systems](#xx-applied-sciences-biology-networks-and-social-systems) | `applied-science` | 18 |
-| XXI | [Meta-Mathematics, Modeling, Pedagogy, and Knowledge Systems](#xxi-meta-mathematics-modeling-pedagogy-and-knowledge-systems) | `meta` | 18 |
-| | **Total** | | **542** |
+| XVII | [Cryptography, Security Mathematics, and Coding Theory](#xvii-cryptography-security-mathematics-and-coding-theory) | `applied-computational-security` | 31 |
+| XVIII | [AI, Machine Learning, Data Science, and Learning Theory](#xviii-ai-machine-learning-data-science-and-learning-theory) | `applied-computational-research` | 47 |
+| XIX | [Computer Science, Algorithms, and Complexity](#xix-computer-science-algorithms-and-complexity) | `applied-computational-foundational` | 35 |
+| XX | [Applied Sciences, Biology, Networks, and Social Systems](#xx-applied-sciences-biology-networks-and-social-systems) | `applied-science` | 31 |
+| XXI | [Meta-Mathematics, Modeling, Pedagogy, and Knowledge Systems](#xxi-meta-mathematics-modeling-pedagogy-and-knowledge-systems) | `meta` | 33 |
+| | **Total** | | **617** |
 
 ---
 
@@ -379,6 +379,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Spectral Sequences and the Serre Spectral Sequence** — `PhD` · topic
 - **Stable Homotopy Theory** — `PhD` · area
 - **Combinatorial Topology** — `Grad` · topic
+- **Algebraic K-Theory** — `PhD` · area
 
 ### Differential Topology
 
@@ -574,6 +575,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Schramm-Loewner Evolution** — `PhD` · topic
 - **Malliavin Calculus** — `PhD` · topic
 - **Interacting Particle Systems** — `PhD` · topic
+- **Rough Paths and Regularity Structures** — `PhD` · topic
 
 ### Mathematical Statistics
 
@@ -1038,12 +1040,18 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Introduction to Cryptography** — `UG/Grad` · course
 - **Block Ciphers and the AES** — `Grad` · topic
 - **Stream Ciphers and Pseudorandom Generators** — `Grad` · topic
+- **Stream Ciphers and Pseudorandomness** — `Grad` · topic
+- **Cryptographic Hash Functions and MACs** — `Grad` · topic
 
 ### Public-Key Cryptography
 
 - **Public-Key Cryptography and RSA** — `UG/Grad` · course
 - **Elliptic-Curve Cryptography** — `Grad` · course
 - **Pairing-Based Cryptography** — `Grad` · topic
+- **Public-Key Cryptography** — `Grad` · course
+- **RSA and Integer-Factorization Cryptosystems** — `Grad` · topic
+- **Discrete-Log and Diffie-Hellman Key Exchange** — `Grad` · topic
+- **Digital Signature Schemes** — `Grad` · topic
 
 ### Lattice and Post-Quantum Cryptography
 
@@ -1063,6 +1071,8 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **LDPC and Turbo Codes** — `Grad` · topic
 - **Reed-Solomon and BCH Codes** — `Grad` · topic
 - **List Decoding** — `PhD` · topic
+- **Error-Correcting Codes** — `UG/Grad` · topic
+- **LDPC and Polar Codes** — `Grad` · topic
 
 ### Cryptanalysis
 
@@ -1077,6 +1087,8 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 ### Information-Theoretic Security
 
 - **Information-Theoretic Security and the One-Time Pad** — `Grad` · topic
+- **Shannon Secrecy and the One-Time Pad** — `Grad` · topic
+- **Secret Sharing Schemes** — `Grad` · topic
 
 ---
 
@@ -1090,22 +1102,29 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Decision Trees and Ensemble Methods** — `UG/Grad` · topic
 - **Introduction to Machine Learning** — `UG/Grad` · course
 - **Support Vector Machines** — `Grad` · topic
+- **Statistical Learning Theory** — `UG/Grad` · course
+- **Regression and Classification Methods** — `UG/Grad` · course
+- **Ensemble Methods and Gradient Boosting** — `Grad` · topic
 
 ### Unsupervised Learning
 
 - **Principal Component Analysis** — `UG/Grad` · topic
 - **Clustering and Mixture Models** — `Grad` · topic
 - **Dimensionality Reduction and Manifold Learning** — `Grad` · topic
+- **Density Estimation** — `Grad` · topic
 
 ### Self-Supervised Learning
 
 - **Representation Learning** — `Grad` · area
 - **Self-Supervised and Contrastive Learning** — `Grad` · topic
+- **Contrastive Learning** — `Grad` · topic
+- **Masked Prediction and Pretraining Objectives** — `Grad` · topic
 
 ### Reinforcement Learning
 
 - **Reinforcement Learning** — `Grad` · course
 - **Deep Reinforcement Learning** — `PhD` · topic
+- **Policy Gradient Methods** — `Grad` · topic
 
 ### Deep Learning Mathematics
 
@@ -1116,15 +1135,20 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Transformers and Attention Mechanisms** — `Grad` · topic
 - **Diffusion Models** — `PhD` · topic
 - **Neural Network Approximation Theory** — `PhD` · topic
+- **Convolutional and Recurrent Architectures** — `Grad` · topic
+- **Generative Models and Diffusion Processes** — `Grad` · topic
 
 ### Probabilistic Machine Learning
 
 - **Gaussian Processes** — `Grad` · topic
 - **Probabilistic Graphical Models** — `Grad` · course
+- **Variational Inference** — `Grad` · topic
+- **Bayesian Deep Learning** — `PhD` · topic
 
 ### Kernel Methods
 
 - **Kernel Methods and Reproducing Kernel Hilbert Spaces** — `Grad` · course
+- **Reproducing Kernel Hilbert Spaces** — `Grad` · topic
 
 ### Geometric and Graph Machine Learning
 
@@ -1134,15 +1158,23 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 ### Optimization for ML
 
 - **Stochastic Gradient Methods** — `Grad` · topic
+- **Stochastic Gradient Descent and Adaptive Methods** — `Grad` · topic
+- **Nonconvex Optimization Landscapes in Deep Learning** — `PhD` · topic
 
 ### Learning Theory
 
 - **Generalization and PAC Learning** — `Grad` · topic
 - **VC Dimension and Rademacher Complexity** — `Grad` · topic
+- **PAC Learning and VC Dimension** — `Grad` · course
+- **Rademacher Complexity and Generalization Bounds** — `Grad` · topic
+- **Online Learning and Regret Minimization** — `PhD` · topic
+- **Neural Tangent Kernel Theory** — `PhD` · topic
 
 ### Evaluation and Benchmarking
 
 - **Model Evaluation, Cross-Validation, and Calibration** — `UG/Grad` · topic
+- **Calibration and Uncertainty Estimation** — `Grad` · topic
+- **Benchmark Design and Data Leakage Detection** — `Grad` · topic
 
 ---
 
@@ -1155,44 +1187,59 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Design and Analysis of Algorithms** — `UG` · course
 - **Online Algorithms and Competitive Analysis** — `Grad` · topic
 - **Randomized Algorithms** — `Grad` · course
+- **Streaming and Sketching Algorithms** — `Grad` · topic
 
 ### Data Structures
 
 - **Hashing and Bloom Filters** — `UG/Grad` · topic
 - **Advanced Data Structures** — `Grad` · course
+- **Amortized Analysis** — `UG/Grad` · topic
+- **Succinct and Persistent Data Structures** — `Grad` · topic
 
 ### Computational Complexity
 
 - **NP-Completeness and Reductions** — `UG/Grad` · topic
 - **Complexity Theory** — `Grad` · course
 - **Hardness of Approximation** — `PhD` · topic
+- **Computational Complexity Theory** — `Grad` · course
+- **Circuit Complexity and Lower Bounds** — `PhD` · topic
+- **Probabilistically Checkable Proofs and Hardness of Approximation** — `PhD` · topic
+- **Parameterized Complexity** — `Grad` · topic
 
 ### Theory of Computation
 
 - **Automata Theory and Formal Languages** — `UG` · course
 - **Turing Machines and the Church-Turing Thesis** — `UG` · topic
 - **Computability and the Halting Problem** — `UG/Grad` · topic
+- **Automata, Languages, and Computation** — `UG` · course
+- **Decidability and the Halting Problem** — `UG/Grad` · topic
 
 ### Programming Language Theory
 
 - **Lambda Calculus and Functional Programming** — `UG/Grad` · topic
 - **Programming Language Semantics** — `Grad` · course
 - **Type Systems and Polymorphism** — `Grad` · topic
+- **Operational and Denotational Semantics** — `Grad` · topic
 
 ### Compilers and Symbolic IR
 
 - **Compiler Construction** — `UG/Grad` · course
 - **Program Analysis and Abstract Interpretation** — `Grad` · topic
+- **Static Single Assignment and Intermediate Representations** — `Grad` · topic
 
 ### Databases and Query Systems
 
 - **Database Systems and Relational Algebra** — `UG/Grad` · course
 - **Query Optimization** — `Grad` · topic
+- **Relational Algebra and Query Optimization** — `UG/Grad` · topic
+- **Database Theory and Functional Dependencies** — `Grad` · topic
 
 ### Distributed Systems Mathematics
 
 - **Concurrency Theory and Process Calculi** — `Grad` · topic
 - **Distributed Algorithms and Consensus** — `Grad` · course
+- **Consensus Algorithms and Fault Tolerance** — `Grad` · topic
+- **Consistency Models and the CAP Theorem** — `Grad` · topic
 
 ---
 
@@ -1206,16 +1253,22 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Mathematical Ecology** — `Grad` · topic
 - **Population Dynamics and Lotka-Volterra Models** — `Grad` · topic
 - **Reaction-Diffusion Systems and Pattern Formation** — `PhD` · topic
+- **Mathematical Biology** — `UG/Grad` · course
+- **Reaction-Diffusion and Pattern Formation** — `Grad` · topic
+- **Systems Biology and Biochemical Networks** — `Grad` · area
 
 ### Epidemiology
 
 - **Compartmental Models (SIR/SEIR)** — `Grad` · topic
 - **Mathematical Epidemiology** — `Grad` · course
+- **Compartmental Epidemic Models (SIR/SEIR)** — `UG/Grad` · topic
+- **Stochastic Epidemic Models** — `Grad` · topic
 
 ### Neuroscience Mathematics
 
 - **Computational Neuroscience** — `Grad` · course
 - **Neural Field and Hodgkin-Huxley Models** — `PhD` · topic
+- **Hodgkin-Huxley and Neuronal Dynamics** — `Grad` · topic
 
 ### Geoscience and Climate Mathematics
 
@@ -1227,17 +1280,24 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Network Science** — `UG/Grad` · course
 - **Epidemic Spreading on Networks** — `Grad` · topic
 - **Random Graph Models and Scale-Free Networks** — `Grad` · topic
+- **Random Graph Models and Community Detection** — `Grad` · topic
+- **Spreading Processes on Networks** — `Grad` · topic
 
 ### Social Choice and Voting Theory
 
 - **Voting Systems and Arrow's Impossibility Theorem** — `UG/Grad` · topic
 - **Fair Division and Mechanism Design** — `Grad` · topic
 - **Social Choice Theory** — `Grad` · course
+- **Arrow's Impossibility Theorem and Social Choice** — `UG/Grad` · topic
+- **Voting Systems and Fair Division** — `Grad` · topic
 
 ### Complex Adaptive Systems
 
 - **Agent-Based Modeling and Simulation** — `Grad` · topic
 - **Self-Organization and Emergence** — `Grad` · topic
+- **Agent-Based Modeling** — `Grad` · area
+- **Cellular Automata and Self-Organization** — `Grad` · topic
+- **Complex Adaptive Systems** — `PhD` · area
 
 ---
 
@@ -1250,32 +1310,45 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Dimensional Analysis and Scaling** — `UG/Grad` · topic
 - **Mathematical Modeling and Simulation** — `UG/Grad` · course
 - **Perturbation Methods and Asymptotics** — `Grad` · topic
+- **Mathematical Modeling** — `UG/Grad` · course
+- **Perturbation Methods and Multiple Scales** — `Grad` · topic
+- **Scaling Laws and Nondimensionalization** — `Grad` · topic
+- **Inverse Modeling and Parameter Estimation** — `Grad` · topic
 
 ### Problem-Solving Heuristics
 
 - **Mathematical Problem-Solving** — `UG` · course
 - **Polya's Heuristics and Proof Strategies** — `UG` · topic
 - **Putnam and Olympiad Problem Seminar** — `UG` · course
+- **Olympiad Problem-Solving Techniques** — `UG` · topic
+- **Conjecture Formation and Experimental Mathematics** — `Grad` · topic
 
 ### Mathematical Pedagogy
 
 - **Mathematics Education and Pedagogy** — `Grad` · course
 - **Teaching of College Mathematics** — `Grad` · topic
+- **Mathematics Education Theory** — `Grad` · course
+- **Concept Inventories and Misconceptions** — `Grad` · topic
 
 ### Notation and Typesetting
 
 - **LaTeX and Mathematical Typesetting** — `UG` · topic
 - **Mathematical Writing and Communication** — `UG/Grad` · course
+- **LaTeX and Technical Typesetting** — `UG` · topic
+- **Formal Mathematical Language Design** — `Grad` · topic
 
 ### Knowledge Graphs for Math
 
 - **Formal Mathematical Libraries and Databases** — `Grad` · topic
 - **Knowledge Graphs and Ontologies for Mathematics** — `Grad` · topic
+- **Mathematical Knowledge Management** — `Grad` · area
+- **Ontologies and Formalized Mathematics Libraries** — `PhD` · topic
 
 ### Benchmarking and Evaluation
 
 - **Benchmarking of Mathematical Reasoning Systems** — `Grad` · topic
 - **Reproducibility in Computational Mathematics** — `Grad` · topic
+- **Mathematical Benchmark Design** — `Grad` · topic
 
 ### Mathematical History and Context
 
@@ -1283,11 +1356,13 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **History of Mathematics** — `UG` · course
 - **Ethnomathematics and Cross-Cultural Mathematics** — `UG/Grad` · topic
 - **Foundations Crisis and the Philosophy of Mathematics** — `UG/Grad` · topic
+- **Philosophy of Mathematics** — `UG/Grad` · topic
+- **Foundational Crises and Their Resolution** — `Grad` · topic
 
 ---
 
 ## Methodology & provenance
 
-This atlas was assembled by a multi-agent workflow: one enumerator per domain produced real, leveled course/topic lists grounded in top-100 department curricula; results were merged under a deterministic global de-duplication pass; a completeness critic then added canonical graduate/PhD areas that were under-represented (ergodic theory, operator algebras, K-theory, étale & motivic cohomology, geometric measure theory, optimal transport, random matrix theory, the Langlands program, Teichmüller theory, and more). The five domains and the critic pass that were interrupted by transient API rate-limiting were completed directly against the same de-duplication contract. Final count: **542 unique entries**.
+This atlas was assembled by a multi-agent workflow: one enumerator per domain produced real, leveled course/topic lists grounded in top-100 department curricula; results were merged under a deterministic global de-duplication pass; a completeness critic then added canonical graduate/PhD areas that were under-represented (ergodic theory, operator algebras, K-theory, étale & motivic cohomology, geometric measure theory, optimal transport, random matrix theory, the Langlands program, Teichmüller theory, and more). The five domains and the critic pass that were interrupted by transient API rate-limiting were completed directly against the same de-duplication contract. Final count: **617 unique entries**.
 
 > Regenerate or extend: the domain/subdomain scaffold lives in the project knowledge blueprint `super_math_calculator_rag_blueprint.xml` (`<math_taxonomy>`), which carries the full **1,094-topic** machine-readable taxonomy this human-readable atlas distills.

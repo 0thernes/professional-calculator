@@ -16,8 +16,8 @@ describe('knowledge — shape', () => {
         expect(s.domains).toBe(21);
         expect(s.subdomains).toBe(190);
         expect(s.topics).toBe(1094);
-        expect(s.atlas).toBe(542);
-        expect(s.corpus).toBe(21 + 190 + 1094 + 542);
+        expect(s.atlas).toBe(617);
+        expect(s.corpus).toBe(21 + 190 + 1094 + 617);
     });
 
     test('domain lookups resolve', () => {

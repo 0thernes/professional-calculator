@@ -8,7 +8,7 @@ design decisions behind them.
 > **ARCHITECTURE** (how it's built — *this page*) ·
 > [SPECS](../SPECS.md) (the full operation catalog + benchmark) ·
 > [DOCUMENTATION](../DOCUMENTATION.md) (how to use it) ·
-> [STUDY ATLAS](MATH_STUDY_ATLAS.md) (542 courses/topics to learn, UG→PhD).
+> [STUDY ATLAS](MATH_STUDY_ATLAS.md) (617 courses/topics to learn, UG→PhD).
 
 > Diagrams use [Mermaid](https://mermaid.js.org/); GitHub renders them inline.
 
@@ -193,7 +193,7 @@ adding a server or a runtime build step. The whole stack is client-side; the
 [`tools/build-knowledge.mjs`](../tools/build-knowledge.mjs), reads the governing
 blueprint XML taxonomy and the [Study Atlas](MATH_STUDY_ATLAS.md) and emits two
 queryable artifacts: `taxonomy.json` (**21 domains → 190 subdomains → 1,094
-topics**) and `atlas.json` (**542 leveled courses/topics**). The output is
+topics**) and `atlas.json` (**617 leveled courses/topics**). The output is
 committed, so the running app fetches plain JSON and the no-build / zero-dependency
 contract holds — the XML is never parsed at runtime.
 

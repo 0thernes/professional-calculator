@@ -84,7 +84,7 @@ Two things make it trustworthy rather than merely impressive:
 > **[DOCUMENTATION.md](DOCUMENTATION.md)** (how to use it) ·
 > **[SPECS.md](SPECS.md)** (the full 257-operation catalog + a TI/Casio/Android benchmark) ·
 > **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** (how it's built) ·
-> **[docs/MATH_STUDY_ATLAS.md](docs/MATH_STUDY_ATLAS.md)** (542 deduplicated courses/topics across all of math, UG→PhD).
+> **[docs/MATH_STUDY_ATLAS.md](docs/MATH_STUDY_ATLAS.md)** (617 deduplicated courses/topics across all of math, UG→PhD).
 
 ## Quick start
 

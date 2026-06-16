@@ -6,7 +6,7 @@
  * Reads the governing blueprint XML taxonomy + the Mathematics Study Atlas and
  * emits two queryable JSON knowledge bases consumed by `knowledge.js`:
  *   knowledge/taxonomy.json  — 21 domains → 190 subdomains → 1094 topics
- *   knowledge/atlas.json     — 542 leveled courses/topics
+ *   knowledge/atlas.json     — 617 leveled courses/topics
  *
  * Usage:  node tools/build-knowledge.mjs [path-to-blueprint.xml]
  */
