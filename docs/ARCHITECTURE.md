@@ -4,10 +4,11 @@ This document describes the structure of the Professional Calculator scientific
 engine: its layers, the module dependency graph, runtime data flow, and the
 design decisions behind them.
 
-> **Sub‑domain page set.** Three reference pages ship with the app and cross‑link:
+> **Sub‑domain page set.** Reference pages ship with the app and cross‑link:
 > **ARCHITECTURE** (how it's built — *this page*) ·
 > [SPECS](../SPECS.md) (the full operation catalog + benchmark) ·
-> [DOCUMENTATION](../DOCUMENTATION.md) (how to use it).
+> [DOCUMENTATION](../DOCUMENTATION.md) (how to use it) ·
+> [STUDY ATLAS](MATH_STUDY_ATLAS.md) (510 courses/topics to learn, UG→PhD).
 
 > Diagrams use [Mermaid](https://mermaid.js.org/); GitHub renders them inline.
 

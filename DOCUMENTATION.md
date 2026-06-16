@@ -8,10 +8,11 @@
 
 </div>
 
-> **Sub‑domain page set.** Three reference pages ship with the app and cross‑link:
+> **Sub‑domain page set.** Reference pages ship with the app and cross‑link:
 > [ARCHITECTURE](docs/ARCHITECTURE.md) (how it's built) ·
 > [SPECS](SPECS.md) (the full operation catalog + benchmark) ·
-> **DOCUMENTATION** (how to use it — *this page*).
+> **DOCUMENTATION** (how to use it — *this page*) ·
+> [STUDY ATLAS](docs/MATH_STUDY_ATLAS.md) (510 courses/topics to learn, UG→PhD).
 
 ---
 

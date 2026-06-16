@@ -83,7 +83,8 @@ Two things make it trustworthy rather than merely impressive:
 > **The suite ships with its own docs** (sub-domain help pages, cross-linked in-app):
 > **[DOCUMENTATION.md](DOCUMENTATION.md)** (how to use it) ·
 > **[SPECS.md](SPECS.md)** (the full 257-operation catalog + a TI/Casio/Android benchmark) ·
-> **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** (how it's built).
+> **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** (how it's built) ·
+> **[docs/MATH_STUDY_ATLAS.md](docs/MATH_STUDY_ATLAS.md)** (510 deduplicated courses/topics across all of math, UG→PhD).
 
 ## Quick start
 

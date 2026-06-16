@@ -8,11 +8,12 @@
 
 </div>
 
-> **Sub‑domain page set.** This is one of three reference pages that ship with the
+> **Sub‑domain page set.** This is one of the reference pages that ship with the
 > app and cross‑link:
 > [ARCHITECTURE](docs/ARCHITECTURE.md) (how it's built) ·
 > **SPECS** (what it does — *this page*) ·
-> [DOCUMENTATION](DOCUMENTATION.md) (how to use it).
+> [DOCUMENTATION](DOCUMENTATION.md) (how to use it) ·
+> [STUDY ATLAS](docs/MATH_STUDY_ATLAS.md) (510 courses/topics to learn, UG→PhD).
 
 ---
 
@@ -84,6 +85,12 @@ relativity, quantum).
 | 23 | Physics | Mechanics, Relativity, Quantum |
 | 24 | Quantum computing / signal | Quantum Lab, Signal · FFT, ODE Lab |
 | 25 | Applied / engineering | Graphs, Mensuration, Electrical Eng., Everyday & Health |
+
+> **What to study in each domain.** The [Mathematics Study Atlas](docs/MATH_STUDY_ATLAS.md)
+> distills these 25 domains (and their 190 sub‑domains) into **510 deduplicated
+> courses, topics, and research areas — undergraduate to PhD** — grounded in the
+> curricula of the world's top‑100 research mathematics departments. It is the
+> "what to learn" companion to this "what it computes" catalog.
 
 ---
 
