@@ -1,4 +1,51 @@
-# Daily Repo Run Report
+# Daily Repo Run Report — 2026-06-16
+
+## Run Context
+- **Date/time:** 2026-06-16, night-shift operator pass
+- **Agent/model:** Claude Opus 4.8 (1M ctx), Solo Agentic Daily Repo 100-Point Loop
+- **Repo/project:** Professional Calculator (vanilla ES-module scientific compute engine)
+- **Branch/checkpoint:** `night-run/2026-06-15-terminal-ui` (4 prior commits ahead of `main` @ 2b2fe3f; today's fix committed on top). **Not pushed.**
+- **Run type:** Build/Fix/Improve — safe queued P2/P3 items
+
+## Executive Summary
+- **What improved:** three correctness/UX fixes from the prior queue — `tTestTwoSample` & `chiSquareGoF` now throw clear `RangeError`s on degenerate input instead of NaN/Infinity; the REPL keeps a failed expression editable. +2 regression tests.
+- **What still matters:** bigger queued P2s remain (stats upper-tail precision, AST caching, PWA, `<dialog>` fallback); the branch is still unmerged/unpushed.
+- **Current status:** runnable & green — typecheck clean, ESLint 0, **37 suites / 1093 tests** pass.
+
+## Changes Made
+- **Code:** `math/stats.js` (two-sample t-test `n≥2` guard; `chiSquareGoF` positive-expected guard); `repl.js` (clear input only on success).
+- **Tests:** `tests/math/hypothesis.test.js` (+2 regression tests) → 1093.
+- **Docs:** CHANGELOG `[Unreleased]`; count sync 1091→1093 (README/KANBAN/AUDIT/index.html); this handoff.
+- **Config/deploy / Deleted:** none.
+
+## Verification Performed
+- `npm run typecheck` clean · `npm run lint` 0 errors · `npm test` → 37/37 suites, **1093/1093**.
+- New guards verified by their regression tests; REPL change covered by existing `repl.test.js` (still green).
+
+## Security & Safety
+- No secrets; client-side only; no `eval`; no new deps. Branched (not `main`); no push/force/delete. Rollback intact (`main` @ 2b2fe3f).
+
+## Issues Found (carried forward — none new this pass)
+| Severity | Issue | Next action |
+|---|---|---|
+| P2 | Stats upper-tail p-values via `1−CDF` lose precision | survival forms (`upperGammaQ`/`betaInc`) — shifts test baselines; do **attended** |
+| P2 | No AST caching | memoize `parse(src)` |
+| P2 | No PWA (manifest/SW) | add manifest + service worker |
+| P2 | `<dialog>` browser floor (FF98/Safari 15.4) | lightweight modal fallback |
+| P3 | global listener teardown; `eigvals` complex surfacing | minor |
+| P3 | version bump/tag **3.26.0** | after merge |
+
+## 100-Point Score
+- **Fixed this run:** 3 (Welch guard · χ² guard · REPL clear-on-error) + 2 tests + count sync. **Queued:** 6. **No open P0/P1.** Core stability + agent safety: strong.
+
+## Morning Handoff
+- **Start here:** review + **push/merge `night-run/2026-06-15-terminal-ui` → `main`** and tag **3.26.0** (now 5 commits of verified work waiting).
+- **Highest-leverage next move:** merge & tag; then the stats upper-tail precision fix (attended — it shifts p-value baselines).
+- **Do not touch / caution:** `math/` is closed-form-test-anchored — run `npm test` before any refactor. The Proprietary LICENSE is intentional.
+
+---
+
+# Daily Repo Run Report — 2026-06-15 (previous run)
 
 ## Run Context
 - **Date/time:** 2026-06-15, evening shift (combined Build/Fix/Improve + Verify/Polish/Handoff)

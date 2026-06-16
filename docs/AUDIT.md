@@ -889,7 +889,7 @@ the coverage gate (90% stmts/lines, 85% funcs, 80% branches):
 | Unit-aware expression evaluator | `unitexpr.js` | `3 kg·9.8 m/s² → 29.4 N`, dimensional algebra |
 | Property-based invariant tests | `properties.test.js` | seeded randomized cross-module invariants |
 
-**Tally:** 29 math + 6 app modules, **1091 tests across 37 suites** (100% pass,
+**Tally:** 29 math + 6 app modules, **1093 tests across 37 suites** (100% pass,
 incl. an end-to-end + axe-core accessibility suite over the real `index.html`),
 all closed-form/invariant-anchored. The honest-scope framing (double-precision,
 dense, single-threaded, numeric+CAS-but-not-full-symbolic) is unchanged and

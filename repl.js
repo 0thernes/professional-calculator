@@ -98,7 +98,8 @@ export class ScientificREPL {
     submitCurrent() {
         const value = this.input.value;
         const outcome = this.submit(value);
-        if (outcome.ok || outcome.input) this.input.value = '';
+        // Clear only on success, so a failed expression stays editable (↑ still recalls it).
+        if (outcome.ok) this.input.value = '';
         return outcome;
     }
 

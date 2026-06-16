@@ -390,6 +390,7 @@ export function tTestOneSample(data, mu0) {
 export function tTestTwoSample(a, b, pooled = false) {
     const na = a.length;
     const nb = b.length;
+    if (na < 2 || nb < 2) throw new RangeError('two-sample t-test requires at least 2 observations per group');
     const ma = mean(a);
     const mb = mean(b);
     const va = variance(a, true);
@@ -431,6 +432,7 @@ export function chiSquareGoF(observed, expected) {
     if (observed.length !== expected.length) throw new RangeError('observed/expected length mismatch');
     let chi2 = 0;
     for (let i = 0; i < observed.length; i++) {
+        if (expected[i] <= 0) throw new RangeError('chi-square expected counts must be positive');
         const d = observed[i] - expected[i];
         chi2 += (d * d) / expected[i];
     }

@@ -41,6 +41,8 @@ describe('hypothesis — two-sample t-test', () => {
         const r = tTestTwoSample([1, 2, 3], [1, 2, 3]);
         near(r.statistic, 0);
     });
+    test('single-observation group throws (df would divide by zero)', () =>
+        expect(() => tTestTwoSample([5], [1, 2, 3])).toThrow(RangeError));
 });
 
 describe('hypothesis — z-test', () => {
@@ -64,6 +66,8 @@ describe('hypothesis — chi-square goodness-of-fit', () => {
         near(r.statistic, 0); near(r.pValue, 1, 1e-9);
     });
     test('length mismatch throws', () => expect(() => chiSquareGoF([1, 2], [1])).toThrow(RangeError));
+    test('zero expected count throws (no divide-by-zero)', () =>
+        expect(() => chiSquareGoF([5, 5], [10, 0])).toThrow(RangeError));
 });
 
 describe('hypothesis — one-way ANOVA', () => {

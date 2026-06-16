@@ -30,6 +30,8 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - **`math/stats.js`** `binomialPmf` overflowed to `Infinity` for large `n`
   (`combinations(1030,515) === Infinity`); now computed in log-space via `lgamma`
   (mirrors `poissonPmf`), with p=0/p=1 guards. +1 regression test → **1091** total.
+- **`math/stats.js`** robustness guards: `tTestTwoSample` throws `RangeError` for <2 observations/group (was NaN/∞ df via ÷(n−1)); `chiSquareGoF` throws on a non‑positive expected count (was ÷0 → Infinity). +2 regression tests → **1093** total.
+- **`repl.js`** the Scientific Engine input now clears **only on a successful** evaluation — a failed expression stays editable in the box (still recallable via ↑).
 - **`.github/dependabot.yml`** npm updater pointed at a non-existent
   `/Professional Calculator` dir (dead since the flatten in `01386f4`) → `/`.
 - **`.github/workflows/ci.yml`** push trigger was `master`/`scientific-engine`
