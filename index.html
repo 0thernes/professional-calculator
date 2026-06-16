@@ -59,6 +59,28 @@
                 <div id="suite-grid" class="suite-grid"></div>
             </section>
 
+            <!-- ----------- KNOWLEDGE EXPLORER (21 domain pages + orchestrator) ----------- -->
+            <section class="panel knowledge" aria-label="Knowledge explorer">
+                <header class="panel-head">
+                    <h2>Knowledge&nbsp;Explorer</h2>
+                    <span class="panel-tag" id="knowledge-stat">21 domains</span>
+                    <nav class="suite-help" aria-label="Knowledge documentation">
+                        <a href="docs/MATH_STUDY_ATLAS.md">Study Atlas</a>
+                        <a href="SPECS.md">Specs</a>
+                    </nav>
+                </header>
+                <p class="suite-hint">Ask a question or enter an expression — the engine routes it to a computation or a knowledge lookup and returns a verified research card. Or pick a domain below to see its subdomains, study path, and live calculators.</p>
+                <div class="ko-query" role="group" aria-label="Ask the mathematical engine">
+                    <input id="ko-input" type="text" spellcheck="false" placeholder="e.g.  det([[2,1],[1,3]])   ·   sqrt(-1)   ·   algebraic topology" aria-label="Knowledge or computation query" />
+                    <button id="ko-run" type="button">Analyze</button>
+                </div>
+                <div id="ko-card" class="ko-card" aria-live="polite"></div>
+                <div class="ko-body">
+                    <nav id="ko-domains" class="ko-domains" aria-label="Mathematical domains"></nav>
+                    <div id="ko-detail" class="ko-detail" aria-live="polite"></div>
+                </div>
+            </section>
+
             <!-- ----------- HERO: SCIENTIFIC EXPRESSION ENGINE ----------- -->
             <section class="panel console" aria-label="Scientific expression engine">
                 <header class="panel-head">

@@ -8,7 +8,7 @@ design decisions behind them.
 > **ARCHITECTURE** (how it's built — *this page*) ·
 > [SPECS](../SPECS.md) (the full operation catalog + benchmark) ·
 > [DOCUMENTATION](../DOCUMENTATION.md) (how to use it) ·
-> [STUDY ATLAS](MATH_STUDY_ATLAS.md) (510 courses/topics to learn, UG→PhD).
+> [STUDY ATLAS](MATH_STUDY_ATLAS.md) (542 courses/topics to learn, UG→PhD).
 
 > Diagrams use [Mermaid](https://mermaid.js.org/); GitHub renders them inline.
 
@@ -45,6 +45,12 @@ flowchart TB
         STEM["stem.js (STEM Lab)"]
         SUITE["suite.js<br/>(48-tile calculator suite)"]
         LAB["lab.js<br/>(live engine panels)"]
+        DOMAINS["domains.js<br/>(Knowledge Explorer UI)"]
+    end
+    subgraph KNOW["Knowledge / orchestration"]
+        ORCH["orchestrator.js<br/>(routing + verification contract)"]
+        KNOWLEDGE["knowledge.js<br/>(RAG retrieval)"]
+        KB[("knowledge/*.json<br/>taxonomy + atlas")]
     end
     subgraph FACADE["Engine facade"]
         INDEX["math/index.js"]
@@ -85,8 +91,15 @@ flowchart TB
     MAIN --> STEM
     MAIN --> SUITE
     MAIN --> LAB
+    MAIN --> DOMAINS
     SUITE --> INDEX
     LAB --> INDEX
+    DOMAINS --> ORCH
+    DOMAINS --> KNOWLEDGE
+    DOMAINS --> SUITE
+    ORCH --> KNOWLEDGE
+    ORCH --> INDEX
+    KNOWLEDGE --> KB
     CONTROLLER --> VIEW
     CONTROLLER --> STATE
     CONTROLLER --> HISTORY
@@ -166,6 +179,59 @@ evaluated by the hand‑written Pratt parser (`io.R` / `io.M.compute`) — no `e
 Matrix literals, number lists, and graph edge lists are parsed explicitly by typed
 helpers (`matOf`, `parseNums`, `edgeObjs`/`wadjOf`/`adjOf`), each of which throws a
 descriptive error on malformed input.
+
+---
+
+## 2b. Knowledge & orchestration layers (`knowledge.js`, `orchestrator.js`, `domains.js`)
+
+A three-tier knowledge stack turns the engine into a *mathematical operating
+system* — a knowledge base, a reasoning router, and a per-domain UI — without
+adding a server or a runtime build step. The whole stack is client-side; the
+"full stack" is **data → orchestration → presentation**.
+
+**Data tier — `knowledge/*.json` (compiled, committed).** A one-off compiler,
+[`tools/build-knowledge.mjs`](../tools/build-knowledge.mjs), reads the governing
+blueprint XML taxonomy and the [Study Atlas](MATH_STUDY_ATLAS.md) and emits two
+queryable artifacts: `taxonomy.json` (**21 domains → 190 subdomains → 1,094
+topics**) and `atlas.json` (**542 leveled courses/topics**). The output is
+committed, so the running app fetches plain JSON and the no-build / zero-dependency
+contract holds — the XML is never parsed at runtime.
+
+**Retrieval tier — `knowledge.js`.** `createKnowledge(taxonomy, atlas)` builds a
+flat, tokenized search corpus once and exposes a pure, deterministic surface:
+`search(query, {type, domainId, limit})` (lexical ranking with phrase/title
+boosts), `domain(id)`, `atlasFor(id)`, and `suiteTilesFor(id)` (the Suite↔domain
+map). It is DOM-free and fetch-free so it is fully testable in Node; a thin
+`loadKnowledge()` does the browser fetch.
+
+**Orchestration tier — `orchestrator.js`.** `createOrchestrator(math, knowledge)`
+implements the blueprint's **rigor contract**: every `analyze(query)` returns a
+research card — `input · assumptions · method · result · verification ·
+limitations` plus the best-fit domain and related topics. A query is *classified*
+as a computation (routed to the math kernel and **independently re-evaluated** for
+determinism, with finiteness/overflow and complex-result checks) or a *knowledge*
+lookup (routed to retrieval, explicitly labelled as un-computed). Overflow surfaces
+as a `warning`, never a silent number.
+
+**Presentation tier — `domains.js`.** `initDomains(...)` renders the Knowledge
+Explorer: 21 domain pages (summary, capabilities, leveled study path from the
+atlas, subdomain topic chips, and the *live Suite calculators* mapped to the
+domain via `suiteTilesFor` + `suiteManifest()`), plus the orchestrator query box
+and its research-card view. All DOM via `createElement`/`textContent`; results in
+`aria-live` regions.
+
+```mermaid
+flowchart LR
+    BP["blueprint XML"] -->|build-knowledge.mjs| KBJSON[("knowledge/*.json")]
+    ATLAS["MATH_STUDY_ATLAS.md"] -->|build-knowledge.mjs| KBJSON
+    KBJSON --> KNOW2["knowledge.js<br/>createKnowledge()"]
+    Q["query"] --> ORCH2["orchestrator.js<br/>classify → solve/retrieve → verify"]
+    ORCH2 --> KNOW2
+    ORCH2 --> ENG["math/index.js"]
+    ORCH2 --> CARD["research card<br/>(rigor contract)"]
+    KNOW2 --> UI2["domains.js<br/>21 domain pages"]
+    UI2 -.suiteTilesFor.-> SUITE2["suite.js"]
+```
 
 ---
 

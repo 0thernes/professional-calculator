@@ -135,13 +135,33 @@ async function bootstrapScientificEngine() {
         initLabs(mathIndex);
 
         // Calculator Suite: 48 paged mini-calculators (~250 operations).
-        const { initSuite, suiteOpCount, suiteTileCount } = await import('./suite.js');
+        const { initSuite, suiteOpCount, suiteTileCount, suiteManifest } = await import('./suite.js');
         const suiteTabs = /** @type {HTMLElement | null} */ (document.querySelector('.suite-tabs'));
         const suiteGrid = document.getElementById('suite-grid');
         if (suiteTabs && suiteGrid) {
             initSuite(mathIndex, suiteTabs, suiteGrid);
             const suiteStat = document.getElementById('suite-stat');
             if (suiteStat) suiteStat.textContent = `${suiteTileCount()} calculators · ${suiteOpCount()} operations · 4 pages`;
+        }
+
+        // Knowledge Explorer: 21 domain pages + orchestration/verification harness.
+        const koInput = /** @type {HTMLInputElement | null} */ (document.getElementById('ko-input'));
+        const koRun = /** @type {HTMLButtonElement | null} */ (document.getElementById('ko-run'));
+        const koCard = document.getElementById('ko-card');
+        const koDomains = document.getElementById('ko-domains');
+        const koDetail = document.getElementById('ko-detail');
+        if (koInput && koRun && koCard && koDomains && koDetail) {
+            const [{ loadKnowledge }, { createOrchestrator }, { initDomains }] = await Promise.all([
+                import('./knowledge.js'), import('./orchestrator.js'), import('./domains.js'),
+            ]);
+            const knowledge = await loadKnowledge();
+            const orchestrator = createOrchestrator(mathIndex, knowledge);
+            initDomains({
+                knowledge, orchestrator, suiteManifest,
+                input: koInput, runBtn: koRun, cardHost: koCard,
+                domainsHost: koDomains, detailHost: koDetail,
+                statHost: document.getElementById('knowledge-stat') ?? undefined,
+            });
         }
 
         // STEM Lab paged visualizations

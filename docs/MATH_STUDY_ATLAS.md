@@ -2,9 +2,9 @@
 
 # Mathematics Study Atlas — Undergrad → PhD
 
-**A deduplicated catalog of 510 courses, topics, and research areas across all of mathematics**, organized by domain → subdomain, leveled from undergraduate to doctoral, and grounded in the curricula of the world's top-100 research mathematics departments.
+**A deduplicated catalog of 542 courses, topics, and research areas across all of mathematics**, organized by domain → subdomain, leveled from undergraduate to doctoral, and grounded in the curricula of the world's top-100 research mathematics departments.
 
-`510 unique entries · 21 domains · 190 subdomains · no repeats`
+`542 unique entries · 21 domains · 190 subdomains · no repeats`
 
 </div>
 
@@ -29,40 +29,41 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 | # | Domain | Tier | Entries |
 |---|---|---|---:|
-| I | [Foundations, Logic, and Proof Systems](#i-foundations-logic-and-proof-systems) | `foundational` | 22 |
+| I | [Foundations, Logic, and Proof Systems](#i-foundations-logic-and-proof-systems) | `foundational` | 23 |
 | II | [Number Systems and Arithmetic Substrates](#ii-number-systems-and-arithmetic-substrates) | `foundational` | 18 |
-| III | [Number Theory and Arithmetic Geometry](#iii-number-theory-and-arithmetic-geometry) | `pure-applied-bridge` | 17 |
-| IV | [Algebra: Structures, Symmetries, and Representations](#iv-algebra-structures-symmetries-and-representations) | `core-pure` | 31 |
-| V | [Geometry: Shape, Space, Curvature, and Measurement](#v-geometry-shape-space-curvature-and-measurement) | `core-pure-applied` | 35 |
-| VI | [Topology: Continuity, Holes, Manifolds, and Invariants](#vi-topology-continuity-holes-manifolds-and-invariants) | `core-pure-applied` | 29 |
-| VII | [Analysis, Calculus, and Function Spaces](#vii-analysis-calculus-and-function-spaces) | `core-pure-applied` | 32 |
-| VIII | [Differential Equations, Dynamical Systems, and Chaos](#viii-differential-equations-dynamical-systems-and-chaos) | `core-applied-research` | 24 |
-| IX | [Probability, Statistics, and Inference](#ix-probability-statistics-and-inference) | `core-applied-research` | 30 |
-| X | [Optimization, Control, Operations Research, and Game Theory](#x-optimization-control-operations-research-and-game-theory) | `core-applied-research` | 23 |
-| XI | [Discrete Mathematics, Combinatorics, and Graph Theory](#xi-discrete-mathematics-combinatorics-and-graph-theory) | `core-pure-applied` | 24 |
-| XII | [Numerical and Computational Mathematics](#xii-numerical-and-computational-mathematics) | `core-computational` | 25 |
+| III | [Number Theory and Arithmetic Geometry](#iii-number-theory-and-arithmetic-geometry) | `pure-applied-bridge` | 22 |
+| IV | [Algebra: Structures, Symmetries, and Representations](#iv-algebra-structures-symmetries-and-representations) | `core-pure` | 34 |
+| V | [Geometry: Shape, Space, Curvature, and Measurement](#v-geometry-shape-space-curvature-and-measurement) | `core-pure-applied` | 41 |
+| VI | [Topology: Continuity, Holes, Manifolds, and Invariants](#vi-topology-continuity-holes-manifolds-and-invariants) | `core-pure-applied` | 30 |
+| VII | [Analysis, Calculus, and Function Spaces](#vii-analysis-calculus-and-function-spaces) | `core-pure-applied` | 33 |
+| VIII | [Differential Equations, Dynamical Systems, and Chaos](#viii-differential-equations-dynamical-systems-and-chaos) | `core-applied-research` | 27 |
+| IX | [Probability, Statistics, and Inference](#ix-probability-statistics-and-inference) | `core-applied-research` | 33 |
+| X | [Optimization, Control, Operations Research, and Game Theory](#x-optimization-control-operations-research-and-game-theory) | `core-applied-research` | 25 |
+| XI | [Discrete Mathematics, Combinatorics, and Graph Theory](#xi-discrete-mathematics-combinatorics-and-graph-theory) | `core-pure-applied` | 26 |
+| XII | [Numerical and Computational Mathematics](#xii-numerical-and-computational-mathematics) | `core-computational` | 27 |
 | XIII | [Symbolic Computation and Automated Reasoning](#xiii-symbolic-computation-and-automated-reasoning) | `core-computational` | 24 |
-| XIV | [Mathematical Physics, Cosmology, and Astronomy](#xiv-mathematical-physics-cosmology-and-astronomy) | `applied-research` | 28 |
+| XIV | [Mathematical Physics, Cosmology, and Astronomy](#xiv-mathematical-physics-cosmology-and-astronomy) | `applied-research` | 30 |
 | XV | [Engineering Mathematics, Signals, Systems, and Control](#xv-engineering-mathematics-signals-systems-and-control) | `applied-engineering` | 21 |
-| XVI | [Quantitative Finance, Economics, and Risk Engineering](#xvi-quantitative-finance-economics-and-risk-engineering) | `applied-financial` | 23 |
+| XVI | [Quantitative Finance, Economics, and Risk Engineering](#xvi-quantitative-finance-economics-and-risk-engineering) | `applied-financial` | 24 |
 | XVII | [Cryptography, Security Mathematics, and Coding Theory](#xvii-cryptography-security-mathematics-and-coding-theory) | `applied-computational-security` | 21 |
 | XVIII | [AI, Machine Learning, Data Science, and Learning Theory](#xviii-ai-machine-learning-data-science-and-learning-theory) | `applied-computational-research` | 27 |
 | XIX | [Computer Science, Algorithms, and Complexity](#xix-computer-science-algorithms-and-complexity) | `applied-computational-foundational` | 20 |
 | XX | [Applied Sciences, Biology, Networks, and Social Systems](#xx-applied-sciences-biology-networks-and-social-systems) | `applied-science` | 18 |
 | XXI | [Meta-Mathematics, Modeling, Pedagogy, and Knowledge Systems](#xxi-meta-mathematics-modeling-pedagogy-and-knowledge-systems) | `meta` | 18 |
-| | **Total** | | **510** |
+| | **Total** | | **542** |
 
 ---
 
 ## I · Foundations, Logic, and Proof Systems
 
-*Tier: `foundational` · 22 entries*
+*Tier: `foundational` · 23 entries*
 
 ### Symbolic Logic
 
 - **Introduction to Logic and Set Theory** — `UG` · course
 - **Mathematical Logic** — `UG` · course
 - **Gödel's Incompleteness Theorems** — `UG/Grad` · topic
+- **Symbolic Logic** — `UG` · course
 
 ### Modal, Temporal, and Deontic Logic
 
@@ -153,7 +154,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## III · Number Theory and Arithmetic Geometry
 
-*Tier: `pure-applied-bridge` · 17 entries*
+*Tier: `pure-applied-bridge` · 22 entries*
 
 ### Elementary Number Theory
 
@@ -163,16 +164,20 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 - **Sieve Methods** — `Grad` · topic
 - **The Prime Number Theorem via the Riemann Zeta Function** — `Grad` · topic
+- **Sieve Theory** — `Grad` · course
 
 ### Algebraic Number Theory
 
 - **Local Fields and Ramification Theory** — `Grad` · topic
+- **Motivic Cohomology** — `PhD` · topic
 
 ### Diophantine Geometry
 
 - **Diophantine Geometry** — `Grad` · course
 - **Heights and the Mordell-Weil Theorem** — `Grad` · topic
 - **Faltings' Theorem and the Mordell Conjecture** — `PhD` · area
+- **Arakelov Geometry and Heights** — `PhD` · topic
+- **Arithmetic Dynamics** — `PhD` · area
 
 ### Modular and Automorphic Forms
 
@@ -185,6 +190,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 - **Elliptic Curves** — `UG/Grad` · course
 - **Arithmetic of Elliptic Curves and the Birch-Swinnerton-Dyer Conjecture** — `PhD` · area
+- **Galois Representations** — `PhD` · topic
 
 ### Computational Number Theory
 
@@ -200,7 +206,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## IV · Algebra: Structures, Symmetries, and Representations
 
-*Tier: `core-pure` · 31 entries*
+*Tier: `core-pure` · 34 entries*
 
 ### Linear Algebra
 
@@ -234,11 +240,13 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 - **Commutative Algebra** — `Grad` · course
 - **Homological Methods in Commutative Algebra** — `PhD` · topic
+- **Cluster Algebras** — `PhD` · topic
 
 ### Noncommutative Algebra
 
 - **Noncommutative Rings and Algebras** — `Grad` · course
 - **Hopf Algebras and Quantum Groups** — `PhD` · area
+- **Vertex Operator Algebras** — `PhD` · topic
 
 ### Representation Theory
 
@@ -265,12 +273,13 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Category Theory** — `Grad` · course
 - **Varieties and Equational Logic** — `Grad` · topic
 - **Topos Theory** — `PhD` · topic
+- **Operads and Higher Algebra** — `PhD` · topic
 
 ---
 
 ## V · Geometry: Shape, Space, Curvature, and Measurement
 
-*Tier: `core-pure-applied` · 35 entries*
+*Tier: `core-pure-applied` · 41 entries*
 
 ### Euclidean, Plane, and Solid Geometry
 
@@ -301,6 +310,8 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Smooth Manifolds and de Rham Cohomology** — `Grad` · course
 - **Comparison Geometry and Ricci Curvature** — `PhD` · topic
 - **Geometric Analysis** — `PhD` · area
+- **Ricci Flow and Geometric Analysis** — `PhD` · course
+- **Minimal Surfaces** — `PhD` · topic
 
 ### Curvature for Curves and Surfaces
 
@@ -325,6 +336,10 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Hodge Theory** — `PhD` · topic
 - **Motivic Cohomology and Motives** — `PhD` · area
 - **Tropical Geometry** — `PhD` · area
+- **Intersection Theory** — `PhD` · course
+- **Moduli Spaces and Deformation Theory** — `PhD` · course
+- **Geometric Invariant Theory** — `PhD` · topic
+- **Mirror Symmetry** — `PhD` · area
 
 ### Convex Geometry
 
@@ -344,7 +359,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## VI · Topology: Continuity, Holes, Manifolds, and Invariants
 
-*Tier: `core-pure-applied` · 29 entries*
+*Tier: `core-pure-applied` · 30 entries*
 
 ### Basic Topology
 
@@ -363,6 +378,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Singular Homology and Cohomology** — `Grad` · topic
 - **Spectral Sequences and the Serre Spectral Sequence** — `PhD` · topic
 - **Stable Homotopy Theory** — `PhD` · area
+- **Combinatorial Topology** — `Grad` · topic
 
 ### Differential Topology
 
@@ -409,7 +425,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## VII · Analysis, Calculus, and Function Spaces
 
-*Tier: `core-pure-applied` · 32 entries*
+*Tier: `core-pure-applied` · 33 entries*
 
 ### Single and Multivariable Calculus
 
@@ -465,6 +481,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 - **Distribution Theory and Fourier Transforms** — `Grad` · course
 - **Sobolev Spaces and Elliptic PDE** — `PhD` · course
+- **Pseudodifferential Operators** — `PhD` · topic
 
 ### Differential Forms and Stokes Theorems
 
@@ -480,7 +497,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## VIII · Differential Equations, Dynamical Systems, and Chaos
 
-*Tier: `core-applied-research` · 24 entries*
+*Tier: `core-applied-research` · 27 entries*
 
 ### Ordinary Differential Equations
 
@@ -507,6 +524,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Center Manifold Theory and Normal Forms** — `Grad` · topic
 - **Dynamical Systems and Ergodic Theory** — `PhD` · course
 - **Ergodic Theory** — `PhD` · course
+- **Bifurcation Theory** — `Grad` · topic
 
 ### Chaos Mathematics
 
@@ -518,6 +536,8 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Classical Mechanics and Lagrangian Dynamics** — `UG/Grad` · course
 - **Symplectic Geometry and Hamiltonian Mechanics** — `Grad` · course
 - **KAM Theory and Integrable Systems** — `PhD` · topic
+- **KAM Theory** — `PhD` · topic
+- **Integrable Systems** — `PhD` · course
 
 ### Stochastic Differential Equations
 
@@ -534,7 +554,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## IX · Probability, Statistics, and Inference
 
-*Tier: `core-applied-research` · 30 entries*
+*Tier: `core-applied-research` · 33 entries*
 
 ### Probability Theory
 
@@ -551,6 +571,9 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Brownian Motion and Stochastic Calculus** — `Grad` · course
 - **Markov Chains and Mixing Times** — `Grad` · course
 - **Stochastic Differential Equations** — `PhD` · topic
+- **Schramm-Loewner Evolution** — `PhD` · topic
+- **Malliavin Calculus** — `PhD` · topic
+- **Interacting Particle Systems** — `PhD` · topic
 
 ### Mathematical Statistics
 
@@ -603,7 +626,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## X · Optimization, Control, Operations Research, and Game Theory
 
-*Tier: `core-applied-research` · 23 entries*
+*Tier: `core-applied-research` · 25 entries*
 
 ### Convex Optimization
 
@@ -611,6 +634,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Convex Analysis** — `Grad` · topic
 - **Interior-Point Methods for Conic Programming** — `Grad` · topic
 - **Semidefinite Programming and Sum-of-Squares Optimization** — `PhD` · topic
+- **Semidefinite Programming** — `Grad` · course
 
 ### Nonlinear Optimization
 
@@ -625,6 +649,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Combinatorial Optimization** — `UG/Grad` · course
 - **Integer Programming** — `Grad` · course
 - **Approximation Algorithms** — `PhD` · topic
+- **Submodular Optimization** — `Grad` · topic
 
 ### Dynamic Programming
 
@@ -656,7 +681,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## XI · Discrete Mathematics, Combinatorics, and Graph Theory
 
-*Tier: `core-pure-applied` · 24 entries*
+*Tier: `core-pure-applied` · 26 entries*
 
 ### Discrete Mathematics
 
@@ -677,6 +702,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Probabilistic Combinatorics** — `Grad` · course
 - **Ramsey Theory** — `Grad` · topic
 - **Symmetric Functions and Representation Theory** — `Grad` · topic
+- **The Probabilistic Method** — `Grad` · course
 
 ### Graph Theory
 
@@ -685,6 +711,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Random Graphs** — `Grad` · course
 - **Spectral Graph Theory** — `Grad` · course
 - **Graph Minors and Structural Graph Theory** — `PhD` · topic
+- **Expander Graphs** — `PhD` · topic
 
 ### Hypergraphs and Simplicial Structures
 
@@ -710,7 +737,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## XII · Numerical and Computational Mathematics
 
-*Tier: `core-computational` · 25 entries*
+*Tier: `core-computational` · 27 entries*
 
 ### Numerical Analysis
 
@@ -752,6 +779,8 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Scientific Computing** — `UG/Grad` · course
 - **Computational Methods in Science and Engineering** — `Grad` · course
 - **Spectral Methods for Partial Differential Equations** — `PhD` · course
+- **Multigrid Methods** — `Grad` · course
+- **Spectral Methods** — `Grad` · course
 
 ### High-Performance and GPU Computing
 
@@ -828,7 +857,7 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## XIV · Mathematical Physics, Cosmology, and Astronomy
 
-*Tier: `applied-research` · 28 entries*
+*Tier: `applied-research` · 30 entries*
 
 ### Classical Mechanics
 
@@ -861,6 +890,8 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 - **Quantum Field Theory II** — `Grad` · course
 - **Conformal Field Theory** — `PhD` · topic
 - **String Theory Mathematics** — `PhD` · area
+- **Renormalization Group** — `Grad` · topic
+- **String Theory and Mathematical Physics** — `PhD` · area
 
 ### General Relativity
 
@@ -943,12 +974,13 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## XVI · Quantitative Finance, Economics, and Risk Engineering
 
-*Tier: `applied-financial` · 23 entries*
+*Tier: `applied-financial` · 24 entries*
 
 ### Quantitative Analysis
 
 - **Mathematical Methods for Quantitative Finance** — `UG` · course
 - **Numerical Methods for Finance: Finite Differences and Monte Carlo** — `UG/Grad` · course
+- **Quantitative Analysis** — `Grad` · course
 
 ### Stochastic Calculus for Finance
 
@@ -1256,6 +1288,6 @@ The [Calculator Suite](../SPECS.md) operationalizes mathematics; this atlas *map
 
 ## Methodology & provenance
 
-This atlas was assembled by a multi-agent workflow: one enumerator per domain produced real, leveled course/topic lists grounded in top-100 department curricula; results were merged under a deterministic global de-duplication pass; a completeness critic then added canonical graduate/PhD areas that were under-represented (ergodic theory, operator algebras, K-theory, étale & motivic cohomology, geometric measure theory, optimal transport, random matrix theory, the Langlands program, Teichmüller theory, and more). The five domains and the critic pass that were interrupted by transient API rate-limiting were completed directly against the same de-duplication contract. Final count: **510 unique entries**.
+This atlas was assembled by a multi-agent workflow: one enumerator per domain produced real, leveled course/topic lists grounded in top-100 department curricula; results were merged under a deterministic global de-duplication pass; a completeness critic then added canonical graduate/PhD areas that were under-represented (ergodic theory, operator algebras, K-theory, étale & motivic cohomology, geometric measure theory, optimal transport, random matrix theory, the Langlands program, Teichmüller theory, and more). The five domains and the critic pass that were interrupted by transient API rate-limiting were completed directly against the same de-duplication contract. Final count: **542 unique entries**.
 
 > Regenerate or extend: the domain/subdomain scaffold lives in the project knowledge blueprint `super_math_calculator_rag_blueprint.xml` (`<math_taxonomy>`), which carries the full **1,094-topic** machine-readable taxonomy this human-readable atlas distills.

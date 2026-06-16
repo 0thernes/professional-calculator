@@ -6,7 +6,7 @@
 
 Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
 
-[![tests](https://img.shields.io/badge/tests-1098%20passing-brightgreen)](#testing)
+[![tests](https://img.shields.io/badge/tests-1117%20passing-brightgreen)](#testing)
 [![coverage](https://img.shields.io/badge/coverage-97.6%25%20stmts%20%2F%2088%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
 [![typecheck](https://img.shields.io/badge/tsc-strict%20clean-blue)](#type-safety)
@@ -84,7 +84,7 @@ Two things make it trustworthy rather than merely impressive:
 > **[DOCUMENTATION.md](DOCUMENTATION.md)** (how to use it) ·
 > **[SPECS.md](SPECS.md)** (the full 257-operation catalog + a TI/Casio/Android benchmark) ·
 > **[docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)** (how it's built) ·
-> **[docs/MATH_STUDY_ATLAS.md](docs/MATH_STUDY_ATLAS.md)** (510 deduplicated courses/topics across all of math, UG→PhD).
+> **[docs/MATH_STUDY_ATLAS.md](docs/MATH_STUDY_ATLAS.md)** (542 deduplicated courses/topics across all of math, UG→PhD).
 
 ## Quick start
 

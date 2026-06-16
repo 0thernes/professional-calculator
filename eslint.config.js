@@ -38,6 +38,11 @@ export default [
         languageOptions: { globals: { ...globals.node } },
     },
     {
+        // Build-time knowledge compiler (Node ESM; output is committed).
+        files: ['tools/**/*.mjs', 'tools/**/*.js'],
+        languageOptions: { sourceType: 'module', globals: { ...globals.node } },
+    },
+    {
         ignores: ['node_modules/**', 'coverage/**'],
     },
 ];

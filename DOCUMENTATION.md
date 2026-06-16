@@ -12,7 +12,7 @@
 > [ARCHITECTURE](docs/ARCHITECTURE.md) (how it's built) ·
 > [SPECS](SPECS.md) (the full operation catalog + benchmark) ·
 > **DOCUMENTATION** (how to use it — *this page*) ·
-> [STUDY ATLAS](docs/MATH_STUDY_ATLAS.md) (510 courses/topics to learn, UG→PhD).
+> [STUDY ATLAS](docs/MATH_STUDY_ATLAS.md) (542 courses/topics to learn, UG→PhD).
 
 ---
 

@@ -13,7 +13,7 @@
 > [ARCHITECTURE](docs/ARCHITECTURE.md) (how it's built) ·
 > **SPECS** (what it does — *this page*) ·
 > [DOCUMENTATION](DOCUMENTATION.md) (how to use it) ·
-> [STUDY ATLAS](docs/MATH_STUDY_ATLAS.md) (510 courses/topics to learn, UG→PhD).
+> [STUDY ATLAS](docs/MATH_STUDY_ATLAS.md) (542 courses/topics to learn, UG→PhD).
 
 ---
 
@@ -87,7 +87,7 @@ relativity, quantum).
 | 25 | Applied / engineering | Graphs, Mensuration, Electrical Eng., Everyday & Health |
 
 > **What to study in each domain.** The [Mathematics Study Atlas](docs/MATH_STUDY_ATLAS.md)
-> distills these 25 domains (and their 190 sub‑domains) into **510 deduplicated
+> distills these 25 domains (and their 190 sub‑domains) into **542 deduplicated
 > courses, topics, and research areas — undergraduate to PhD** — grounded in the
 > curricula of the world's top‑100 research mathematics departments. It is the
 > "what to learn" companion to this "what it computes" catalog.
