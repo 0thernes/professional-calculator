@@ -215,7 +215,7 @@ Everything computes locally in your browser.
 and walked — there is no JavaScript injection surface.
 
 **How accurate is it?** Every routine is anchored to closed‑form values in a
-1,098‑test suite. See [SPECS § 7](SPECS.md#7-numerical-accuracy-contract).
+1,123‑test suite. See [SPECS § 7](SPECS.md#7-numerical-accuracy-contract).
 
 **Can it replace my TI‑89 / Casio for exams?** For *computation*, it matches or
 exceeds them across most domains (see [SPECS § 5](SPECS.md#5-competitive-benchmark)).
@@ -257,7 +257,7 @@ The `io` helper passed to every `run`:
 ```bash
 npx tsc --noEmit          # types
 npx eslint suite.js       # lint
-npm test                  # 1,098-test suite incl. the suite registry checks
+npm test                  # 1,123-test suite incl. the suite registry checks
 ```
 
 **Regenerate the operation catalog** (the tables in SPECS § 3 come from here):

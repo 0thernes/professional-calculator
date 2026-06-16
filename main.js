@@ -134,6 +134,17 @@ async function bootstrapScientificEngine() {
         initMatrixLab(mathIndex);
         initLabs(mathIndex);
 
+        // Graphing & Simulation Lab: interactive 2D grapher + 3D surface (grapher.js),
+        // physics engine + quantum 3D/4D visualizer (simlab.js).
+        const [{ init2DGrapher, init3DSurface }, { initPhysicsEngine, initQuantum3D }] = await Promise.all([
+            import('./grapher.js'),
+            import('./simlab.js'),
+        ]);
+        init2DGrapher(mathIndex);
+        init3DSurface(mathIndex);
+        initPhysicsEngine(mathIndex);
+        initQuantum3D(mathIndex);
+
         // Calculator Suite: 48 paged mini-calculators (~250 operations).
         const { initSuite, suiteOpCount, suiteTileCount, suiteManifest } = await import('./suite.js');
         const suiteTabs = /** @type {HTMLElement | null} */ (document.querySelector('.suite-tabs'));

@@ -81,6 +81,89 @@
                 </div>
             </section>
 
+            <!-- ----------- GRAPHING CALCULATOR (2D, interactive) ----------- -->
+            <section class="panel grapher2d" aria-label="2D graphing calculator">
+                <header class="panel-head">
+                    <h2>Graphing&nbsp;Calculator</h2>
+                    <span class="panel-tag">2D · trace · pan · zoom</span>
+                </header>
+                <div class="g-controls">
+                    <input id="g2d-f1" class="g-fn g-fn1" type="text" spellcheck="false" value="sin(x)" aria-label="Function 1, f1(x)" />
+                    <input id="g2d-f2" class="g-fn g-fn2" type="text" spellcheck="false" value="x^2/8 - 3" aria-label="Function 2, f2(x)" />
+                    <input id="g2d-f3" class="g-fn g-fn3" type="text" spellcheck="false" value="" aria-label="Function 3, f3(x)" />
+                    <button type="button" data-g2d="plot">Plot</button>
+                    <button type="button" data-g2d="zin" aria-label="Zoom in">＋</button>
+                    <button type="button" data-g2d="zout" aria-label="Zoom out">－</button>
+                    <button type="button" data-g2d="reset" aria-label="Reset view">⟲</button>
+                </div>
+                <div id="g2d-stage" class="g-stage"></div>
+                <output id="g2d-read" class="g-read" aria-live="polite"></output>
+            </section>
+
+            <!-- ----------- 3D SURFACE GRAPHER ----------- -->
+            <section class="panel grapher3d" aria-label="3D surface grapher">
+                <header class="panel-head">
+                    <h2>3D&nbsp;Surface&nbsp;Grapher</h2>
+                    <span class="panel-tag">z = f(x, y) · rotate · zoom</span>
+                </header>
+                <div class="g-controls">
+                    <input id="g3d-expr" class="g-fn" type="text" spellcheck="false" value="sin(sqrt(x^2+y^2))" aria-label="Surface z = f(x, y)" />
+                    <button type="button" data-g3d="plot">Plot</button>
+                    <button type="button" data-g3d="spin">Spin</button>
+                    <button type="button" data-g3d="reset" aria-label="Reset view">⟲</button>
+                </div>
+                <div id="g3d-stage" class="g-stage"></div>
+                <output id="g3d-read" class="g-read" aria-live="polite"></output>
+            </section>
+
+            <!-- ----------- PHYSICS ENGINE (simulations) ----------- -->
+            <section class="panel physlab" aria-label="Physics simulation engine">
+                <header class="panel-head">
+                    <h2>Physics&nbsp;Engine</h2>
+                    <span class="panel-tag">RK4 · Verlet · live sim</span>
+                </header>
+                <div class="g-controls">
+                    <select id="phys-sim" class="g-sel" aria-label="Simulation">
+                        <option value="pendulum">Double Pendulum (chaos)</option>
+                        <option value="nbody">N-Body Gravity</option>
+                        <option value="projectile">Projectile + Drag</option>
+                    </select>
+                    <label class="g-inline">g <input id="phys-g" class="g-num" type="text" value="9.8" aria-label="Gravity g" /></label>
+                    <button type="button" data-phys="play">▶ Play</button>
+                    <button type="button" data-phys="pause">⏸ Pause</button>
+                    <button type="button" data-phys="reset">⟲ Reset</button>
+                </div>
+                <div id="phys-stage" class="g-stage"></div>
+                <output id="phys-read" class="g-read" aria-live="polite"></output>
+            </section>
+
+            <!-- ----------- QUANTUM 3D / 4D VISUALIZER ----------- -->
+            <section class="panel quantum3d" aria-label="Quantum 3D and 4D visualizer">
+                <header class="panel-head">
+                    <h2>Quantum&nbsp;3D&nbsp;/&nbsp;4D</h2>
+                    <span class="panel-tag">orbitals · tesseract · wave-packet</span>
+                </header>
+                <div class="g-controls">
+                    <select id="q3d-mode" class="g-sel" aria-label="Visualization mode">
+                        <option value="orbital">Hydrogen Orbital (3D |ψ|²)</option>
+                        <option value="tesseract">Tesseract (4D)</option>
+                        <option value="wavepacket">Wave-packet (1D)</option>
+                    </select>
+                    <select id="q3d-orbital" class="g-sel" aria-label="Orbital">
+                        <option value="2p_z">2p_z</option>
+                        <option value="1s">1s</option>
+                        <option value="2s">2s</option>
+                        <option value="3d_z2">3d_z²</option>
+                        <option value="3d_xy">3d_xy</option>
+                        <option value="4f_z3">4f_z³</option>
+                    </select>
+                    <button type="button" data-q3d="spin">Spin</button>
+                    <button type="button" data-q3d="reset" aria-label="Reset view">⟲</button>
+                </div>
+                <div id="q3d-stage" class="g-stage"></div>
+                <output id="q3d-read" class="g-read" aria-live="polite"></output>
+            </section>
+
             <!-- ----------- HERO: SCIENTIFIC EXPRESSION ENGINE ----------- -->
             <section class="panel console" aria-label="Scientific expression engine">
                 <header class="panel-head">

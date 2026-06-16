@@ -218,7 +218,10 @@ Legend: ✅ full · 🟡 partial / lab‑only · ❌ none.
 | Quantum computing (gate sim) | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | ✅ (Bell/GHZ state vectors) |
 | Special functions (Γ/erf/β) | 🟡 | 🟡 | 🟡 | 🟡 | 🟡 | 🟡 | 🟡 | ✅ |
 | Units / dimensional analysis | 🟡 | ✅ | ✅ | 🟡 | 🟡 | ✅ | 🟡 | ✅ |
-| **Interactive graphing (trace/zoom)** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | 🟡 (plot lab, no trace/zoom) |
+| **Interactive 2D graphing (trace/zoom/pan)** | ✅ | ✅ | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ (multi‑fn, trace, drag‑pan, wheel‑zoom) |
+| **3D surface graphing (rotate/zoom)** | ❌ | 🟡 | ✅ | ❌ | ✅ | ✅ | ✅ | ✅ (z=f(x,y), drag‑rotate, height shading) |
+| **Physics simulation engine** | ❌ | ❌ | 🟡 | ❌ | 🟡 | 🟡 | 🟡 | ✅ (RK4 double pendulum, N‑body, projectile) |
+| **Quantum 3D/4D visualization** | ❌ | ❌ | ❌ | ❌ | ❌ | ❌ | 🟡 | ✅ (H orbital \|ψ\|² clouds, tesseract, wave‑packet) |
 | **On‑device programming / Python** | ✅ | ✅ | ✅ | ❌ | ✅ (Py) | ✅ | 🟡 | ❌ (engine is JS, not a user lang) |
 | **Standalone hardware (exam‑legal)** | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | ❌ | ❌ (web/desktop app) |
 
@@ -242,9 +245,10 @@ extends past it** into domains those devices don't cover at all.
   symbolic integration, equation solving, and simplification. Our CAS layer does
   symbolic differentiation and *basic* integration only — for hard symbolic work
   they win.
-- **Interactive graphing.** TI/Casio graphing models and Desmos/GeoGebra offer
-  trace, zoom, intersection, and multi‑function plotting. We have a plotting lab
-  and a STEM visualizer, not a full interactive grapher (🟡).
+- **Graphing depth.** We now ship an interactive **2D grapher** (multi‑function,
+  trace, drag‑pan, wheel‑zoom) and a rotatable **3D surface grapher** — closing
+  the old gap. TI/Casio and Desmos/GeoGebra still go further on niceties:
+  intersection/root markers, implicit & polar plotting, sliders, and table views.
 - **On‑device programmability.** TI‑BASIC, Casio Python, and Nspire scripting let
   users write programs on the device. Our engine is authored in JavaScript but is
   not exposed as a user programming environment.
@@ -252,15 +256,16 @@ extends past it** into domains those devices don't cover at all.
   device. For proctored exams the handhelds are the only option.
 
 This is the calibrated read: **best‑in‑class for computational, statistical,
-financial, and scientific breadth in a zero‑dependency app; not a replacement for
-a graphing‑calculator's plotting or a CAS device's symbolic engine.**
+financial, scientific, and now graphing/simulation breadth in a zero‑dependency
+app; the handhelds still lead on deep symbolic CAS, graphing niceties (markers,
+sliders, implicit/polar), on‑device programming, and exam legality.**
 
 ---
 
 ## 7. Numerical accuracy contract
 
 Every engine routine the suite calls is anchored to a closed‑form or
-reference value in the 1,098‑test suite (38 suites). Representative tolerances:
+reference value in the 1,123‑test suite (42 suites). Representative tolerances:
 
 | Area | Method | Accuracy anchor |
 |---|---|---|

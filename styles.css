@@ -694,3 +694,24 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cyan); }
     .display-main, .repl-out { color: var(--green-dim, #15803d); }
     .btn-equals { color: #fff; }
 }
+
+/* =================================================================
+   GRAPHING & SIMULATION LAB (canvas tools)
+   ================================================================= */
+.grapher2d { grid-column: span 2; }
+.g-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; padding: var(--sm) var(--md); border-bottom: 1px solid var(--line); }
+.g-fn { flex: 1 1 130px; min-width: 110px; background: #06090f; color: var(--green); border: 1px solid var(--line); border-left-width: 3px; border-radius: 5px; font-family: var(--mono); font-size: 12px; padding: 5px 7px; }
+.g-fn1 { border-left-color: var(--cyan); }
+.g-fn2 { border-left-color: var(--violet); }
+.g-fn3 { border-left-color: var(--green); }
+.g-fn:focus { outline: none; border-color: var(--cyan); }
+.g-sel { background: #06090f; color: var(--violet); border: 1px solid var(--line); border-radius: 5px; font-family: var(--mono); font-size: 11px; padding: 5px 6px; }
+.g-sel:focus { outline: none; border-color: var(--cyan); }
+.g-inline { display: inline-flex; align-items: center; gap: 4px; font-family: var(--mono); font-size: 11px; color: var(--ink-faint); }
+.g-num { width: 52px; background: #06090f; color: var(--green); border: 1px solid var(--line); border-radius: 5px; font-family: var(--mono); font-size: 12px; padding: 4px 5px; }
+.g-controls button { padding: 5px 11px; border: 1px solid var(--cyan-dim); border-radius: 5px; background: #0f1b2b; color: var(--cyan); font-family: var(--mono); font-size: 11px; cursor: pointer; transition: background var(--t-fast), color var(--t-fast); }
+.g-controls button:hover { background: var(--cyan-dim); color: #03121a; }
+.g-controls button:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.g-stage { padding: var(--sm) var(--md) 0; }
+.g-read { display: block; font-family: var(--mono); font-size: 11px; color: var(--ink-dim); padding: 6px var(--md) var(--sm); min-height: 14px; word-break: break-word; }
+@media (max-width: 720px) { .grapher2d { grid-column: span 1; } }

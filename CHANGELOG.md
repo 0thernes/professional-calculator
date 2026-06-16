@@ -7,6 +7,25 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+- **Graphing & Simulation Lab** — closing the graphing-calculator gap with four
+  new interactive, zero-dependency canvas tools wired into the workstation
+  (`grapher.js`, `simlab.js`, `index.html`, `styles.css`, `main.js`):
+  - **2D Graphing Calculator** — multi-function plotter with axes/grid, **trace**
+    cursor (live x · f(x) readout), **drag-to-pan**, and **wheel/button zoom** —
+    TI/Casio-grade, pixel-resolution curves with pole/discontinuity breaks.
+  - **3D Surface Grapher** — `z = f(x,y)` sampled on a mesh, **drag-to-rotate**,
+    wheel-zoom, painter's-algorithm fill with height shading and an auto-spin.
+  - **Physics Engine** — live simulations: chaotic **double pendulum** (RK4),
+    **N-body gravity** (velocity-Verlet, orbit trails), **projectile + quadratic
+    drag**; play/pause/reset and adjustable g.
+  - **Quantum 3D/4D Visualizer** — rotatable hydrogen **orbital |ψ|² point clouds**
+    (1s/2s/2p/3d/4f, phase-colored), a rotating **4D tesseract** (xw/zw planes,
+    4D→3D→2D projection), and a dispersing **Gaussian wave-packet**.
+  - New `tests/graphlab.test.js` anchors the cores to closed-form physics: RK4 on
+    `y′=−y` → e⁻¹, SHO energy conservation, hydrogen ⟨r⟩₁ₛ = 1.5 a₀ and ⟨r⟩₂ₚ =
+    5 a₀, and the 2p z-plane node. 42 suites / **1123** tests pass.
+  - SPECS benchmark updated: interactive 2D graphing 🟡→✅, plus new ✅ rows for
+    3D graphing, physics simulation, and quantum 3D/4D visualization.
 - **Calculator Suite** (`suite.js`, `index.html`, `styles.css`) — a data-driven
   grid of **48 mini-calculators across 4 tabbed pages, exposing 257 operations**
   over all 25 engine domains (algebra, calculus, linear algebra, stats, finance,

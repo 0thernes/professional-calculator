@@ -1,3 +1,40 @@
+# Graphing & Simulation Lab — 2026-06-16
+
+## Run Context
+- **Branch:** `night-run/2026-06-15-terminal-ui` (continuing). **Not pushed.**
+- **Run type:** Feature build — interactive graphing + physics/quantum simulation (the TI-CX / Casio-CG50-tier gap).
+
+## Executive Summary
+- **What shipped:** four new zero-dep canvas tools — **2D Graphing Calculator**
+  (multi-fn, trace, drag-pan, wheel-zoom), **3D Surface Grapher** (z=f(x,y),
+  drag-rotate, height shading), **Physics Engine** (RK4 double pendulum, N-body
+  velocity-Verlet, projectile+drag), and **Quantum 3D/4D Visualizer** (hydrogen
+  |ψ|² orbital clouds, rotating tesseract, Gaussian wave-packet). Files:
+  `grapher.js`, `simlab.js`; wired via `main.js`; panels in `index.html`; styles
+  in `styles.css`. Built on the existing pure `math/plot.js` primitives
+  (rotate3D/project3Dto2D/surfaceGrid/rotate4D/renderTesseract).
+- **Verification:** `tests/graphlab.test.js` anchors the new math to closed-form
+  physics — RK4 `y′=−y`→e⁻¹, SHO energy conservation, ⟨r⟩₁ₛ=1.5a₀, ⟨r⟩₂ₚ=5a₀,
+  2p z-plane node. Live preview confirmed all four canvases render real content
+  (curves, heat-mapped surface, pendulum, phase-colored orbital cloud).
+- **Honest note:** the headless preview reports `window.innerWidth = 0`, so the
+  canvases there measure ~0px and `mkCanvas` falls back to a default width; visual
+  layout at full size needs a real browser. The rendering pipeline itself is
+  verified (non-background pixels + color variety per canvas) and the math is
+  CI-anchored.
+- **Status:** typecheck clean · ESLint 0 · **42 suites / 1123 tests** pass · axe
+  e2e audit of the new panels green.
+
+## Changes Made
+- **Code:** `grapher.js` (new — init2DGrapher, init3DSurface), `simlab.js` (new —
+  initPhysicsEngine, initQuantum3D), `main.js` (lazy-import + init the four),
+  `index.html` (4 panels), `styles.css` (graphing/sim block).
+- **Tests:** `tests/graphlab.test.js` (new, +6) → 1123.
+- **Docs:** SPECS benchmark (graphing 🟡→✅ + 3 new ✅ rows), README feature matrix,
+  CHANGELOG `[Unreleased]`, count sync 1098→1123 across README/KANBAN/SPECS/DOCUMENTATION.
+
+---
+
 # Calculator Suite Expansion — 2026-06-16
 
 ## Run Context
