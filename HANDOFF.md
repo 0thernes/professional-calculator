@@ -1,3 +1,53 @@
+# Calculator Suite Expansion — 2026-06-16
+
+## Run Context
+- **Date/time:** 2026-06-16
+- **Agent/model:** Claude Opus 4.8 (1M ctx)
+- **Branch/checkpoint:** `night-run/2026-06-15-terminal-ui` (continuing). **Not pushed.**
+- **Run type:** Feature build — comprehensive mini-calculator suite + docs.
+
+## Executive Summary
+- **What shipped:** a data-driven **Calculator Suite** — `suite.js` with a `PAGES`
+  registry of **4 pages × 12 tiles = 48 mini-calculators exposing 257 operations**
+  across all 25 engine domains, wired into `index.html`/`main.js`/`styles.css` and
+  surfaced with tabs + per-tile operation dropdowns. Reactive (click/Enter/change),
+  responsive (auto-fill grid), safe (no `eval`).
+- **Fixes found while building:** the original draft's `Graph.mst` op passed
+  `[u,v,w]` triples where the engine wants `{u,v,w}` objects → it silently returned
+  weight 0; `polarToCartesian` returns `[x,y]` not `{x,y}` → `undefined`; the old
+  `Rates` and `Electrical Eng.` tiles had defaults that produced `∞`
+  (`effectiveRate(1000,2000)`). All corrected; both tiles redesigned with coherent
+  inputs.
+- **Docs:** authored `SPECS.md` (full 257-op catalog generated from `suiteManifest()`
+  + an honest TI/Casio/Android benchmark), `DOCUMENTATION.md` (user manual /
+  instructions), and extended `docs/ARCHITECTURE.md` with a Calculator Suite layer
+  section. The three cross-link and are linked from the suite header in-app.
+- **Current status:** runnable & green — typecheck clean, ESLint 0,
+  **38 suites / 1098 tests** pass (incl. `tests/suite.test.js` exercising all 257
+  ops on defaults: 0 throwers / NaN / ∞). axe-core e2e audit of the new shell
+  passes.
+
+## Changes Made
+- **Code:** `suite.js` (new; registry + renderer + `suiteManifest`/count exports);
+  `main.js` (already wired `initSuite`); `index.html` (suite section + Instructions/
+  Specs/Architecture header links + usage hint); `styles.css` (suite-help/hint).
+- **Tests:** `tests/suite.test.js` (new; registry shape + renderer + every-op-runs) → 1098.
+- **Docs:** `SPECS.md` (new), `DOCUMENTATION.md` (new), `docs/ARCHITECTURE.md`
+  (suite layer), CHANGELOG `[Unreleased]`, count sync 1093→1098 (README/KANBAN/SPECS/DOCUMENTATION).
+
+## Verification Performed
+- `npx tsc --noEmit` clean · `npx eslint suite.js tests/suite.test.js` 0 errors ·
+  `npm test` → 38/38 suites, **1098/1098**.
+- Live preview probe across all 4 tabs / 48 tiles / 257 ops: 0 failures
+  (no `⚠`, NaN, undefined, or unintended ∞ on defaults). Graph ops verified against
+  hand-computed values (MST=10, Dijkstra 0→4=7, BFS order correct).
+
+## Security & Safety
+- No secrets; client-side only; no `eval` (Pratt parser + typed input parsers); no
+  new deps. Branched (not `main`); no push/force/delete.
+
+---
+
 # Daily Repo Run Report — 2026-06-16
 
 ## Run Context

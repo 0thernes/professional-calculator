@@ -7,6 +7,25 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Added
+- **Calculator Suite** (`suite.js`, `index.html`, `styles.css`) — a data-driven
+  grid of **48 mini-calculators across 4 tabbed pages, exposing 257 operations**
+  over all 25 engine domains (algebra, calculus, linear algebra, stats, finance,
+  number theory, combinatorics, signal/FFT, quantum, physics, graphs, sets,
+  bits/bases, units, coordinates, and more). One `PAGES` registry feeds a generic
+  renderer (tabs → 12-tile grid → per-tile op-select + inputs + Run +
+  `aria-live` result); adding a calculator is adding a data row. Reactive (click /
+  Enter / dropdown-change), responsive (auto-fill grid, no breakpoints), and
+  safe (no `eval`; expressions via the Pratt parser, typed parsers for
+  matrices/lists/graph edges). Every op shows `⚠ <reason>` on failure rather than
+  a silent wrong number. New `suiteManifest()`/`suiteOpCount()`/`suiteTileCount()`/
+  `suitePageCount()` exports; `tests/suite.test.js` mounts the renderer and
+  exercises **all 257 ops** on defaults (0 throwers / NaN / ∞) → **1098** total.
+- **Suite documentation set** (cross-linked in-app via header links): **`SPECS.md`**
+  (the full 257-operation catalog generated from the registry + an honest
+  TI-83/84/86/89/92/Nspire-CX, Casio fx-991CW/CG50/CP400 (2026), and Android
+  benchmark), **`DOCUMENTATION.md`** (the user manual / instructions — input
+  formats, page walkthrough, worked examples, troubleshooting, FAQ), and a new
+  **Calculator Suite layer** section in **`docs/ARCHITECTURE.md`**.
 - **UI rebuilt as a "scientific compute terminal"** (`index.html`, `styles.css`):
   the Expression Engine is now the hero (large console + 21 one-click *runnable*
   capability chips across complex/analysis, calculus·CAS, linear algebra, number

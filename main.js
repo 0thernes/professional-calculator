@@ -134,6 +134,16 @@ async function bootstrapScientificEngine() {
         initMatrixLab(mathIndex);
         initLabs(mathIndex);
 
+        // Calculator Suite: 48 paged mini-calculators (~250 operations).
+        const { initSuite, suiteOpCount, suiteTileCount } = await import('./suite.js');
+        const suiteTabs = /** @type {HTMLElement | null} */ (document.querySelector('.suite-tabs'));
+        const suiteGrid = document.getElementById('suite-grid');
+        if (suiteTabs && suiteGrid) {
+            initSuite(mathIndex, suiteTabs, suiteGrid);
+            const suiteStat = document.getElementById('suite-stat');
+            if (suiteStat) suiteStat.textContent = `${suiteTileCount()} calculators · ${suiteOpCount()} operations · 4 pages`;
+        }
+
         // STEM Lab paged visualizations
         const stemController = await bootstrapStemLab();
 

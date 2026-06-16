@@ -42,6 +42,22 @@
         <!-- ===================== MAIN WORKSTATION GRID ===================== -->
         <main class="grid" aria-label="Computational workstation">
 
+            <!-- ----------- CALCULATOR SUITE (48 paged mini-calculators) ----------- -->
+            <section class="panel suite" aria-label="Calculator suite">
+                <header class="panel-head">
+                    <h2>Calculator&nbsp;Suite</h2>
+                    <span class="panel-tag" id="suite-stat">48 calculators · 4 pages</span>
+                    <nav class="suite-help" aria-label="Suite documentation">
+                        <a href="DOCUMENTATION.md">Instructions</a>
+                        <a href="SPECS.md">Specs</a>
+                        <a href="docs/ARCHITECTURE.md">Architecture</a>
+                    </nav>
+                </header>
+                <p class="suite-hint">Pick a page, choose an operation, edit the inputs, then press <kbd>Run</kbd> (or <kbd>Enter</kbd>). New here? Read the <a href="DOCUMENTATION.md">Instructions</a>.</p>
+                <div class="suite-tabs" role="group" aria-label="Suite pages"></div>
+                <div id="suite-grid" class="suite-grid"></div>
+            </section>
+
             <!-- ----------- HERO: SCIENTIFIC EXPRESSION ENGINE ----------- -->
             <section class="panel console" aria-label="Scientific expression engine">
                 <header class="panel-head">

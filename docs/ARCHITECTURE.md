@@ -4,6 +4,11 @@ This document describes the structure of the Professional Calculator scientific
 engine: its layers, the module dependency graph, runtime data flow, and the
 design decisions behind them.
 
+> **Sub‑domain page set.** Three reference pages ship with the app and cross‑link:
+> **ARCHITECTURE** (how it's built — *this page*) ·
+> [SPECS](../SPECS.md) (the full operation catalog + benchmark) ·
+> [DOCUMENTATION](../DOCUMENTATION.md) (how to use it).
+
 > Diagrams use [Mermaid](https://mermaid.js.org/); GitHub renders them inline.
 
 ---
@@ -37,6 +42,8 @@ flowchart TB
         STATE["state.js"]
         HISTORY["history.js"]
         STEM["stem.js (STEM Lab)"]
+        SUITE["suite.js<br/>(48-tile calculator suite)"]
+        LAB["lab.js<br/>(live engine panels)"]
     end
     subgraph FACADE["Engine facade"]
         INDEX["math/index.js"]
@@ -75,6 +82,10 @@ flowchart TB
     MAIN --> CONTROLLER
     MAIN --> REPL
     MAIN --> STEM
+    MAIN --> SUITE
+    MAIN --> LAB
+    SUITE --> INDEX
+    LAB --> INDEX
     CONTROLLER --> VIEW
     CONTROLLER --> STATE
     CONTROLLER --> HISTORY
@@ -109,6 +120,51 @@ flowchart TB
 the project; applied math depends only on core; the facade depends on both; the
 presentation layer depends on the facade; the UI wires it together. There are no
 cycles.
+
+---
+
+## 2a. Calculator Suite layer (`suite.js`)
+
+The **Calculator Suite** is a data‑driven presentation module that sits beside the
+REPL and labs. It depends only on the engine facade (`math/index.js`) and the DOM —
+never on internal math modules directly.
+
+**Registry → renderer pattern.** A single literal, `PAGES`, declares the entire
+product surface: 4 pages × 12 tiles, each tile carrying its `inputs` and an array
+of named `ops`. A generic renderer (`initSuite`) walks the registry and builds the
+DOM; there is **no per‑calculator view code**. Consequences:
+
+- Adding a calculator is adding a data row — the renderer, accessibility wiring,
+  error handling, and reactivity come for free.
+- The catalog in [SPECS § 3](../SPECS.md#3-operation-catalog) is *generated* from
+  the same registry via `suiteManifest()`, so docs cannot drift from behavior.
+- `suiteOpCount()` / `suiteTileCount()` / `suitePageCount()` expose the totals the
+  UI badge and tests assert against (currently **257 / 48 / 4**).
+
+```mermaid
+flowchart LR
+    PAGES["PAGES registry<br/>(4×12 tiles, 257 ops)"] --> RENDER["initSuite()<br/>generic renderer"]
+    RENDER --> TABS["page tabs<br/>(aria-pressed)"]
+    RENDER --> GRID["12-tile grid<br/>(auto-fill minmax)"]
+    GRID --> TILE["tile: title · op-select · inputs · Run · aria-live result"]
+    TILE -->|"op.run(io)"| IO["io facade<br/>n / nums / s / R / fmt / M"]
+    IO --> INDEX2["math/index.js"]
+    PAGES --> MANIFEST["suiteManifest()"]
+    MANIFEST -.generates.-> SPECS["SPECS.md catalog"]
+```
+
+**The `io` facade.** Each `op.run` receives a small, uniform interface so closures
+stay terse and never touch the DOM: `io.n(k)` (number), `io.nums(k)` (number list),
+`io.s(k)` (raw string), `io.R(expr)` (evaluate through the parser, formatted),
+`io.fmt(x)` (compact number), and `io.M` (the whole engine namespace). Every call
+is wrapped in try/catch; a throw becomes a visible `⚠ <reason>` rather than a
+silent wrong answer.
+
+**Safety & parsing boundaries.** Expression and function‑of‑`x` fields are
+evaluated by the hand‑written Pratt parser (`io.R` / `io.M.compute`) — no `eval`.
+Matrix literals, number lists, and graph edge lists are parsed explicitly by typed
+helpers (`matOf`, `parseNums`, `edgeObjs`/`wadjOf`/`adjOf`), each of which throws a
+descriptive error on malformed input.
 
 ---
 

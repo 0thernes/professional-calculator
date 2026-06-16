@@ -581,6 +581,46 @@ code { font-family: var(--mono); font-size: .92em; color: var(--cyan); }
 .plot-stage { min-height: 200px; display: flex; align-items: center; justify-content: center; }
 .plot-stage svg, #sig-output svg { display: block; max-width: 100%; }
 
+/* =================================================================
+   CALCULATOR SUITE (paged mini-calculator grid)
+   ================================================================= */
+.suite { grid-column: 1 / -1; }
+.suite-help { margin-left: auto; display: flex; gap: 10px; }
+.suite-help a { font-family: var(--mono); font-size: 10px; letter-spacing: .5px; text-transform: uppercase; color: var(--ink-dim); text-decoration: none; border-bottom: 1px dotted var(--line); transition: color var(--t-fast), border-color var(--t-fast); }
+.suite-help a:hover { color: var(--cyan); border-color: var(--cyan); }
+.suite-help a:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.suite-hint { padding: var(--sm) var(--md) 0; font-size: 11px; color: var(--ink-faint); }
+.suite-hint a { color: var(--cyan); text-decoration: none; border-bottom: 1px dotted var(--cyan-dim); }
+.suite-hint kbd { font-family: var(--mono); font-size: 10px; padding: 1px 5px; border: 1px solid var(--line); border-radius: 4px; background: #06090f; color: var(--ink); }
+.suite-tabs { display: flex; flex-wrap: wrap; gap: 6px; padding: var(--sm) var(--md); border-bottom: 1px solid var(--line); }
+.suite-tab {
+    font-family: var(--mono); font-size: 11px; padding: 6px 12px;
+    border: 1px solid var(--line); border-radius: var(--r-sm);
+    background: var(--panel-3); color: var(--ink-dim); cursor: pointer;
+    transition: color var(--t-fast), background var(--t-fast), border-color var(--t-fast);
+}
+.suite-tab[aria-pressed="true"] { background: var(--cyan-dim); color: #03121a; border-color: var(--cyan); }
+.suite-tab:hover { color: var(--cyan); }
+.suite-tab:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.suite-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: var(--sm); padding: var(--md); }
+.stile {
+    display: flex; flex-direction: column; gap: 5px; padding: var(--sm) var(--md);
+    background: var(--panel-3); border: 1px solid var(--line); border-radius: var(--r-sm);
+}
+.stile-title { font-family: var(--mono); font-size: 12px; font-weight: 700; color: var(--cyan); letter-spacing: .5px; }
+.stile-blurb { font-size: 10px; color: var(--ink-faint); margin-top: -3px; }
+.stile-op { background: #06090f; color: var(--violet); border: 1px solid var(--line); border-radius: 5px; font-family: var(--mono); font-size: 11px; padding: 3px 4px; }
+.stile-field { display: flex; flex-direction: column; gap: 2px; font-size: 9px; color: var(--ink-faint); text-transform: uppercase; letter-spacing: .5px; }
+.stile-field input { background: #06090f; color: var(--green); border: 1px solid var(--line); border-radius: 5px; font-family: var(--mono); font-size: 12px; padding: 4px 6px; }
+.stile-field input:focus, .stile-op:focus { outline: none; border-color: var(--cyan); }
+.stile-run { margin-top: 2px; padding: 5px; border: 1px solid var(--cyan-dim); border-radius: 5px; background: #0f1b2b; color: var(--cyan); font-family: var(--mono); font-size: 11px; cursor: pointer; transition: background var(--t-fast), color var(--t-fast); }
+.stile-run:hover { background: var(--cyan-dim); color: #03121a; }
+.stile-run:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+.stile-result { font-family: var(--mono); font-size: 12px; color: var(--green); word-break: break-word; min-height: 16px; }
+.stile-result.stile-err { color: var(--red); }
+@media (max-width: 720px) { .suite-grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 460px) { .suite-grid { grid-template-columns: 1fr; } }
+
 /* Light-mode fallback for users who force it — keeps the terminal legible. */
 @media (prefers-color-scheme: light) {
     :root {
