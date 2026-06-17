@@ -18,7 +18,7 @@ jobs:
     name: lint (ESLint)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -36,7 +36,7 @@ jobs:
       matrix:
         node: ['18', '20', '22']
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup Node ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
@@ -54,7 +54,7 @@ jobs:
     name: coverage gates
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
@@ -68,7 +68,7 @@ jobs:
     name: benchmark smoke
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
