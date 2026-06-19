@@ -1,11 +1,14 @@
 <div align="center">
 
-# Professional Calculator — Scientific Engine
+# Professional Calculator — Scientific Engine & Workstation
 
-**A zero-dependency, framework-free scientific computing engine that runs in the browser and Node.**
+**A zero-dependency, framework-free scientific computing engine — and a full interactive workstation — that runs in the browser and Node.**
 
-Expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values.
+A 28-module math engine (expression parsing · complex numbers · exact rational arithmetic · linear algebra with eigensolvers · numerical calculus · probability & statistics · dimensional analysis · quantitative finance — every routine verified against closed-form values), surfaced through a **48-calculator suite (257 operations)**, an **interactive 2D/3D graphing calculator**, a **physics & quantum 3D/4D simulation lab**, and a **knowledge explorer** over a 617-entry study atlas. No build step, no runtime dependencies.
 
+### ▶ [Live demo](https://0thernes.github.io/professional-calculator/) — runs entirely in your browser
+
+[![live](https://img.shields.io/badge/demo-github.io-22d3ee)](https://0thernes.github.io/professional-calculator/)
 [![tests](https://img.shields.io/badge/tests-1123%20passing-brightgreen)](#testing)
 [![coverage](https://img.shields.io/badge/coverage-97.6%25%20stmts%20%2F%2088%25%20br-brightgreen)](#testing)
 [![lint](https://img.shields.io/badge/eslint-0%20errors-brightgreen)](#development)
@@ -90,15 +93,27 @@ Two things make it trustworthy rather than merely impressive:
 
 ## Quick start
 
-ES modules require HTTP (not `file://`):
+The fastest path is the **[live demo](https://0thernes.github.io/professional-calculator/)** — it runs entirely client-side, nothing to install. To run locally (ES modules require HTTP, not `file://`):
 
 ```bash
-npm install         # dev deps only (jest, typescript) — zero runtime deps
+npm install         # dev deps only (jest, typescript, eslint) — zero runtime deps
 npm run serve       # static server → open the printed URL
 npm test            # 1123 tests
 npm run typecheck   # tsc --noEmit (strict)
+npm run lint        # eslint (0 errors)
 npm run bench       # throughput + empirical O(n³) scaling
 ```
+
+### Deployment (GitHub Pages)
+
+Because the app is plain HTML + ES modules with **no build step and no runtime
+dependencies**, the repository *is* the site. Every push to `main` runs the test
+suite ([`ci.yml`](.github/workflows/ci.yml)) and then publishes the root to
+GitHub Pages ([`pages.yml`](.github/workflows/pages.yml)) at
+**https://0thernes.github.io/professional-calculator/**. All asset and module
+paths are relative, so it works correctly under the `/professional-calculator/`
+sub-path. A `.nojekyll` marker keeps Pages from rewriting the `math/` and `docs/`
+directories.
 
 Then type into the **Scientific Engine** panel:
 
